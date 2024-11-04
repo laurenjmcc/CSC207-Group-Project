@@ -4,4 +4,4 @@ CSC207-Group-Project
  Haroon Shah: haroonshah2003\
  Arhan Rupani: arhanuoft\
  Sara Elashry: saraelashry\
- Lauren McCaughey: laurenjmcc\
+ Lauren McCaughey: laurenjmcc
