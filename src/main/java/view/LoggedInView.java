@@ -45,17 +45,20 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Password"), passwordInputField);
+                new JLabel("Protein Name"), passwordInputField);
 
         final JLabel usernameInfo = new JLabel("Currently logged in: ");
         username = new JLabel();
 
         final JPanel buttons = new JPanel();
-        logOut = new JButton("Log Out");
+        logOut = new JButton("Past Results");
         buttons.add(logOut);
 
-        changePassword = new JButton("Change Password");
+        changePassword = new JButton("Analyse");
         buttons.add(changePassword);
+
+        JButton Make_a_team = new JButton("Make a Team");
+        buttons.add(Make_a_team);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
