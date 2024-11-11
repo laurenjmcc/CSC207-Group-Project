@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * The representation of a user in our program.
  */
@@ -17,4 +20,7 @@ public interface User {
      */
     String getPassword();
 
+    Set<String> getTeamNames();
+
+    void addTeamName(String teamName);
 }
