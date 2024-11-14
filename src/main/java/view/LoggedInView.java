@@ -60,8 +60,19 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         changePassword = new JButton("Analyse");
         buttons.add(changePassword);
 
-        JButton Make_a_team = new JButton("Make a Team");
-        buttons.add(Make_a_team);
+        final JButton createTeamButton = new JButton("Create Team");
+        buttons.add(createTeamButton);
+
+        createTeamButton.addActionListener(evt -> {
+            if (evt.getSource().equals(createTeamButton)) {
+                if (viewManagerModel != null) {
+                    viewManagerModel.setState("create team");
+                    viewManagerModel.firePropertyChanged();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: ViewManagerModel not initialized.");
+                }
+            }
+        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
