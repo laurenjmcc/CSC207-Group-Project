@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.InMemoryTeamDataAccessObject;
 import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
@@ -21,6 +22,7 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.team.CreateTeamViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -33,10 +35,7 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -66,6 +65,9 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
+    private CreateTeamView createTeamView;
+    private CreateTeamViewModel createTeamViewModel;
+    private InMemoryTeamDataAccessObject teamDataAccessObject = new InMemoryTeamDataAccessObject();
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -100,6 +102,7 @@ public class AppBuilder {
     public AppBuilder addLoggedInView() {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
+        loggedInView.setViewManagerModel(viewManagerModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
@@ -164,6 +167,24 @@ public class AppBuilder {
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);
+        return this;
+    }
+
+    public AppBuilder addCreateTeamView() {
+        createTeamViewModel = new CreateTeamViewModel();
+        createTeamViewModel.setViewManagerModel(viewManagerModel);
+        createTeamViewModel.setCurrentUsername(userDataAccessObject.getCurrentUsername());
+        createTeamView = new CreateTeamView(createTeamViewModel);
+        cardPanel.add(createTeamView, createTeamView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addCreateTeamUseCase() {
+        createTeamViewModel = new CreateTeamViewModel();
+        createTeamViewModel.setViewManagerModel(viewManagerModel);
+        createTeamViewModel.setCurrentUsername(userDataAccessObject.getCurrentUsername());
+        createTeamView = new CreateTeamView(createTeamViewModel);
+        cardPanel.add(createTeamView, createTeamView.getViewName());
         return this;
     }
 

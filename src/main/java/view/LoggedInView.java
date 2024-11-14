@@ -13,11 +13,14 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.ViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.logout.LogoutController;
+
 
 /**
  * The View for when the user is logged into the program.
@@ -29,7 +32,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JLabel passwordErrorField = new JLabel();
     private ChangePasswordController changePasswordController;
     private LogoutController logoutController;
-
+    private ViewManagerModel viewManagerModel;
     private final JLabel username;
 
     private final JButton logOut;
@@ -142,6 +145,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     public void setChangePasswordController(ChangePasswordController changePasswordController) {
         this.changePasswordController = changePasswordController;
+    }
+
+    public void setViewManagerModel(ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
     }
 
     public void setLogoutController(LogoutController logoutController) {
