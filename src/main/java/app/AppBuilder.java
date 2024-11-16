@@ -40,12 +40,14 @@ import use_case.change_password.ChangePasswordOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.signup.SignupUserDataAccessInterface;
 import use_case.team.CreateTeamInputBoundary;
 import use_case.team.CreateTeamInteractor;
 import use_case.team.CreateTeamOutputBoundary;
@@ -71,13 +73,15 @@ public class AppBuilder {
     private final UserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
-    private final JSONUserDataAccessObject userDataAccessObject =
+    private final JSONUserDataAccessObject userDataAccessObject1=
             new JSONUserDataAccessObject("users.json", userFactory);
 
     private final JSONTeamDataAccessObject teamDataAccessObject =
             new JSONTeamDataAccessObject("teams.json");
 
     // thought question: is the hard dependency below a problem?
+    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -95,26 +99,47 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Signup View to the application.
-     * @return this builder
-     */
-    public AppBuilder addSignupView() {
-        signupViewModel = new SignupViewModel();
-        signupView = new SignupView(signupViewModel);
-        cardPanel.add(signupView, signupView.getViewName());
-        return this;
-    }
-
-    /**
      * Adds the Login View to the application.
      * @return this builder
      */
     public AppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
         loginView = new LoginView(loginViewModel);
-        cardPanel.add(loginView, loginView.getViewName());
+        // Create instances of required dependencies
+        LoginUserDataAccessInterface userDataAccess = new InMemoryUserDataAccessObject();
+        LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
+
+        LoginInteractor loginInteractor = new LoginInteractor(userDataAccess, loginPresenter);
+        LoginController loginController = new LoginController(loginInteractor, viewManagerModel,userDataAccess);
+
+        loginView.setLoginController(loginController);
+
+        cardPanel.add(loginView, "login");  // "login" identifier for LoginView
         return this;
     }
+
+    /**
+     * Adds the Signup View to the application.
+     * @return this builder
+     */
+    public AppBuilder addSignupView() {
+        signupViewModel = new SignupViewModel();
+        signupView = new SignupView(signupViewModel);
+
+        SignupUserDataAccessInterface userDataAccess = userDataAccessObject;
+
+        SignupOutputBoundary signupPresenter = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel);
+        SignupInputBoundary signupInteractor = new SignupInteractor(userDataAccess, signupPresenter, userFactory);
+
+        SignupController signupController = new SignupController(signupInteractor, viewManagerModel);
+        signupView.setSignupController(signupController);
+
+        // Add the signup view to the card panel
+        cardPanel.add(signupView, "sign up");
+        return this;
+    }
+
+
 
     /**
      * Adds the LoggedIn View to the application.
@@ -136,21 +161,6 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Signup Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel);
-        final SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                userDataAccessObject, signupOutputBoundary, userFactory);
-
-        final SignupController controller = new SignupController(userSignupInteractor);
-        signupView.setSignupController(controller);
-        return this;
-    }
-
-    /**
      * Adds the Login Use Case to the application.
      * @return this builder
      */
@@ -160,7 +170,9 @@ public class AppBuilder {
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
-        final LoginController loginController = new LoginController(loginInteractor);
+        // Pass viewManagerModel to LoginController
+        final LoginController loginController = new LoginController(loginInteractor,
+                viewManagerModel,userDataAccessObject);
         loginView.setLoginController(loginController);
         return this;
     }
@@ -204,6 +216,8 @@ public class AppBuilder {
         final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(userDataAccessObject, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
+        return this;
+    }
 
     public AppBuilder addCreateTeamView() {
         createTeamViewModel = new CreateTeamViewModel();
@@ -219,7 +233,7 @@ public class AppBuilder {
                 new CreateTeamPresenter(createTeamViewModel);
 
         final CreateTeamInputBoundary createTeamInteractor =
-                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject);
+                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject1);
 
         final CreateTeamController createTeamController = new CreateTeamController(createTeamInteractor);
         createTeamView.setController(createTeamController);
@@ -231,12 +245,15 @@ public class AppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Login Example");
+        final JFrame application = new JFrame("SequenceIQ");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        application.setContentPane(cardPanel);
+        application.pack();
+        application.setLocationRelativeTo(null); // Center on screen
 
-        application.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getViewName());
+
+        viewManagerModel.setState("login");
         viewManagerModel.firePropertyChanged();
 
         return application;

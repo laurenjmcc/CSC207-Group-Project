@@ -18,7 +18,6 @@ public class Main {
                                             .addLoggedInView()
                                             .addAnalyzeView()
                                             .addCreateTeamView()
-                                            .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addLogoutUseCase()
                                             .addChangePasswordUseCase()
