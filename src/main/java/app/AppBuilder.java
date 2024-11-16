@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.JSONTeamDataAccessObject;
+import data_access.JSONUserDataAccessObject;
 import data_access.InMemoryTeamDataAccessObject;
 import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
@@ -25,6 +27,8 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.team.CreateTeamController;
+import interface_adapter.team.CreateTeamPresenter;
 import use_case.analyze.AnalyzeInputBoundary;
 import use_case.analyze.AnalyzeInteractor;
 import use_case.analyze.AnalyzeOutputBoundary;
@@ -42,7 +46,12 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.team.CreateTeamInputBoundary;
+import use_case.team.CreateTeamInteractor;
+import use_case.team.CreateTeamOutputBoundary;
 import view.*;
+import data_access.JSONUserDataAccessObject;
+import data_access.JSONTeamDataAccessObject;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -62,10 +71,13 @@ public class AppBuilder {
     private final UserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
+    private final JSONUserDataAccessObject userDataAccessObject =
+            new JSONUserDataAccessObject("users.json", userFactory);
+
+    private final JSONTeamDataAccessObject teamDataAccessObject =
+            new JSONTeamDataAccessObject("teams.json");
 
     // thought question: is the hard dependency below a problem?
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
-
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -74,7 +86,6 @@ public class AppBuilder {
     private LoginView loginView;
     private CreateTeamView createTeamView;
     private CreateTeamViewModel createTeamViewModel;
-    private InMemoryTeamDataAccessObject teamDataAccessObject = new InMemoryTeamDataAccessObject();
 
     private AnalyzeView analyzeView;
     private AnalyzeViewModel analyzeViewModel;
@@ -204,11 +215,14 @@ public class AppBuilder {
     }
 
     public AppBuilder addCreateTeamUseCase() {
-        createTeamViewModel = new CreateTeamViewModel();
-        createTeamViewModel.setViewManagerModel(viewManagerModel);
-        createTeamViewModel.setCurrentUsername(userDataAccessObject.getCurrentUsername());
-        createTeamView = new CreateTeamView(createTeamViewModel);
-        cardPanel.add(createTeamView, createTeamView.getViewName());
+        final CreateTeamOutputBoundary createTeamOutputBoundary =
+                new CreateTeamPresenter(createTeamViewModel);
+
+        final CreateTeamInputBoundary createTeamInteractor =
+                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject);
+
+        final CreateTeamController createTeamController = new CreateTeamController(createTeamInteractor);
+        createTeamView.setController(createTeamController);
         return this;
     }
 
@@ -228,3 +242,4 @@ public class AppBuilder {
         return application;
     }
 }
+
