@@ -1,4 +1,8 @@
 package use_case.analyze;
 
-public class AnalyzeProteinDataAccessInterface {
+public interface AnalyzeProteinDataAccessInterface {
+
+    String getProteinDescription(String proteinname);
+
+    boolean successCall(String proteinname);
 }
