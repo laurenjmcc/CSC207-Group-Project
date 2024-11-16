@@ -87,7 +87,7 @@ public class AppBuilder {
         LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
 
         LoginInteractor loginInteractor = new LoginInteractor(userDataAccess, loginPresenter);
-        LoginController loginController = new LoginController(loginInteractor, viewManagerModel);
+        LoginController loginController = new LoginController(loginInteractor, viewManagerModel,userDataAccess);
 
         loginView.setLoginController(loginController);
 
@@ -141,7 +141,8 @@ public class AppBuilder {
                 userDataAccessObject, loginOutputBoundary);
 
         // Pass viewManagerModel to LoginController
-        final LoginController loginController = new LoginController(loginInteractor, viewManagerModel);
+        final LoginController loginController = new LoginController(loginInteractor,
+                viewManagerModel,userDataAccessObject);
         loginView.setLoginController(loginController);
         return this;
     }
