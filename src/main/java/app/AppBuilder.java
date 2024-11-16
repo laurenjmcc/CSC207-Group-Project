@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.InMemoryTeamDataAccessObject;
 import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
@@ -28,6 +29,7 @@ import use_case.analyze.AnalyzeInputBoundary;
 import use_case.analyze.AnalyzeInteractor;
 import use_case.analyze.AnalyzeOutputBoundary;
 import use_case.analyze.AnalyzeProteinDataAccessInterface;
+import interface_adapter.team.CreateTeamViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -70,6 +72,9 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
+    private CreateTeamView createTeamView;
+    private CreateTeamViewModel createTeamViewModel;
+    private InMemoryTeamDataAccessObject teamDataAccessObject = new InMemoryTeamDataAccessObject();
 
     private AnalyzeView analyzeView;
     private AnalyzeViewModel analyzeViewModel;
@@ -107,6 +112,7 @@ public class AppBuilder {
     public AppBuilder addLoggedInView() {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
+        loggedInView.setViewManagerModel(viewManagerModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
@@ -187,6 +193,22 @@ public class AppBuilder {
         final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(userDataAccessObject, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
+
+    public AppBuilder addCreateTeamView() {
+        createTeamViewModel = new CreateTeamViewModel();
+        createTeamViewModel.setViewManagerModel(viewManagerModel);
+        createTeamViewModel.setCurrentUsername(userDataAccessObject.getCurrentUsername());
+        createTeamView = new CreateTeamView(createTeamViewModel);
+        cardPanel.add(createTeamView, createTeamView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addCreateTeamUseCase() {
+        createTeamViewModel = new CreateTeamViewModel();
+        createTeamViewModel.setViewManagerModel(viewManagerModel);
+        createTeamViewModel.setCurrentUsername(userDataAccessObject.getCurrentUsername());
+        createTeamView = new CreateTeamView(createTeamViewModel);
+        cardPanel.add(createTeamView, createTeamView.getViewName());
         return this;
     }
 
