@@ -27,6 +27,14 @@ public class SignupController {
      * @param password2 the password repeated
      */
     public void execute(String username, String password1, String password2) {
+        if (username.trim().isEmpty() || password1.trim().isEmpty() || password2.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "All fields are required. Please fill out all fields.",
+                    "Input Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (password1.equals(password2)) {
             // Attempt to sign up the user
             SignupInputData signupInputData = new SignupInputData(username, password1, password2);
