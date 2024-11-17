@@ -16,14 +16,14 @@ public class Main {
                                             .addLoginView()
                                             .addSignupView()
                                             .addLoggedInView()
-                                            .addPastResultsView()
-                                            .addSignupUseCase()
+                                            .addAnalyzeView()
+                                            .addCreateTeamView()
                                             .addLoginUseCase()
                                             .addLogoutUseCase()
                                             .addChangePasswordUseCase()
-                                            .addPastResultsUseCase()
+                                            .addAnalyzeUseCase()
+                                            .addCreateTeamUseCase()
                                             .build();
-
         application.pack();
         application.setVisible(true);
     }
