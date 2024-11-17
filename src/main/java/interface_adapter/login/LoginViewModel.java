@@ -8,7 +8,7 @@ import interface_adapter.ViewModel;
 public class LoginViewModel extends ViewModel<LoginState> {
 
     public LoginViewModel() {
-        super("login");
+        super("log in");
         setState(new LoginState());
     }
 

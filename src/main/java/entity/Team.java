@@ -10,7 +10,7 @@ public class Team {
 
     public Team(String teamname, Set<String> memberUsernames) {
         this.teamName = teamname;
-        this.memberUsernames = new HashSet<>(memberUsernames);
+        this.memberUsernames = new HashSet<>();
     }
 
     public String getTeamName() {

@@ -15,7 +15,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapter.analyze.AnalyzeController;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewModel;
@@ -25,6 +24,7 @@ import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.past_result.PastResultController;
 
 
 /**
@@ -39,7 +39,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private ChangePasswordController changePasswordController;
     private LogoutController logoutController;
 
-    private AnalyzeController analyzeController;
 
 
     private ViewManagerModel viewManagerModel;
@@ -53,7 +52,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final JButton analyze;
 
     private final JTextField passwordInputField = new JTextField(15);
-    private final JButton changePassword;
+    private final JButton pastResultButton;
+    private PastResultController pastResultController;
 
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
         this.loggedInViewModel = loggedInViewModel;
@@ -80,8 +80,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(analyze);
 
 
-        changePassword = new JButton("Change Password");
-        buttons.add(changePassword);
+        pastResultButton = new JButton("Past Result");
+        buttons.add(pastResultButton);
+
+        pastResultButton.addActionListener(evt -> handlePastResultAction());
 
         final JButton createTeamButton = new JButton("Create Team");
         buttons.add(createTeamButton);
@@ -233,6 +235,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public void setLogoutController(LogoutController logoutController) {
         this.logoutController = logoutController;
     }
+    public void setPastResultController(PastResultController pastResultController) {
+        this.pastResultController = pastResultController;
+    }
 
     public void setAnalyzeController(AnalyzeController analyzeController) {this.analyzeController = analyzeController;}
 }
+

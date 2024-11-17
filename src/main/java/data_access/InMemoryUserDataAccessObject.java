@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entity.User;
-import use_case.analyze.AnalyzeProteinDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
@@ -17,8 +16,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface,
-        AnalyzeProteinDataAccessInterface {
+        LogoutUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
@@ -53,23 +51,5 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public String getCurrentUsername() {
         return this.currentUsername;
-    }
-
-    /**
-     * @param proteinname
-     * @return
-     */
-    @Override
-    public String getProteinDescription(String proteinname) {
-        return "";
-    }
-
-    /**
-     * @param proteinname
-     * @return
-     */
-    @Override
-    public boolean successCall(String proteinname) {
-        return true;
     }
 }
