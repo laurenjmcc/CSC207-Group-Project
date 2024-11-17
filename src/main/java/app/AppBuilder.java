@@ -6,10 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.JSONTeamDataAccessObject;
-import data_access.JSONUserDataAccessObject;
-import data_access.InMemoryTeamDataAccessObject;
-import data_access.InMemoryUserDataAccessObject;
+import data_access.*;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -24,6 +21,9 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.past_result.PastResultController;
+import interface_adapter.past_result.PastResultPresenter;
+import interface_adapter.past_result.PastResultViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -44,6 +44,9 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.past_result.ResultInputBoundary;
+import use_case.past_result.ResultInteractor;
+import use_case.past_result.ResultOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -90,6 +93,8 @@ public class AppBuilder {
     private LoginView loginView;
     private CreateTeamView createTeamView;
     private CreateTeamViewModel createTeamViewModel;
+    private PastResultViewModel pastResultViewModel;
+    private PastResultView pastResultsView;
 
     private AnalyzeView analyzeView;
     private AnalyzeViewModel analyzeViewModel;
@@ -159,6 +164,12 @@ public class AppBuilder {
         cardPanel.add(analyzeView, analyzeView.getViewName());
         return this;
     }
+    public AppBuilder addPastResultsView() {
+        pastResultViewModel = new PastResultViewModel();
+        pastResultsView = new PastResultView(pastResultViewModel);
+        cardPanel.add(pastResultsView, "PastResultView");
+        return this;
+    }
 
     /**
      * Adds the Login Use Case to the application.
@@ -216,6 +227,15 @@ public class AppBuilder {
         final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(userDataAccessObject, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
+        return this;
+    }
+    public AppBuilder addPastResultsUseCase() {
+        DiseaseDataAccessFactory factory = new DiseaseDataAccessFactory();
+        final ResultOutputBoundary resultOutputBoundary = new PastResultPresenter(pastResultViewModel);
+        final ResultInputBoundary resultInteractor = new ResultInteractor(factory, resultOutputBoundary);
+        final PastResultController pastResultController = new PastResultController(resultInteractor);
+        loggedInView.setPastResultController(pastResultController);
+        pastResultsView.setPastResultController(pastResultController);
         return this;
     }
 

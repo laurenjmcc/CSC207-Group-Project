@@ -17,11 +17,13 @@ public class Main {
                                             .addSignupView()
                                             .addLoggedInView()
                                             .addAnalyzeView()
+                                            .addPastResultsView()
                                             .addCreateTeamView()
                                             .addLoginUseCase()
                                             .addLogoutUseCase()
                                             .addChangePasswordUseCase()
                                             .addAnalyzeUseCase()
+                                            .addPastResultsUseCase()
                                             .addCreateTeamUseCase()
                                             .build();
         application.pack();
