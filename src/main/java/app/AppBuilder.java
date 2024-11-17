@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.DiseaseDataAccessFactory;
+import data_access.DiseaseDataAccessObject;
 import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
@@ -18,6 +20,8 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.past_result.PastResultController;
+import interface_adapter.past_result.PastResultPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -30,6 +34,9 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.past_result.ResultInputBoundary;
+import use_case.past_result.ResultInteractor;
+import use_case.past_result.ResultOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -37,6 +44,11 @@ import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
+import entity.PastResult;
+import view.PastResultView;
+import interface_adapter.past_result.PastResultViewModel;
+
+
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -66,6 +78,9 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
+    private PastResultView pastResultsView;
+    private final PastResult pastResults = new PastResult();
+    private PastResultViewModel pastResultViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -81,6 +96,7 @@ public class AppBuilder {
         cardPanel.add(signupView, signupView.getViewName());
         return this;
     }
+
 
     /**
      * Adds the Login View to the application.
@@ -103,7 +119,16 @@ public class AppBuilder {
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
-
+    /**
+     * Adds the Past Results View to the application.
+     * @return this builder
+     */
+    public AppBuilder addPastResultsView() {
+        pastResultViewModel = new PastResultViewModel();
+        pastResultsView = new PastResultView(pastResultViewModel);
+        cardPanel.add(pastResultsView, "PastResultView");
+        return this;
+    }
     /**
      * Adds the Signup Use Case to the application.
      * @return this builder
@@ -131,6 +156,19 @@ public class AppBuilder {
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
+        return this;
+    }
+    /**
+     * Adds the Past Results Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addPastResultsUseCase() {
+        DiseaseDataAccessFactory factory = new DiseaseDataAccessFactory();
+        final ResultOutputBoundary resultOutputBoundary = new PastResultPresenter(pastResultViewModel);
+        final ResultInputBoundary resultInteractor = new ResultInteractor(factory, resultOutputBoundary);
+        final PastResultController pastResultController = new PastResultController(resultInteractor);
+        loggedInView.setPastResultController(pastResultController);
+        pastResultsView.setPastResultController(pastResultController);
         return this;
     }
 
@@ -163,7 +201,6 @@ public class AppBuilder {
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
-        loggedInView.setLogoutController(logoutController);
         return this;
     }
 
