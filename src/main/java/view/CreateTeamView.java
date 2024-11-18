@@ -82,12 +82,19 @@ public class CreateTeamView extends JPanel implements PropertyChangeListener {
         if ("state".equals(evt.getPropertyName())) {
             CreateTeamState state = (CreateTeamState) evt.getNewValue();
             if (state.getErrorMessage() != null) {
-                messageLabel.setText(state.getErrorMessage());
+                JOptionPane.showMessageDialog(
+                        this,
+                        state.getErrorMessage(),
+                        "Team Creation Failed",
+                        JOptionPane.ERROR_MESSAGE
+                );
             } else if (state.getMessage() != null) {
-                messageLabel.setForeground(Color.GREEN);
-                messageLabel.setText(state.getMessage());
-                teamNameField.setText("");
-                membersField.setText("");
+                JOptionPane.showMessageDialog(
+                        this,
+                        state.getMessage(),
+                        "Team Created",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
             }
         }
     }

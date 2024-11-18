@@ -22,6 +22,7 @@ public class JSONTeamDataAccessObject implements TeamDataAccessInterface {
         }
         else {
             teams = new HashMap<>();
+            saveTeams();
         }
     }
 

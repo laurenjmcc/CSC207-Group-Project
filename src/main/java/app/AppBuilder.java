@@ -57,6 +57,7 @@ import use_case.team.CreateTeamOutputBoundary;
 import view.*;
 import data_access.JSONUserDataAccessObject;
 import data_access.JSONTeamDataAccessObject;
+import data_access.ProteinDataAccessObject;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -76,14 +77,14 @@ public class AppBuilder {
     private final UserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
-    private final JSONUserDataAccessObject userDataAccessObject1=
+    private final JSONUserDataAccessObject userDataAccessObject=
             new JSONUserDataAccessObject("users.json", userFactory);
 
     private final JSONTeamDataAccessObject teamDataAccessObject =
             new JSONTeamDataAccessObject("teams.json");
 
     // thought question: is the hard dependency below a problem?
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -136,7 +137,7 @@ public class AppBuilder {
         SignupOutputBoundary signupPresenter = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel);
         SignupInputBoundary signupInteractor = new SignupInteractor(userDataAccess, signupPresenter, userFactory);
 
-        SignupController signupController = new SignupController(signupInteractor, viewManagerModel);
+        SignupController signupController = new SignupController(signupInteractor, viewManagerModel, userDataAccessObject);
         signupView.setSignupController(signupController);
 
         // Add the signup view to the card panel
@@ -224,7 +225,8 @@ public class AppBuilder {
     public AppBuilder addAnalyzeUseCase() {
         final AnalyzeOutputBoundary analyzeOutputBoundary = new AnalyzePresenter(viewManagerModel,
                 analyzeViewModel, loggedInViewModel);
-        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(userDataAccessObject, analyzeOutputBoundary);
+        final AnalyzeProteinDataAccessInterface proteinDataAccessObject = new ProteinDataAccessObject();
+        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(proteinDataAccessObject, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
         return this;
@@ -253,7 +255,7 @@ public class AppBuilder {
                 new CreateTeamPresenter(createTeamViewModel);
 
         final CreateTeamInputBoundary createTeamInteractor =
-                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject1);
+                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject);
 
         final CreateTeamController createTeamController = new CreateTeamController(createTeamInteractor);
         createTeamView.setController(createTeamController);
