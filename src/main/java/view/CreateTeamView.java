@@ -51,7 +51,7 @@ public class CreateTeamView extends JPanel implements PropertyChangeListener {
 
         JPanel buttonPanel = new JPanel();
         createButton = new JButton("Create Team");
-        cancelButton = new JButton("Cancel");
+        cancelButton = new JButton("Back");
 
         buttonPanel.add(createButton);
         buttonPanel.add(cancelButton);
