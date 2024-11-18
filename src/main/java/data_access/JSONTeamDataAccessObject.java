@@ -1,14 +1,15 @@
 package data_access;
 
 import entity.Team;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import use_case.team.TeamDataAccessInterface;
-import utility.TeamJSONTranslator;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.Set;
 
 public class JSONTeamDataAccessObject implements TeamDataAccessInterface {
 
@@ -19,59 +20,59 @@ public class JSONTeamDataAccessObject implements TeamDataAccessInterface {
         this.file = new File(filePath);
         if (file.exists()) {
             teams = loadTeams();
-        }
-        else {
+        } else {
             teams = new HashMap<>();
+            saveTeams();
         }
     }
 
     private Map<String, Team> loadTeams() {
         Map<String, Team> teams = new HashMap<>();
-        try (Scanner scanner = new Scanner(file)) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             StringBuilder jsonBuilder = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                jsonBuilder.append(scanner.nextLine());
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
             }
-            String json = jsonBuilder.toString();
-            if (!json.trim().isEmpty()) {
-                String[] teamJsonArray = splitJsonArray(json);
-                for (String teamJson : teamJsonArray) {
-                    Team team = TeamJSONTranslator.jsonToTeam(teamJson);
-                    teams.put(team.getTeamName(), team);
+
+            String jsonData = jsonBuilder.toString();
+            if (!jsonData.isEmpty()) {
+                JSONArray teamsArray = new JSONArray(jsonData);
+                for (int i = 0; i < teamsArray.length(); i++) {
+                    JSONObject teamObject = teamsArray.getJSONObject(i);
+                    String teamName = teamObject.getString("teamName");
+                    JSONArray membersArray = teamObject.getJSONArray("memberUsernames");
+                    Set<String> memberUsernames = new HashSet<>();
+                    for (int j = 0; j < membersArray.length(); j++) {
+                        memberUsernames.add(membersArray.getString(j));
+                    }
+                    Team team = new Team(teamName, memberUsernames);
+                    teams.put(teamName, team);
                 }
             }
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error reading team data from file", e);
         }
         return teams;
     }
 
     private void saveTeams() {
-        try (FileWriter writer = new FileWriter(file)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("[");
-            int count = 0;
-            for (Team team : teams.values()) {
-                String teamJson = TeamJSONTranslator.teamToJson(team);
-                sb.append(teamJson);
-                count++;
-                if (count < teams.size()) {
-                    sb.append(",");
-                }
-            }
-            sb.append("]");
-            writer.write(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        JSONArray teamsArray = new JSONArray();
+        for (Team team : teams.values()) {
+            JSONObject teamObject = new JSONObject();
+            teamObject.put("teamName", team.getTeamName());
+            JSONArray membersArray = new JSONArray(team.getMemberUsernames());
+            teamObject.put("memberUsernames", membersArray);
+            teamsArray.put(teamObject);
         }
-    }
 
-    private String[] splitJsonArray(String jsonArray) {
-        String content = jsonArray.trim();
-        if (content.startsWith("[") && content.endsWith("]")) {
-            content = content.substring(1, content.length() - 1);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(teamsArray.toString(2));
+        } catch (IOException e) {
+            throw new RuntimeException("Error saving team data", e);
         }
-        return content.split("(?<=\\}),\\s*(?=\\{)");
     }
 
     @Override

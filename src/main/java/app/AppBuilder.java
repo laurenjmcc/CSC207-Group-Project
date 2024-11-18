@@ -1,15 +1,13 @@
 package app;
 
 import java.awt.CardLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.JSONTeamDataAccessObject;
 import data_access.JSONUserDataAccessObject;
-import data_access.InMemoryTeamDataAccessObject;
-import data_access.InMemoryUserDataAccessObject;
+import data_access.ProteinDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -32,8 +30,8 @@ import interface_adapter.team.CreateTeamPresenter;
 import use_case.analyze.AnalyzeInputBoundary;
 import use_case.analyze.AnalyzeInteractor;
 import use_case.analyze.AnalyzeOutputBoundary;
-import use_case.analyze.AnalyzeProteinDataAccessInterface;
 import interface_adapter.team.CreateTeamViewModel;
+import use_case.analyze.AnalyzeProteinDataAccessInterface;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -52,35 +50,21 @@ import use_case.team.CreateTeamInputBoundary;
 import use_case.team.CreateTeamInteractor;
 import use_case.team.CreateTeamOutputBoundary;
 import view.*;
-import data_access.JSONUserDataAccessObject;
-import data_access.JSONTeamDataAccessObject;
 
-/**
- * The AppBuilder class is responsible for putting together the pieces of
- * our CA architecture; piece by piece.
- * <p/>
- * This is done by adding each View and then adding related Use Cases.
- */
-// Checkstyle note: you can ignore the "Class Data Abstraction Coupling"
-//                  and the "Class Fan-Out Complexity" issues for this lab; we encourage
-//                  your team to think about ways to refactor the code to resolve these
-//                  if your team decides to work with this as your starter code
-//                  for your final project this term.
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    // thought question: is the hard dependency below a problem?
+
     private final UserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
-    private final JSONUserDataAccessObject userDataAccessObject1=
+
+    // Single instance of JSONUserDataAccessObject
+    private final JSONUserDataAccessObject userDataAccessObject =
             new JSONUserDataAccessObject("users.json", userFactory);
 
     private final JSONTeamDataAccessObject teamDataAccessObject =
             new JSONTeamDataAccessObject("teams.json");
-
-    // thought question: is the hard dependency below a problem?
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -90,7 +74,6 @@ public class AppBuilder {
     private LoginView loginView;
     private CreateTeamView createTeamView;
     private CreateTeamViewModel createTeamViewModel;
-
     private AnalyzeView analyzeView;
     private AnalyzeViewModel analyzeViewModel;
 
@@ -98,30 +81,22 @@ public class AppBuilder {
         cardPanel.setLayout(cardLayout);
     }
 
-    /**
-     * Adds the Login View to the application.
-     * @return this builder
-     */
     public AppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
         loginView = new LoginView(loginViewModel);
-        // Create instances of required dependencies
-        LoginUserDataAccessInterface userDataAccess = new InMemoryUserDataAccessObject();
+
+        LoginUserDataAccessInterface userDataAccess = userDataAccessObject;
         LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
 
         LoginInteractor loginInteractor = new LoginInteractor(userDataAccess, loginPresenter);
-        LoginController loginController = new LoginController(loginInteractor, viewManagerModel,userDataAccess);
+        LoginController loginController = new LoginController(loginInteractor, viewManagerModel, userDataAccessObject);
 
         loginView.setLoginController(loginController);
 
-        cardPanel.add(loginView, "login");  // "login" identifier for LoginView
+        cardPanel.add(loginView, "login");
         return this;
     }
 
-    /**
-     * Adds the Signup View to the application.
-     * @return this builder
-     */
     public AppBuilder addSignupView() {
         signupViewModel = new SignupViewModel();
         signupView = new SignupView(signupViewModel);
@@ -131,20 +106,14 @@ public class AppBuilder {
         SignupOutputBoundary signupPresenter = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel);
         SignupInputBoundary signupInteractor = new SignupInteractor(userDataAccess, signupPresenter, userFactory);
 
-        SignupController signupController = new SignupController(signupInteractor, viewManagerModel);
+        // Pass userDataAccessObject to SignupController
+        SignupController signupController = new SignupController(signupInteractor, viewManagerModel, userDataAccessObject);
         signupView.setSignupController(signupController);
 
-        // Add the signup view to the card panel
         cardPanel.add(signupView, "sign up");
         return this;
     }
 
-
-
-    /**
-     * Adds the LoggedIn View to the application.
-     * @return this builder
-     */
     public AppBuilder addLoggedInView() {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
@@ -160,27 +129,18 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the Login Use Case to the application.
-     * @return this builder
-     */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 loggedInViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
-        // Pass viewManagerModel to LoginController
         final LoginController loginController = new LoginController(loginInteractor,
-                viewManagerModel,userDataAccessObject);
+                viewManagerModel, userDataAccessObject);
         loginView.setLoginController(loginController);
         return this;
     }
 
-    /**
-     * Adds the Change Password Use Case to the application.
-     * @return this builder
-     */
     public AppBuilder addChangePasswordUseCase() {
         final ChangePasswordOutputBoundary changePasswordOutputBoundary =
                 new ChangePasswordPresenter(loggedInViewModel);
@@ -194,10 +154,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the Logout Use Case to the application.
-     * @return this builder
-     */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
                 loggedInViewModel, loginViewModel);
@@ -213,7 +169,8 @@ public class AppBuilder {
     public AppBuilder addAnalyzeUseCase() {
         final AnalyzeOutputBoundary analyzeOutputBoundary = new AnalyzePresenter(viewManagerModel,
                 analyzeViewModel, loggedInViewModel);
-        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(userDataAccessObject, analyzeOutputBoundary);
+        final AnalyzeProteinDataAccessInterface proteinDataAccessObject = new ProteinDataAccessObject();
+        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(proteinDataAccessObject, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
         return this;
@@ -222,7 +179,10 @@ public class AppBuilder {
     public AppBuilder addCreateTeamView() {
         createTeamViewModel = new CreateTeamViewModel();
         createTeamViewModel.setViewManagerModel(viewManagerModel);
+
+        // Set currentUsername from userDataAccessObject
         createTeamViewModel.setCurrentUsername(userDataAccessObject.getCurrentUsername());
+
         createTeamView = new CreateTeamView(createTeamViewModel);
         cardPanel.add(createTeamView, createTeamView.getViewName());
         return this;
@@ -233,25 +193,19 @@ public class AppBuilder {
                 new CreateTeamPresenter(createTeamViewModel);
 
         final CreateTeamInputBoundary createTeamInteractor =
-                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject1);
+                new CreateTeamInteractor(teamDataAccessObject, createTeamOutputBoundary, userDataAccessObject);
 
         final CreateTeamController createTeamController = new CreateTeamController(createTeamInteractor);
         createTeamView.setController(createTeamController);
         return this;
     }
 
-    /**
-     * Creates the JFrame for the application and initially sets the SignupView to be displayed.
-     * @return the application
-     */
     public JFrame build() {
         final JFrame application = new JFrame("SequenceIQ");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         application.setContentPane(cardPanel);
         application.pack();
-        application.setLocationRelativeTo(null); // Center on screen
-
-
+        application.setLocationRelativeTo(null);
 
         viewManagerModel.setState("login");
         viewManagerModel.firePropertyChanged();
@@ -259,4 +213,3 @@ public class AppBuilder {
         return application;
     }
 }
-

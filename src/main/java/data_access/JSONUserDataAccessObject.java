@@ -13,9 +13,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * DAO for user data implemented using a JSON file to persist the data.
- */
 public class JSONUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
@@ -84,7 +81,7 @@ public class JSONUserDataAccessObject implements SignupUserDataAccessInterface,
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(usersArray.toString());
+            writer.write(usersArray.toString(2));
         } catch (IOException e) {
             throw new RuntimeException("Error writing user data to file", e);
         }

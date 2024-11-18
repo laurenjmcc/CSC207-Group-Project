@@ -42,6 +42,7 @@ public class LoginController {
                 username, password);
 
         loginUseCaseInteractor.execute(loginInputData);
+        userDataAccess.setCurrentUsername(username);
     }
     public void switchToSignupView() {
         // Switch to the signup view
