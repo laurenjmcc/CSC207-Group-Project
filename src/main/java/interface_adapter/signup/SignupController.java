@@ -3,6 +3,7 @@ package interface_adapter.signup;
 import interface_adapter.ViewManagerModel;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInputData;
+import use_case.signup.SignupUserDataAccessInterface;
 
 import javax.swing.*;
 import java.util.concurrent.Executor;
@@ -14,10 +15,12 @@ public class SignupController {
 
     private final SignupInputBoundary userSignupUseCaseInteractor;
     private final ViewManagerModel viewManagerModel;
+    private final SignupUserDataAccessInterface userDataAccess;
 
-    public SignupController(SignupInputBoundary userSignupUseCaseInteractor, ViewManagerModel viewManagerModel) {
+    public SignupController(SignupInputBoundary userSignupUseCaseInteractor, ViewManagerModel viewManagerModel, SignupUserDataAccessInterface userDataAccess) {
         this.userSignupUseCaseInteractor = userSignupUseCaseInteractor;
         this.viewManagerModel = viewManagerModel;
+        this.userDataAccess = userDataAccess;
     }
 
     /**
@@ -41,6 +44,7 @@ public class SignupController {
 
             // Pass the SignupInputData object to the interactor
             userSignupUseCaseInteractor.execute(signupInputData);
+            userDataAccess.setCurrentUsername(username);
             // After successful sign-up, switch to login view
             viewManagerModel.setState("login");
             viewManagerModel.firePropertyChanged();

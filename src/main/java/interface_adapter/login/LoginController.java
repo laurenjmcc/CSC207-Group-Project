@@ -5,6 +5,7 @@ import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInputData;
 import use_case.login.LoginUserDataAccessInterface;
 
+
 import javax.swing.*;
 
 /**
@@ -42,6 +43,7 @@ public class LoginController {
                 username, password);
 
         loginUseCaseInteractor.execute(loginInputData);
+        userDataAccess.setCurrentUsername(username);
     }
     public void switchToSignupView() {
         // Switch to the signup view
