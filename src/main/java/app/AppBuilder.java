@@ -12,6 +12,7 @@ import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.analyze.AnalyzeController;
 import interface_adapter.analyze.AnalyzePresenter;
+import interface_adapter.analyze.AnalyzeState;
 import interface_adapter.analyze.AnalyzeViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
@@ -160,7 +161,15 @@ public class AppBuilder {
 
     public AppBuilder addAnalyzeView() {
         analyzeViewModel = new AnalyzeViewModel();
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        AnalyzePresenter analyzePresenter = new AnalyzePresenter(viewManagerModel, analyzeViewModel, loggedInViewModel);
+
+        // Initialize View and inject Presenter
         analyzeView = new AnalyzeView(analyzeViewModel);
+        analyzeView.setAnalyzePresenter(analyzePresenter); // Back button depends on this
+
+
+
         cardPanel.add(analyzeView, analyzeView.getViewName());
         return this;
     }
@@ -265,7 +274,7 @@ public class AppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("SequenceIQ");
+        final JFrame application = new JFrame("ProteinVerse");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         application.setContentPane(cardPanel);
         application.pack();

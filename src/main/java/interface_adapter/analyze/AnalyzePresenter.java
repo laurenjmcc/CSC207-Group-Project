@@ -47,4 +47,9 @@ public class AnalyzePresenter implements AnalyzeOutputBoundary {
         loggedInState.clickAnalyzeError(error);
         loggedInViewModel.firePropertyChanged();
     }
+    public void handleBackButton() {
+        // Switch back to the logged-in view
+        this.viewManagerModel.setState("logged in");
+        this.viewManagerModel.firePropertyChanged();
+    }
 }

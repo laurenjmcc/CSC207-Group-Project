@@ -21,6 +21,7 @@ public class AnalyzeState {
     public void setProteinName(String proteinName) {
         this.proteinName = proteinName;
     }
+
     public void setProteinDescription(String proteinDescription) {
         this.proteinDescription = proteinDescription;
     }
@@ -38,5 +39,9 @@ public class AnalyzeState {
 
     public String getProteinDisease() {
         return proteinDisease;
+    }
+
+    public void setViewName(String loggedIn) {
+
     }
 }
