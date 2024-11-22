@@ -10,6 +10,7 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class JSONUserDataAccessObject implements SignupUserDataAccessInterface,
         if (!file.exists()) {
             saveUsersToFile();
         } else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
                 StringBuilder jsonBuilder = new StringBuilder();
                 String line;
 
@@ -45,7 +46,7 @@ public class JSONUserDataAccessObject implements SignupUserDataAccessInterface,
                     jsonBuilder.append(line);
                 }
 
-                String jsonData = jsonBuilder.toString();
+                String jsonData = jsonBuilder.toString().trim();
                 if (!jsonData.isEmpty()) {
                     JSONArray usersArray = new JSONArray(jsonData);
                     for (int i = 0; i < usersArray.length(); i++) {
@@ -67,6 +68,8 @@ public class JSONUserDataAccessObject implements SignupUserDataAccessInterface,
 
             } catch (IOException e) {
                 throw new RuntimeException("Error reading user data from file", e);
+            } catch (Exception e) {
+                throw new RuntimeException("Error parsing user data from JSON", e);
             }
         }
     }
@@ -83,8 +86,8 @@ public class JSONUserDataAccessObject implements SignupUserDataAccessInterface,
             usersArray.put(userObject);
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(usersArray.toString());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, StandardCharsets.UTF_8))) {
+            writer.write(usersArray.toString(2)); // Pretty print with indent factor 2
         } catch (IOException e) {
             throw new RuntimeException("Error writing user data to file", e);
         }
