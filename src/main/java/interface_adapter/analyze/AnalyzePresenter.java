@@ -30,6 +30,7 @@ public class AnalyzePresenter implements AnalyzeOutputBoundary {
         final AnalyzeState analyzeState = analyzeViewModel.getState();
         analyzeState.setProteinName(analyzeOutputData.getProteinName());
         analyzeState.setProteinDescription(analyzeOutputData.getProteinDescription());
+        analyzeState.setProteinDisease(analyzeOutputData.getDiseases());
         this.analyzeViewModel.setState(analyzeState);
         this.analyzeViewModel.firePropertyChanged();
 

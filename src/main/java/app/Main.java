@@ -10,7 +10,7 @@ public class Main {
      * Builds and runs the CA architecture of the application.
      * @param args unused arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
                                             .addLoginView()

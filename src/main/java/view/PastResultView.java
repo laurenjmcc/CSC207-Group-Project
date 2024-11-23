@@ -51,10 +51,14 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
             System.out.println("PastResultView: Diseases: " + state.getDisease());
             this.removeAll();
 
-            // Add the "Results for" label
-            JLabel headerLabel = new JLabel("Results for: " + state.getProtein());
-            headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            add(headerLabel);
+            JButton backButton = new JButton("Back");
+            backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            add(backButton);
+
+            backButton.addActionListener(backEvt -> {
+                CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
+                cardLayout.show(this.getParent(), "logged in");
+            });
 
             if (state.getDisease() == null || state.getDisease().isEmpty()) {
                 // Handle case where no diseases are found
@@ -76,7 +80,6 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
                 add(scrollPane);
             }
 
-            // Revalidate and repaint to refresh the panel
             System.out.println("PastResultView: UI updated. Calling revalidate and repaint.");
             revalidate();
             repaint();

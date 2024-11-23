@@ -1,12 +1,14 @@
 package interface_adapter.analyze;
 
+import java.util.ArrayList;
+
 public class AnalyzeState {
 
     private String proteinName;
     private String proteinDescription;
-    private String proteinDisease;
+    private ArrayList<String> proteinDisease;
 
-    public AnalyzeState(String proteinName, String proteinDescription, String proteinDisease) {
+    public AnalyzeState(String proteinName, String proteinDescription, ArrayList<String> proteinDisease) {
         this.proteinName = proteinName;
         this.proteinDescription = proteinDescription;
         this.proteinDisease = proteinDisease;
@@ -15,7 +17,7 @@ public class AnalyzeState {
     public AnalyzeState() {
         this.proteinName = "";
         this.proteinDescription = "";
-        this.proteinDisease = "";
+        this.proteinDisease = new ArrayList<>();
     }
 
     public void setProteinName(String proteinName) {
@@ -25,7 +27,7 @@ public class AnalyzeState {
         this.proteinDescription = proteinDescription;
     }
 
-    public void setProteinDisease(String proteinDisease) {
+    public void setProteinDisease(ArrayList<String> proteinDisease) {
         this.proteinDisease = proteinDisease;
     }
 
@@ -36,7 +38,7 @@ public class AnalyzeState {
         return proteinDescription;
     }
 
-    public String getProteinDisease() {
+    public ArrayList<String> getProteinDisease() {
         return proteinDisease;
     }
 }

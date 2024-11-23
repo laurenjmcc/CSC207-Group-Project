@@ -52,7 +52,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final JButton changePassword;
     private PastResultController pastResultController;
     private boolean hasAnalyzed = false; // Track if analysis has occurred
-    private String analyzedProtein = ""; // Store the analyzed protein
+    public String analyzedProtein = ""; // Store the analyzed protein
 
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
         this.loggedInViewModel = loggedInViewModel;
@@ -181,11 +181,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         analyze.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(analyze)) {
+                        hasAnalyzed = true;
                         final LoggedInState currentState = loggedInViewModel.getState();
-                        analyzeController.execute(currentState.getProteinname());
+                        String proteinName = currentState.getProteinname();
+                        analyzedProtein = proteinName;
+                        try {
+                            analyzeController.execute(currentState.getProteinname());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
         );
+
 
         this.add(title);
         this.add(usernameInfo);
@@ -254,7 +262,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             cardLayout.show(this.getParent(), "NoResultView");
         } else {
             try {
-                // Execute the Past Result use case via the controller
                 if (pastResultController != null) {
                     pastResultController.execute(analyzedProtein);
                     cardLayout.show(this.getParent(), "PastResultView");

@@ -32,7 +32,6 @@ import interface_adapter.team.CreateTeamPresenter;
 import use_case.analyze.AnalyzeInputBoundary;
 import use_case.analyze.AnalyzeInteractor;
 import use_case.analyze.AnalyzeOutputBoundary;
-import use_case.analyze.AnalyzeProteinDataAccessInterface;
 import interface_adapter.team.CreateTeamViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
@@ -99,7 +98,8 @@ public class AppBuilder {
     private AnalyzeView analyzeView;
     private AnalyzeViewModel analyzeViewModel;
 
-    public AppBuilder() {
+
+    public AppBuilder() throws Exception {
         cardPanel.setLayout(cardLayout);
     }
 
@@ -221,18 +221,18 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addAnalyzeUseCase() {
+    public AppBuilder addAnalyzeUseCase() throws Exception {
         final AnalyzeOutputBoundary analyzeOutputBoundary = new AnalyzePresenter(viewManagerModel,
                 analyzeViewModel, loggedInViewModel);
-        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(userDataAccessObject, analyzeOutputBoundary);
+        ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
+        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(factory, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
         return this;
     }
     public AppBuilder addPastResultsUseCase() {
-        DiseaseDataAccessFactory factory = new DiseaseDataAccessFactory();
         final ResultOutputBoundary resultOutputBoundary = new PastResultPresenter(pastResultViewModel);
-        final ResultInputBoundary resultInteractor = new ResultInteractor(factory, resultOutputBoundary);
+        final ResultInputBoundary resultInteractor = new ResultInteractor(resultOutputBoundary);
         final PastResultController pastResultController = new PastResultController(resultInteractor);
         loggedInView.setPastResultController(pastResultController);
         pastResultsView.setPastResultController(pastResultController);
