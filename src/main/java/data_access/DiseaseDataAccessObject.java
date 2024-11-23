@@ -9,24 +9,28 @@ import java.util.ArrayList;
 
 public class DiseaseDataAccessObject implements ResultUserDataAccessInterface {
 
+    private static Protein_API protein_api = null;
     private JSONArray metadata;
     private ArrayList<String> acronym;
     private ArrayList<String> disease;
     private String ProteinName;
 
-    public DiseaseDataAccessObject(String proteinID){
+    public DiseaseDataAccessObject(String proteinID) throws Exception {
+        this.protein_api = new Protein_API(proteinID);
+        this.disease = protein_api.extractDisease();
+        this.acronym = protein_api.acronyms();
         this.ProteinName = proteinID;
     }
-    public JSONArray PI_API(String proteinID) throws Exception {
-        this.setMetadata(Protein_API.PI_API(proteinID));
-        return Protein_API.PI_API(proteinID);
-        }
-    public static ArrayList<String> acronyms(String proteinID) throws Exception {
 
-        return Protein_API.acronyms(proteinID);
+    public JSONArray PI_API(String proteinID) throws Exception {
+        return protein_api.PI_API();
+        }
+    public static ArrayList<String> acronyms() throws Exception {
+
+        return protein_api.acronyms();
     }
-    public static ArrayList<String> disease_names(String proteinID) throws Exception {
-        return Protein_API.extractDiseaseIds(proteinID);
+    public static ArrayList<String> disease_names() throws Exception {
+        return protein_api.extractDisease();
     }
 
     public JSONArray getMetadata() {
@@ -55,6 +59,6 @@ public class DiseaseDataAccessObject implements ResultUserDataAccessInterface {
 
     @Override
     public ArrayList<String> DiseaseInfo(String Protein_id) throws Exception {
-        return Protein_API.extractDiseaseIds(Protein_id);
+        return protein_api.extractDisease();
     }
 }

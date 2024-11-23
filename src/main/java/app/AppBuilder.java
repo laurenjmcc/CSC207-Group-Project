@@ -231,11 +231,11 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addAnalyzeUseCase() {
+    public AppBuilder addAnalyzeUseCase() throws Exception {
         final AnalyzeOutputBoundary analyzeOutputBoundary = new AnalyzePresenter(viewManagerModel,
                 analyzeViewModel, loggedInViewModel);
-        final AnalyzeProteinDataAccessInterface proteinDataAccessObject = new ProteinDataAccessObject();
-        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(proteinDataAccessObject, analyzeOutputBoundary);
+        ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
+        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(factory, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
         return this;
