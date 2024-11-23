@@ -13,6 +13,13 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import biojava.ProteinStructureViewer;
+
 public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "analyze";
@@ -43,15 +50,12 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         disease = new JLabel("Disease: ");
 
 
-
-
         String protein_description_string = analyzeViewModel.getState().getProteinDescription();
         JLabel protein_description_label = new JLabel("Description from the API goes in place of this text");
         JPanel description_panel = new JPanel();
         description_panel.setLayout(new BoxLayout(description_panel, BoxLayout.X_AXIS));
         description_panel.add(description);
         description_panel.add(protein_description_label);
-
 
         String protein_disease_string = analyzeViewModel.getState().getProteinDisease();
         JLabel protein_disease_label = new JLabel("Disease information from the API goes in place of this text");
@@ -77,7 +81,7 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
         info_panel.add(buttons);
 
-
+        addStructureButtonListener();
 
 
 //        JPanel description_panel = new JPanel();
@@ -91,6 +95,65 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 //        disease_panel.add(protein_disease_label);
 
         this.add(info_panel);
+    }
+
+    private void addStructureButtonListener() {
+        structure.addActionListener(evt -> {
+            String proteinName = analyzeViewModel.getState().getProteinName();
+
+            if (proteinName == null || proteinName.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Protein name is empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String pdbId = mapProteinNameToPdbID(proteinName);
+
+            if (pdbId != null) {
+                ProteinStructureViewer viewer = new ProteinStructureViewer();
+                viewer.showStructure(pdbId);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Could not find a PDB ID for protein: " + proteinName,
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
+
+    /**
+     * Maps a protein name to a PDB ID using the RCSB PDB API.
+     *
+     * @param proteinName The name of the protein.
+     * @return The corresponding PDB ID, or null if not found.
+     */
+    private String mapProteinNameToPdbID(String proteinName) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            String url = "https://search.rcsb.org/rcsbsearch/v1/query?json=" +
+                    "{\"query\":{\"type\":\"terminal\",\"service\":\"full_text\",\"parameters\":{\"value\":\"" +
+                    proteinName + "\"}},\"request_options\":{\"return_all_hits\":true},\"return_type\":\"entry\"}";
+
+            Request request = new Request.Builder().url(url).build();
+
+            Response response = client.newCall(request).execute();
+            String responseBody = response.body().string();
+
+            JSONObject json = new JSONObject(responseBody);
+            JSONArray resultSet = json.getJSONArray("result_set");
+
+            if (resultSet.length() > 0) {
+                JSONObject firstResult = resultSet.getJSONObject(0);
+                String pdbId = firstResult.getJSONObject("identifier").getString("value");
+                return pdbId.toUpperCase();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error mapping protein name to PDB ID.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
 
     /**
