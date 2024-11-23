@@ -1,4 +1,8 @@
 package API;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.HttpURLConnection;
@@ -12,7 +16,7 @@ import java.io.Reader;
 public class APIRequest {
 
     public static void main(String[] args) throws Exception {
-        String requestURL = "https://www.ebi.ac.uk/proteins/api/proteins?offset=0&size=100&accession=P00533";
+        String requestURL = "https://www.ebi.ac.uk/proteins/api/proteins?offset=0&size=1&protein=PIK3CA";
         URL url = new URL(requestURL);
 
         URLConnection connection = url.openConnection();
@@ -47,7 +51,20 @@ public class APIRequest {
                 logOrIgnore.printStackTrace();
             }
         }
-
-        System.out.println(output);
+        JSONArray jsonArray = new JSONArray(output);
+        String description = getDescription(jsonArray);
+        System.out.println(description);
     }
+
+    public static String getDescription(JSONArray input) {
+
+        JSONObject jo1 = input.getJSONObject(0);
+        JSONArray commentsArray = jo1.getJSONArray("comments");
+        JSONObject jo2 = commentsArray.getJSONObject(0);
+        JSONArray textArray = jo2.getJSONArray("text");
+        JSONObject jo3 = textArray.getJSONObject(0);
+        String outputString = jo3.getString("value");
+
+        return outputString;
+    };
 }
