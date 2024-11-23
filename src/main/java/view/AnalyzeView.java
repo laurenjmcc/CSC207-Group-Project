@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.analyze.AnalyzeController;
+import interface_adapter.analyze.AnalyzePresenter;
 import interface_adapter.analyze.AnalyzeState;
 import interface_adapter.analyze.AnalyzeViewModel;
 import interface_adapter.change_password.LoggedInState;
@@ -25,6 +26,8 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
     private final JButton structure; // comes from the biojava api
     private final JButton more_info;
+    private JButton BackButton = new JButton();
+    private AnalyzePresenter analyzePresenter;
 
     private AnalyzeController analyzeController;
 
@@ -33,10 +36,14 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         this.analyzeViewModel = analyzeViewModel;
         this.analyzeViewModel.addPropertyChangeListener(this);
 
+
         protein = new JLabel("");
         // protein = new JLabel(the name of the protein goes here from the textbox);
         description = new JLabel("Description: ");
         disease = new JLabel("Disease: ");
+
+
+
 
         String protein_description_string = analyzeViewModel.getState().getProteinDescription();
         JLabel protein_description_label = new JLabel("Description from the API goes in place of this text");
@@ -62,10 +69,16 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         final JPanel buttons = new JPanel();
         structure = new JButton("Structure");
         more_info = new JButton("More Information");
+        BackButton = new JButton("Back");
+        BackButton.addActionListener(e -> analyzePresenter.handleBackButton());
         buttons.add(structure);
         buttons.add(more_info);
+        buttons.add(BackButton);
 
         info_panel.add(buttons);
+
+
+
 
 //        JPanel description_panel = new JPanel();
 //        description_panel.setLayout(new BoxLayout(description_panel, BoxLayout.X_AXIS));
@@ -95,6 +108,10 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
             JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
         }
     }
+    public void setAnalyzePresenter(AnalyzePresenter analyzePresenter) {
+        this.analyzePresenter = analyzePresenter;
+    }
+
 
     public String getViewName() {return viewName;}
 }
