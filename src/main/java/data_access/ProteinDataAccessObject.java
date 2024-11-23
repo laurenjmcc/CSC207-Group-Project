@@ -5,16 +5,15 @@ import use_case.analyze.AnalyzeProteinDataAccessInterface;
 public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterface {
 
     @Override
-    public String getProteinDescription(String proteinname) {
-        return "";
+    public String getProteinDescription(String proteinName) {
+        // Eventually we will implement actual logic to get protein description
+        // For now, ill just return a placeholder description
+        return "Protein description for " + proteinName;
     }
-
-    /**
-     * @param proteinname
-     * @return
-     */
     @Override
-    public boolean successCall(String proteinname) {
-        return true;
+    public boolean successCall(String proteinName) {
+        // Again, Eventually we will implement actual logic to get protein description
+        // For now, return true if the protein name is not empty
+        return proteinName != null && !proteinName.trim().isEmpty();
     }
 }

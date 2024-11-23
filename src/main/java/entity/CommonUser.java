@@ -10,7 +10,7 @@ public class CommonUser implements User {
 
     private final String name;
     private final String password;
-    private final Set<String> teamNames;
+    private Set<String> teamNames;
 
     public CommonUser(String name, String password) {
         this.name = name;
