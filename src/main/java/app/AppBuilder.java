@@ -234,8 +234,8 @@ public class AppBuilder {
     public AppBuilder addAnalyzeUseCase() {
         final AnalyzeOutputBoundary analyzeOutputBoundary = new AnalyzePresenter(viewManagerModel,
                 analyzeViewModel, loggedInViewModel);
-        final AnalyzeProteinDataAccessInterface proteinDataAccessObject = new ProteinDataAccessObject();
-        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(proteinDataAccessObject, analyzeOutputBoundary);
+        ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
+        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(factory, analyzeOutputBoundary);
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
         return this;

@@ -10,7 +10,7 @@ public class AnalyzeController {
     public AnalyzeController(AnalyzeInputBoundary analyzeUseCaseInteractor) {
         this.analyzeUseCaseInteractor = analyzeUseCaseInteractor;
     }
-    public void execute(String proteinname) {
+    public void execute(String proteinname) throws Exception {
 
         final AnalyzeInputData analyzeInputData = new AnalyzeInputData(proteinname);
         analyzeUseCaseInteractor.execute(analyzeInputData);

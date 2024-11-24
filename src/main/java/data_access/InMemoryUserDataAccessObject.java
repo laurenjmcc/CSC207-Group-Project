@@ -17,8 +17,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface,
-        AnalyzeProteinDataAccessInterface {
+        LogoutUserDataAccessInterface{
 
     private final Map<String, User> users = new HashMap<>();
 
@@ -59,17 +58,5 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
      * @param proteinname
      * @return
      */
-    @Override
-    public String getProteinDescription(String proteinname) {
-        return "";
-    }
 
-    /**
-     * @param proteinname
-     * @return
-     */
-    @Override
-    public boolean successCall(String proteinname) {
-        return true;
-    }
 }
