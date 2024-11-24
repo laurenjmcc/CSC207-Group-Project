@@ -7,22 +7,82 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
+import java.time.Duration;
+import java.util.*;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+
 
 public class Protein_API {
-    public static void main(String[] args) throws Exception {
-        System.out.println(acronyms("P04637"));
-        System.out.println(extractDiseaseIds("P04637"));
-        JSONArray something = PI_API("P04637");
-        JSONObject jsonObject = something.getJSONObject(0);
-        JSONArray diseases = jsonObject.getJSONArray("diseases");
-        System.out.println(diseases);
+    private String protein_name;
+    final private String protein_id;
 
+    public Protein_API(String protein_name) {
+        this.protein_name = protein_name;
+        this.protein_id = getUniProtAccession(protein_name);
 
     }
 
-    public static JSONArray PI_API(String proteinID) throws Exception {
-        String requestURL = String.format("https://www.ebi.ac.uk/proteins/api/proteins/interaction/%s", proteinID);
+    public static void main(String[] args) throws Exception {
+        Protein_API protein_api = new Protein_API("p53");
+        System.out.println(protein_api.acronyms());
+        System.out.println(protein_api.extractDisease());
+        System.out.println(protein_api.location());
+        System.out.println(protein_api.get_description());
+
+    }
+
+    public String getUniProtAccession(String proteinName) {
+        if (proteinName == null || proteinName.trim().isEmpty()) {
+            return "Protein name cannot be null or empty.";
+        }
+        try {
+            String url = "https://rest.uniprot.org/uniprotkb/search?query=gene:" + proteinName + "&format=json";
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestMethod("GET");
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode != 200) {
+                InputStream errorStream = conn.getErrorStream();
+                BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
+                StringBuilder errorResponse = new StringBuilder();
+                String line;
+                while ((line = errorReader.readLine()) != null) {
+                    errorResponse.append(line);
+                }
+                errorReader.close();
+                return "Server returned error: " + responseCode + " - " + errorResponse.toString();
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+            br.close();
+
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            JSONArray results = jsonResponse.getJSONArray("results");
+
+            if (results.length() > 0) {
+                JSONObject firstResult = results.getJSONObject(0);
+                return firstResult.getString("primaryAccession");
+            } else {
+                return "No UniProt accession found for the given protein name.";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "An error occurred: " + e.getMessage();
+        }
+    }
+
+    public JSONArray PI_API() throws Exception {
+        String requestURL = String.format("https://www.ebi.ac.uk/proteins/api/proteins/interaction/%s", this.protein_id);
         URL url = new URL(requestURL);
         URLConnection connection = url.openConnection();
         HttpURLConnection httpConnection = (HttpURLConnection) connection;
@@ -54,8 +114,8 @@ public class Protein_API {
         return jsonArray;
     }
 
-    public static ArrayList<String> acronyms(String proteinID) throws Exception {
-        JSONArray something = PI_API(proteinID);
+    public ArrayList<String> acronyms() throws Exception {
+        JSONArray something = PI_API();
         JSONObject jsonObject = something.getJSONObject(0);
         JSONArray diseases = jsonObject.getJSONArray("diseases");
         ArrayList<String> output = new ArrayList<>();
@@ -68,12 +128,12 @@ public class Protein_API {
         }
         return output;
     }
-    public static ArrayList<String> extractDiseaseIds(String jsonString) throws Exception {
-        JSONArray something = PI_API(jsonString);
+
+    public ArrayList<String> extractDisease() throws Exception {
+        JSONArray something = PI_API();
         JSONArray jsonArray = new JSONArray(something);
         JSONObject jsonObject = jsonArray.getJSONObject(0);
         JSONArray diseases = jsonObject.getJSONArray("diseases");
-
         ArrayList<String> diseaseIds = new ArrayList<>();
         for (int i = 0; i < diseases.length(); i++) {
             JSONObject disease = diseases.getJSONObject(i);
@@ -85,4 +145,114 @@ public class Protein_API {
         return diseaseIds;
     }
 
+    public Map<String, Set<String>> location() throws Exception {
+        Map<String, Set<String>> diseaseToLocationsMap = new HashMap<>();
+        JSONArray jsonArray = PI_API();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            processObject(obj, "subcellularLocations", diseaseToLocationsMap);
+        }
+
+        return diseaseToLocationsMap;
+    }
+
+    private void processObject(JSONObject obj, String key, Map<String, Set<String>> resultMap) throws Exception {
+        if (obj.has("diseases")) {
+            JSONArray diseases = obj.getJSONArray("diseases");
+
+            for (int j = 0; j < diseases.length(); j++) {
+                JSONObject disease = diseases.getJSONObject(j);
+                String diseaseId = disease.optString("diseaseId", "Unknown Disease");
+                if (obj.has(key)) {
+                    JSONArray targetArray = obj.getJSONArray(key);
+                    Set<String> locations = extractLocations(targetArray);
+                    resultMap.merge(diseaseId, locations, (existing, newLocations) -> {
+                        existing.addAll(newLocations);
+                        return existing;
+                    });
+                }
+            }
+        }
+
+        for (String nestedKey : obj.keySet()) {
+            Object value = obj.get(nestedKey);
+            if (value instanceof JSONObject) {
+                processObject((JSONObject) value, key, resultMap);
+            } else if (value instanceof JSONArray) {
+                JSONArray array = (JSONArray) value;
+                for (int i = 0; i < array.length(); i++) {
+                    if (array.get(i) instanceof JSONObject) {
+                        processObject(array.getJSONObject(i), key, resultMap);
+                    }
+                }
+            }
+        }
+    }
+
+    private Set<String> extractLocations(JSONArray subcellularLocations) {
+        Set<String> locations = new HashSet<>();
+        for (int k = 0; k < subcellularLocations.length(); k++) {
+            JSONObject locationObj = subcellularLocations.getJSONObject(k);
+            JSONArray locationsArray = locationObj.optJSONArray("locations");
+            if (locationsArray != null) {
+                for (int l = 0; l < locationsArray.length(); l++) {
+                    JSONObject location = locationsArray.getJSONObject(l).optJSONObject("location");
+                    if (location != null) {
+                        String locationValue = location.optString("value", "Unknown Location");
+                        String[] splitValues = locationValue.split(",");
+                        for (String splitValue : splitValues) {
+                            locations.add(splitValue.trim());
+                        }
+                    }
+                }
+            }
+        }
+        return locations;
+    }
+
+    public String get_description() throws Exception {
+        String requestURL = "https://rest.uniprot.org/uniprotkb/" + this.protein_id + ".json";
+        HttpClient client = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(requestURL))
+                .header("Content-Type", "application/json")
+                .header("User-Agent", "Java HttpClient")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() == 200) {
+            JSONObject jsonResponse = new JSONObject(response.body());
+            if (jsonResponse.has("comments")) {
+                JSONArray comments = jsonResponse.getJSONArray("comments");
+                for (int i = 0; i < comments.length(); i++) {
+                    JSONObject comment = comments.getJSONObject(i);
+                    if (comment.has("texts")) {
+                        JSONArray texts = comment.getJSONArray("texts");
+                        for (int j = 0; j < texts.length(); j++) {
+                            JSONObject text = texts.getJSONObject(j);
+                            if (text.has("value")) {
+                                return cleanDescription(text.getString("value"));
+                            }
+                        }
+                    }
+                }
+            }
+            return "Functional description not found.";
+        } else {
+            throw new RuntimeException("Failed to fetch data: HTTP " + response.statusCode());
+        }
+    }
+    public String cleanDescription(String text) {
+        String regex = "\\([^\\)]*\\)";
+        String cleanedText = text.replaceAll(regex, "").replaceAll("\\s+", " ");
+        return cleanedText.trim();
+    }
 }
+
+
+

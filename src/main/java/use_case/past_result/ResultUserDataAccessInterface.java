@@ -13,5 +13,5 @@ public interface ResultUserDataAccessInterface {
      * @param protein the user whose password is to be updated
      * @return
      */
-    ArrayList<String> DiseaseInfo(String protein) throws Exception;
+    ArrayList<String> DiseaseInfo() throws Exception;
 }
