@@ -1,40 +1,27 @@
 package data_access;
 
 import API.Protein_API;
-import org.json.JSONArray;
 import use_case.past_result.ResultUserDataAccessInterface;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 
 public class DiseaseDataAccessObject implements ResultUserDataAccessInterface {
 
-    private JSONArray metadata;
+    private final Protein_API protein_api;
     private ArrayList<String> acronym;
     private ArrayList<String> disease;
     private String ProteinName;
+    private Map<String, Set<String>> result;
 
-    public DiseaseDataAccessObject(String proteinID){
+    public DiseaseDataAccessObject(String proteinID) throws Exception {
+        this.protein_api = new Protein_API(proteinID);
+        this.disease = protein_api.extractDisease();
+        this.acronym = protein_api.acronyms();
         this.ProteinName = proteinID;
-    }
-    public JSONArray PI_API(String proteinID) throws Exception {
-        this.setMetadata(Protein_API.PI_API(proteinID));
-        return Protein_API.PI_API(proteinID);
-        }
-    public static ArrayList<String> acronyms(String proteinID) throws Exception {
-
-        return Protein_API.acronyms(proteinID);
-    }
-    public static ArrayList<String> disease_names(String proteinID) throws Exception {
-        return Protein_API.extractDiseaseIds(proteinID);
-    }
-
-    public JSONArray getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(JSONArray metadata) {
-        this.metadata = metadata;
+        this.result = protein_api.location();
     }
 
     public ArrayList<String> getAcronym() {
@@ -53,8 +40,22 @@ public class DiseaseDataAccessObject implements ResultUserDataAccessInterface {
         this.disease = disease;
     }
 
-    @Override
-    public ArrayList<String> DiseaseInfo(String Protein_id) throws Exception {
-        return Protein_API.extractDiseaseIds(Protein_id);
+
+    public ArrayList<String> DiseaseInfo() throws Exception {
+        return protein_api.extractDisease();
+    }
+
+    public String getProteinDescription() throws Exception{
+        return protein_api.get_description();
+    }
+
+    public boolean successCall(String proteinname) {
+        return true;
+    }
+    public Map<String, Set<String>> getResult() throws Exception{
+        return protein_api.location();
+    }
+    public void setResult(Map<String, Set<String>> result) throws Exception{
+        this.result = result;
     }
 }

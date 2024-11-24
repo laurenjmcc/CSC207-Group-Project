@@ -22,7 +22,7 @@ public class ResultInteractor implements ResultInputBoundary {
         DiseaseDataAccessObject diseaseDataAccessObject = factory.create(resultInputData.getProtein_name());
         String proteinName = resultInputData.getProtein_name();
         System.out.println("Interactor: Fetching diseases for protein: " + resultInputData.getProtein_name());
-        ArrayList<String> disease = diseaseDataAccessObject.DiseaseInfo(proteinName);
+        ArrayList<String> disease = diseaseDataAccessObject.DiseaseInfo();
         System.out.println("Interactor: Diseases fetched: " + disease);
         final ResultOutputData resultOutputData = new ResultOutputData(disease, proteinName, false);
         userPresenter.prepareSuccessView(resultOutputData);
