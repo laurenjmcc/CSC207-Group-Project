@@ -5,13 +5,12 @@ import interface_adapter.analyze.AnalyzePresenter;
 import interface_adapter.analyze.AnalyzeState;
 import interface_adapter.analyze.AnalyzeViewModel;
 import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
@@ -22,12 +21,13 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
     private final JLabel description;
 
-    private final JLabel disease;
+    private final JLabel disease_string;
 
     private final JButton structure; // comes from the biojava api
     private final JButton more_info;
     private JButton BackButton = new JButton();
     private AnalyzePresenter analyzePresenter;
+    private JButton disease;
 
     private AnalyzeController analyzeController;
 
@@ -40,9 +40,7 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         protein = new JLabel("");
         // protein = new JLabel(the name of the protein goes here from the textbox);
         description = new JLabel("Description: ");
-        disease = new JLabel("Disease: ");
-
-
+        disease_string = new JLabel("Click the Disease button to fetch disease information.");
 
 
         String protein_description_string = analyzeViewModel.getState().getProteinDescription();
@@ -53,28 +51,34 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         description_panel.add(protein_description_label);
 
 
-        String protein_disease_string = analyzeViewModel.getState().getProteinDisease();
-        JLabel protein_disease_label = new JLabel("Disease information from the API goes in place of this text");
-        JPanel disease_panel = new JPanel();
-        disease_panel.setLayout(new BoxLayout(disease_panel, BoxLayout.X_AXIS));
-        disease_panel.add(disease);
-        disease_panel.add(protein_disease_label);
 
+        final int[] currentIndex = {0};
         JPanel info_panel = new JPanel();
         info_panel.setLayout(new GridLayout(4, 2));
         info_panel.add(protein);
         info_panel.add(description_panel);
-        info_panel.add(disease_panel);
+        info_panel.add(disease_string);
+
 
         final JPanel buttons = new JPanel();
         structure = new JButton("Structure");
         more_info = new JButton("More Information");
+        disease = new JButton("Disease");
         BackButton = new JButton("Back");
+        disease.addActionListener(e -> {
+            ArrayList<String> protein_disease = analyzeViewModel.getState().getDisease();
+            if (protein_disease != null && !protein_disease.isEmpty()) {
+                disease_string.setText(protein_disease.get(currentIndex[0]));
+                currentIndex[0] = (currentIndex[0] + 1) % protein_disease.size();
+            } else {
+                disease_string.setText("No disease information available. Run analyze first.");
+            }
+        });
         BackButton.addActionListener(e -> analyzePresenter.handleBackButton());
         buttons.add(structure);
         buttons.add(more_info);
+        buttons.add(disease);
         buttons.add(BackButton);
-
         info_panel.add(buttons);
 
 
