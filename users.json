@@ -1,5 +1,5 @@
 [{
   "password": "a",
-  "teamNames": [],
+  "teamNames": ["hello"],
   "username": "a"
 }]

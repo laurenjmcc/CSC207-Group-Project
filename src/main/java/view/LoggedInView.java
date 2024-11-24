@@ -182,7 +182,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 evt -> {
                     if (evt.getSource().equals(analyze)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-                        analyzeController.execute(currentState.getProteinname());
+                        try {
+                            analyzeController.execute(currentState.getProteinname());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
         );

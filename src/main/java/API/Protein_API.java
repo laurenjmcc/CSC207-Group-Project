@@ -17,7 +17,7 @@ import java.net.http.HttpResponse;
 
 
 public class Protein_API {
-    private String protein_name;
+    public String protein_name;
     final private String protein_id;
 
     public Protein_API(String protein_name) {
