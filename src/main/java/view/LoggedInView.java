@@ -182,10 +182,28 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 evt -> {
                     if (evt.getSource().equals(analyze)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-                        try {
-                            analyzeController.execute(currentState.getProteinname());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                        String proteinName = currentState.getProteinname();
+
+                        if (proteinName == null || proteinName.trim().isEmpty()) {
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "Please enter a protein name before analyzing.",
+                                    "Input Error",
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+                        } else {
+                            try {
+                                analyzeController.execute(proteinName);
+                                hasAnalyzed = true; // Mark as analyzed
+                                analyzedProtein = proteinName; // Store the analyzed protein
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(
+                                        this,
+                                        "An error occurred during analysis: " + e.getMessage(),
+                                        "Analysis Error",
+                                        JOptionPane.ERROR_MESSAGE
+                                );
+                            }
                         }
                     }
                 }
