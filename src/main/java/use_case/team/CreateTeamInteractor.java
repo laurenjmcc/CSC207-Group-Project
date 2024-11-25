@@ -30,8 +30,8 @@ public class CreateTeamInteractor implements CreateTeamInputBoundary {
             presenter.prepareFailView("Team name already exists.");
             return;
         }
-        Set<String> memberUsernames = new HashSet<>();
 
+        Set<String> memberUsernames = new HashSet<>(inputData.getMemberUsernames());
         for (String username : inputData.getMemberUsernames()) {
             if (!userDataAccess.existsByName(username)) {
                 presenter.prepareFailView("User " + username + " does not exist.");
