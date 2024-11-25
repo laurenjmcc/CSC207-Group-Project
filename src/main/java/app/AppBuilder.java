@@ -241,7 +241,7 @@ public class AppBuilder {
         return this;
     }
     public AppBuilder addPastResultsUseCase() {
-        DiseaseDataAccessFactory factory = new DiseaseDataAccessFactory();
+        ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
         final ResultOutputBoundary resultOutputBoundary = new PastResultPresenter(pastResultViewModel);
         final ResultInputBoundary resultInteractor = new ResultInteractor(factory, resultOutputBoundary);
         final PastResultController pastResultController = new PastResultController(resultInteractor);

@@ -1,39 +1,41 @@
 package interface_adapter.past_result;
 
-import java.util.ArrayList;
-
 public class PastResultState {
 
-    private ArrayList<String> disease;
+    private String description;
+    private String id;
     private String protein;
 
     // Default constructor
     public PastResultState() {
-        this.disease = new ArrayList<>();
+        this.description = "";
+        this.id = "";
         this.protein = "";
     }
 
     // Copy constructor
     public PastResultState(PastResultState copy) {
         if (copy == null) {
-            this.disease = new ArrayList<>();
+            this.description = "";
+            this.id = "";
             this.protein = "";
         } else {
-            this.disease = copy.disease != null ? new ArrayList<>(copy.disease) : new ArrayList<>();
+            this.description = copy.description != null ? copy.description : "";
             this.protein = copy.protein != null ? copy.protein : "";
+            this.id = copy.id != null ? copy.id : "";
         }
     }
 
     // Getters and setters
-    public ArrayList<String> getDisease() {
-        return this.disease;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setDisease(ArrayList<String> disease) {
-        if (disease == null) {
-            this.disease = new ArrayList<>();
+    public void setDescription(String description) {
+        if (description == null) {
+            this.description = "";
         } else {
-            this.disease = new ArrayList<>(disease); // Defensive copy
+            this.description = description; // Defensive copy
         }
     }
 
@@ -48,12 +50,24 @@ public class PastResultState {
             this.protein = protein;
         }
     }
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        if (id == null) {
+            this.id = "";
+        }else {
+            this.id = id;
+        }
+    }
 
     @Override
     public String toString() {
         return "PastResultState{" +
-                "disease=" + disease +
+                "disease=" + description +
                 ", protein='" + protein + '\'' +
                 '}';
     }
+
 }

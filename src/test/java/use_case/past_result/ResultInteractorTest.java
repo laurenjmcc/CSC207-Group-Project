@@ -1,6 +1,7 @@
 package use_case.past_result;
 
 import data_access.DiseaseDataAccessFactory;
+import data_access.ProteinDataAccessFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -37,7 +38,7 @@ class ResultInteractorTest {
     @Test
     void exceptionThrownTest() {
         String proteinName = "ProteinWithException";
-        DiseaseDataAccessFactory factory = new DiseaseDataAccessFactory();
+        ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
 
         ResultOutputBoundary presenter = new ResultOutputBoundary() {
             @Override

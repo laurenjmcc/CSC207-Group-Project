@@ -1,28 +1,40 @@
 package use_case.past_result;
 
-import java.util.ArrayList;
-
 /**
  * Output Data for the Change Password Use Case.
  */
 public class ResultOutputData {
-    private ArrayList<String> diseases = new ArrayList<>();  // Add this field
-    private final String protein;
-
+    private String description;
+    private String id;
+    private String name;
     private final boolean useCaseFailed;
 
-    public ResultOutputData(ArrayList<String> diseases, String protein, boolean useCaseFailed) {
-        this.diseases = diseases;
-        this.protein = protein;
+    public ResultOutputData(String description, String id, String name, boolean useCaseFailed) {
+        this.setDescription(description);
+        this.setId(id);
+        this.setName(name);
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getProtein() {
-        return protein;
+    public String getDescription() {
+        return description;
     }
-    public ArrayList<String> getDiseases() {return diseases;}
+    public String getId() {return this.id;}
+    public String getName() {return this.name;}
 
     public boolean isUseCaseFailed() {
         return useCaseFailed;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

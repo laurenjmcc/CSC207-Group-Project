@@ -1,30 +1,30 @@
 package use_case.past_result;
 
 import data_access.DiseaseDataAccessFactory;
-import data_access.DiseaseDataAccessObject;
-
-import java.util.ArrayList;
+import data_access.ProteinDataAccessFactory;
+import data_access.ProteinDataAccessObject;
+import use_case.past_result.ResultInputData;
+import use_case.past_result.ResultOutputData;
 
 /**
  * The Change Password Interactor.
  */
 public class ResultInteractor implements ResultInputBoundary {
-    private final DiseaseDataAccessFactory factory;
+    private final ProteinDataAccessFactory factory;
     private final ResultOutputBoundary userPresenter;
 
-    public ResultInteractor(DiseaseDataAccessFactory factory, ResultOutputBoundary resultOutputBoundary) {
+    public ResultInteractor(ProteinDataAccessFactory factory, ResultOutputBoundary resultOutputBoundary) {
         this.factory = factory;
         this.userPresenter = resultOutputBoundary;
     }
 
     @Override
     public void execute(ResultInputData resultInputData) throws Exception {
-        DiseaseDataAccessObject diseaseDataAccessObject = factory.create(resultInputData.getProtein_name());
-        String proteinName = resultInputData.getProtein_name();
-        System.out.println("Interactor: Fetching diseases for protein: " + resultInputData.getProtein_name());
-        ArrayList<String> disease = diseaseDataAccessObject.DiseaseInfo();
-        System.out.println("Interactor: Diseases fetched: " + disease);
-        final ResultOutputData resultOutputData = new ResultOutputData(disease, proteinName, false);
+        ProteinDataAccessObject diseaseDataAccessObject = factory.create(resultInputData.getProtein_name());
+        String description = diseaseDataAccessObject.getProteinDescription();
+        String id = diseaseDataAccessObject.getAccession();
+        String name = diseaseDataAccessObject.getProteinname();
+        final ResultOutputData resultOutputData = new ResultOutputData(description, id, name,  false);
         userPresenter.prepareSuccessView(resultOutputData);
     }
 }

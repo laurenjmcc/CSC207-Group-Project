@@ -12,13 +12,11 @@ public class PastResultPresenter implements ResultOutputBoundary {
     @Override
     public void prepareSuccessView(ResultOutputData outputData) {
         // Notify the view model about the change
-        System.out.println("Presenter: Preparing success view...");
-        System.out.println("Presenter: Protein name received: " + outputData.getProtein());
-        System.out.println("Presenter: Diseases received: " + outputData.getDiseases());
 
         PastResultState newState = new PastResultState();
-        newState.setProtein(outputData.getProtein());
-        newState.setDisease(outputData.getDiseases());
+        newState.setDescription(outputData.getDescription());
+        newState.setId(outputData.getId());
+        newState.setProtein(outputData.getName());
         this.pastResultViewModel.setState(newState);
         this.pastResultViewModel.firePropertyChanged("disease");
 

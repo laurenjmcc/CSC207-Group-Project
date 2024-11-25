@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import entity.PastResult;
 import interface_adapter.analyze.AnalyzeController;
 
 import interface_adapter.ViewManagerModel;
@@ -269,26 +270,16 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private void handlePastResultAction() {
         CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
 
-        if (!hasAnalyzed) {
+        if (PastResult.getResults().isEmpty()) {
             // Show "No Past Result" view
             JPanel noResultPanel = createNoResultPanel();
             this.getParent().add(noResultPanel, "NoResultView");
             cardLayout.show(this.getParent(), "NoResultView");
         } else {
-            try {
-                // Execute the Past Result use case via the controller
-                if (pastResultController != null) {
-                    pastResultController.execute(analyzedProtein);
-                    cardLayout.show(this.getParent(), "PastResultView");
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "An error occurred while fetching past results: " + ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
+            // Create and show the Past Results view
+            JPanel pastResultsPanel = createPastResultsPanel();
+            this.getParent().add(pastResultsPanel, "PastResultView");
+            cardLayout.show(this.getParent(), "PastResultView");
         }
     }
 
@@ -311,5 +302,47 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         noResultPanel.add(backButton);
 
         return noResultPanel;
+    }
+    private JPanel createPastResultsPanel() {
+        JPanel pastResultsPanel = new JPanel();
+        pastResultsPanel.setLayout(new BoxLayout(pastResultsPanel, BoxLayout.Y_AXIS));
+
+        JLabel title = new JLabel("Past Results");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pastResultsPanel.add(title);
+
+        // Retrieve and display results
+        // Retrieve and display results
+        for (PastResult.PastResultEntry result : PastResult.getResults()) {
+            // Create a JTextArea for each result
+            JTextArea resultArea = new JTextArea();
+
+            // Set the content with proper formatting
+            String formattedDescription = "Protein: " + result.getProteinName() + " (" + result.getId() + ")\n" + result.getDescription();
+            resultArea.setText(formattedDescription);
+            resultArea.setLineWrap(true); // Enable word wrapping
+            resultArea.setWrapStyleWord(true); // Wrap at word boundaries
+            resultArea.setEditable(false); // Make it read-only
+            resultArea.setBackground(pastResultsPanel.getBackground()); // Match the background color of the panel
+            resultArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // Set a fixed preferred size for better alignment if needed
+            resultArea.setPreferredSize(new Dimension(400, 100)); // Adjust as necessary
+
+            // Add JTextArea directly to the panel
+            pastResultsPanel.add(resultArea);
+        }
+
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> {
+            CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
+            cardLayout.show(this.getParent(), "logged in");
+        });
+
+        pastResultsPanel.add(Box.createVerticalStrut(10)); // Add spacing
+        pastResultsPanel.add(backButton);
+
+        return pastResultsPanel;
     }
 }
