@@ -17,5 +17,6 @@
 5. Tim and Tom are working on biological research together, and want to have access to the same results. Tom creates a team by clicking create team and inputting both Tim and Tom's username. Then, Tom uses the software to analyze a protein mutation and gets a result. Now, when Tim goes to see his past results, we will see Tom’s result that he created in the team as well. (Lauren's user story) 
 
 # APIs
-Proteins API: https://www.ebi.ac.uk/proteins/api/doc/ /
-BioJava API: https://biojava.org/docs/api/
+
+- Proteins API: [https://www.ebi.ac.uk/proteins/api/doc/](https://www.ebi.ac.uk/proteins/api/doc/)
+- BioJava API: [https://biojava.org/docs/api/](https://biojava.org/docs/api/)
