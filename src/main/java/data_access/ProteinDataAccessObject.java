@@ -12,6 +12,7 @@ public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterfac
 
     private final Protein_API protein_api;
     private final String description;
+    private final String accession;
     private ArrayList<String> acronym;
     private ArrayList<String> disease;
     private String proteinname;
@@ -19,11 +20,12 @@ public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterfac
 
     public ProteinDataAccessObject(String proteinID) throws Exception {
         this.protein_api = new Protein_API(proteinID);
-        this.proteinname = protein_api.protein_name;
-        this.disease = protein_api.extractDisease();
-        this.acronym = protein_api.acronyms();
-        this.location = protein_api.location();
-        this.description = protein_api.get_description();
+        this.setProteinname(getProtein_api().protein_name);
+        this.accession = protein_api.getUniProtAccession(proteinID);
+        this.setDisease(getProtein_api().extractDisease());
+        this.setAcronym(getProtein_api().acronyms());
+        this.setLocation(getProtein_api().location());
+        this.description = getProtein_api().get_description();
     }
 
     @Override
@@ -39,10 +41,10 @@ public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterfac
     }
 
     @Override
-    public Map<String, Set<String>> getlocation() {return location;}
+    public Map<String, Set<String>> getlocation() {return getLocation();}
 
     @Override
-    public String getProteinDescription() {return description;}
+    public String getProteinDescription() {return getDescription();}
 
 
     @Override
@@ -50,4 +52,35 @@ public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterfac
         return true;
     }
 
+    public Protein_API getProtein_api() {
+        return protein_api;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setAcronym(ArrayList<String> acronym) {
+        this.acronym = acronym;
+    }
+
+    public void setDisease(ArrayList<String> disease) {
+        this.disease = disease;
+    }
+
+    public void setProteinname(String proteinname) {
+        this.proteinname = proteinname;
+    }
+
+    public Map<String, Set<String>> getLocation() {
+        return location;
+    }
+
+    public void setLocation(Map<String, Set<String>> location) {
+        this.location = location;
+    }
+
+    public String getAccession() {
+        return accession;
+    }
 }
