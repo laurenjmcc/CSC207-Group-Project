@@ -42,9 +42,8 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         description = new JLabel("Description: ");
         disease_string = new JLabel("Click the Disease button to fetch disease information.");
 
-
-        String protein_description_string = analyzeViewModel.getState().getProteinDescription();
-        JLabel protein_description_label = new JLabel("Description from the API goes in place of this text");
+        System.out.println("Hello");
+        JLabel protein_description_label = new JLabel("protein_description_string");
         JPanel description_panel = new JPanel();
         description_panel.setLayout(new BoxLayout(description_panel, BoxLayout.X_AXIS));
         description_panel.add(description);
@@ -65,6 +64,14 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         more_info = new JButton("More Information");
         disease = new JButton("Disease");
         BackButton = new JButton("Back");
+        JButton descriptionButton = new JButton("Description");
+
+        descriptionButton.addActionListener(e -> {
+
+            String protein_description_string = analyzeViewModel.getState().getProteinDescription();
+            protein_description_label.setText("<html><div style='width:1000px;'>" + protein_description_string + "</div></html>");
+        });
+
         disease.addActionListener(e -> {
             ArrayList<String> protein_disease = analyzeViewModel.getState().getDisease();
             if (protein_disease != null && !protein_disease.isEmpty()) {
@@ -79,6 +86,7 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         buttons.add(more_info);
         buttons.add(disease);
         buttons.add(BackButton);
+        buttons.add(descriptionButton);
         info_panel.add(buttons);
 
 
@@ -118,5 +126,6 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
 
     public String getViewName() {return viewName;}
+
 }
 
