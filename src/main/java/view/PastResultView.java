@@ -38,7 +38,6 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
         BackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-
         // Add components to the panel
         add(NoPastResultLabel);
         add(Box.createVerticalStrut(10));  // Spacer for better layout
@@ -53,14 +52,30 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
             // Debugging output to verify state
             System.out.println("PastResultView: Property change detected for 'disease'.");
             System.out.println("PastResultView: Protein name: " + state.getProtein());
-            System.out.println("PastResultView: Diseases: " + state.getDescription());
+            System.out.println("PastResultView: Description: " + state.getDescription());
             System.out.println("PastResultView: ID: " + state.getId());
-            this.removeAll();
 
-            // Add the "Results for" label
-            JLabel headerLabel = new JLabel("Protein 1: " + state.getProtein() + "(" + state.getId() + ")");
-            JLabel descriptionLabel = new JLabel(state.getDescription());
+            this.removeAll(); // Clear existing components
+
+            // Header label
+            JLabel headerLabel = new JLabel("Protein: " + state.getProtein() + " (" + state.getId() + ")");
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // Format description
+            String formattedDescription = state.getDescription().replaceAll("\\.", ".\n");
+
+            // Use a JTextArea for displaying the description
+            JTextArea descriptionArea = new JTextArea(formattedDescription);
+            descriptionArea.setLineWrap(true); // Enable line wrapping
+            descriptionArea.setWrapStyleWord(true); // Wrap at word boundaries
+            descriptionArea.setEditable(false); // Make it non-editable
+            descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // Optional: Wrap in a JScrollPane in case the description is long
+            JScrollPane scrollPane = new JScrollPane(descriptionArea);
+            scrollPane.setPreferredSize(new Dimension(400, 200)); // Adjust size as needed
+
+            // Back button
             BackButton.setText("Back");
             BackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             BackButton.addActionListener(backEvt -> {
@@ -68,11 +83,15 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
                 cardLayout.show(this.getParent(), "logged in");
             });
 
+            // Add components to the panel
             add(headerLabel);
+            add(scrollPane); // Add scrollable description
+            add(Box.createVerticalStrut(10)); // Add spacing
             add(BackButton);
+
+            revalidate();
+            repaint(); // Refresh the panel to display updated components
         }
-
     }
-
 }
 

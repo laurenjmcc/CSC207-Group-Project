@@ -312,10 +312,25 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         pastResultsPanel.add(title);
 
         // Retrieve and display results
+        // Retrieve and display results
         for (PastResult.PastResultEntry result : PastResult.getResults()) {
-            JLabel resultLabel = new JLabel(result.toString());
-            resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            pastResultsPanel.add(resultLabel);
+            // Create a JTextArea for each result
+            JTextArea resultArea = new JTextArea();
+
+            // Set the content with proper formatting
+            String formattedDescription = "Protein: " + result.getProteinName() + " (" + result.getId() + ")\n" + result.getDescription();
+            resultArea.setText(formattedDescription);
+            resultArea.setLineWrap(true); // Enable word wrapping
+            resultArea.setWrapStyleWord(true); // Wrap at word boundaries
+            resultArea.setEditable(false); // Make it read-only
+            resultArea.setBackground(pastResultsPanel.getBackground()); // Match the background color of the panel
+            resultArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // Set a fixed preferred size for better alignment if needed
+            resultArea.setPreferredSize(new Dimension(400, 100)); // Adjust as necessary
+
+            // Add JTextArea directly to the panel
+            pastResultsPanel.add(resultArea);
         }
 
         JButton backButton = new JButton("Back");

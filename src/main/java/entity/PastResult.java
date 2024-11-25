@@ -1,6 +1,7 @@
 package entity;
 
 import data_access.ProteinDataAccessObject;
+import interface_adapter.past_result.PastResultState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,10 @@ public class PastResult {
     private final String id;
     private final String proteinName;
 
+    public static void main(String[] args) throws Exception {
+        PastResult pastResult = new PastResult("p53");
+        System.out.println(pastResult.getDescription());
+    }
     // Constructor
     public PastResult(String proteinID) throws Exception {
         this.protein = new ProteinDataAccessObject(proteinID);
@@ -26,6 +31,10 @@ public class PastResult {
     // Add a single result
     public void add() {
         results.add(new PastResultEntry(proteinName, description, id));
+    }
+    public String getDescription() {
+        // Format the description by adding a newline after each period
+        return description.replaceAll("\\.", ".\n");
     }
 
     // Retrieve all past results
@@ -50,7 +59,7 @@ public class PastResult {
         }
 
         public String getDescription() {
-            return description;
+            return description.replaceAll("\\.", ".\n");
         }
 
         public String getId() {
@@ -59,7 +68,7 @@ public class PastResult {
 
         @Override
         public String toString() {
-            return "Protein: " + proteinName + "(" + id + ") " + "Description:" + description;
+            return "Protein: " + proteinName + "(" + id + ") " + "Description:" + getDescription();
         }
     }
 }
