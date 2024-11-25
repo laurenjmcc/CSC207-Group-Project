@@ -2,48 +2,64 @@ package entity;
 
 import data_access.ProteinDataAccessObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PastResult {
-    private ProteinDataAccessObject protein;
-    private String protein_name;
-    private String acession;
-    public String description;
 
+    // Store all past results
+    private static final List<PastResultEntry> results = new ArrayList<>();
 
-    public PastResult(String protein_name) throws Exception {
-        this.setProtein(new ProteinDataAccessObject(protein_name));
-        this.setAcession(getProtein().getProtein_id);
-        this.setProtein_name(getProtein().getProteinname());
-        this.setDescription(getProtein().getProteinDescription());
+    private final ProteinDataAccessObject protein;
+    private final String description;
+    private final String id;
+    private final String proteinName;
+
+    // Constructor
+    public PastResult(String proteinID) throws Exception {
+        this.protein = new ProteinDataAccessObject(proteinID);
+        this.description = protein.getProteinDescription();
+        this.id = protein.getAccession();
+        this.proteinName = protein.getProteinname();
     }
 
-    public ProteinDataAccessObject getProtein() {
-        return protein;
+    // Add a single result
+    public void add() {
+        results.add(new PastResultEntry(proteinName, description, id));
     }
 
-    public void setProtein(ProteinDataAccessObject protein) {
-        this.protein = protein;
+    // Retrieve all past results
+    public static List<PastResultEntry> getResults() {
+        return new ArrayList<>(results); // Return a copy for safety
     }
 
-    public String getProtein_name() {
-        return protein_name;
-    }
+    // Inner class to represent a single result
+    public static class PastResultEntry {
+        private final String proteinName;
+        private final String description;
+        private final String id;
 
-    public void setProtein_name(String protein_name) {
-        this.protein_name = protein_name;
-    }
+        public PastResultEntry(String proteinName, String description, String id) {
+            this.proteinName = proteinName;
+            this.description = description;
+            this.id = id;
+        }
 
-    public String getAcession() {
-        return acession;
-    }
+        public String getProteinName() {
+            return proteinName;
+        }
 
-    public void setAcession(String acession) {
-        this.acession = acession;
-    }
+        public String getDescription() {
+            return description;
+        }
 
+        public String getId() {
+            return id;
+        }
 
-
-    public void setDescription(String description) {
-        this.description = description;
+        @Override
+        public String toString() {
+            return "Protein: " + proteinName + "(" + id + ") " + "Description:" + description;
+        }
     }
 }
-

@@ -57,4 +57,7 @@ public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterfac
         return true;
     }
 
+    public String getAccession() {
+        return accession;
+    }
 }

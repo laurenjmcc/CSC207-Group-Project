@@ -1,7 +1,5 @@
 package interface_adapter.past_result;
 
-import java.util.ArrayList;
-
 public class PastResultState {
 
     private String description;
@@ -24,19 +22,20 @@ public class PastResultState {
         } else {
             this.description = copy.description != null ? copy.description : "";
             this.protein = copy.protein != null ? copy.protein : "";
+            this.id = copy.id != null ? copy.id : "";
         }
     }
 
     // Getters and setters
-    public String  getDisease() {
+    public String getDescription() {
         return this.description;
     }
 
-    public void setDisease(ArrayList<String> disease) {
-        if (disease == null) {
+    public void setDescription(String description) {
+        if (description == null) {
             this.description = "";
         } else {
-            this.description = ""; // Defensive copy
+            this.description = description; // Defensive copy
         }
     }
 
@@ -51,6 +50,17 @@ public class PastResultState {
             this.protein = protein;
         }
     }
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        if (id == null) {
+            this.id = "";
+        }else {
+            this.id = id;
+        }
+    }
 
     @Override
     public String toString() {
@@ -60,7 +70,4 @@ public class PastResultState {
                 '}';
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

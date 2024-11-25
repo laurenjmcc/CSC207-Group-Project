@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import entity.PastResult;
 import interface_adapter.analyze.AnalyzeController;
 
 import interface_adapter.ViewManagerModel;
@@ -269,26 +270,16 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private void handlePastResultAction() {
         CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
 
-        if (hasAnalyzed <= 0) {
+        if (PastResult.getResults().isEmpty()) {
             // Show "No Past Result" view
             JPanel noResultPanel = createNoResultPanel();
             this.getParent().add(noResultPanel, "NoResultView");
             cardLayout.show(this.getParent(), "NoResultView");
         } else {
-            try {
-                // Execute the Past Result use case via the controller
-                if (pastResultController != null) {
-                    pastResultController.execute(analyzedProtein);
-                    cardLayout.show(this.getParent(), "PastResultView");
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "An error occurred while fetching past results: " + ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
+            // Create and show the Past Results view
+            JPanel pastResultsPanel = createPastResultsPanel();
+            this.getParent().add(pastResultsPanel, "PastResultView");
+            cardLayout.show(this.getParent(), "PastResultView");
         }
     }
 
@@ -311,5 +302,32 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         noResultPanel.add(backButton);
 
         return noResultPanel;
+    }
+    private JPanel createPastResultsPanel() {
+        JPanel pastResultsPanel = new JPanel();
+        pastResultsPanel.setLayout(new BoxLayout(pastResultsPanel, BoxLayout.Y_AXIS));
+
+        JLabel title = new JLabel("Past Results");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pastResultsPanel.add(title);
+
+        // Retrieve and display results
+        for (PastResult.PastResultEntry result : PastResult.getResults()) {
+            JLabel resultLabel = new JLabel(result.toString());
+            resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            pastResultsPanel.add(resultLabel);
+        }
+
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> {
+            CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
+            cardLayout.show(this.getParent(), "logged in");
+        });
+
+        pastResultsPanel.add(Box.createVerticalStrut(10)); // Add spacing
+        pastResultsPanel.add(backButton);
+
+        return pastResultsPanel;
     }
 }

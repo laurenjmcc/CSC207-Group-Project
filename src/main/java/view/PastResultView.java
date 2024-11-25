@@ -14,6 +14,9 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
     private final JButton BackButton = new JButton();
     private final PastResultViewModel pastResultViewModel;
     private PastResultController pastresultController;
+    private JLabel protein_name;
+    private JLabel accession_number;
+    private JLabel description;
 
     public void setPastResultController(PastResultController pastResultController) {
         this.pastresultController = pastResultController;
@@ -30,15 +33,17 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
         NoPastResultLabel.setText("No Past Result");
         NoPastResultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
         BackButton.setText("Back");
         BackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
 
         // Add components to the panel
         add(NoPastResultLabel);
         add(Box.createVerticalStrut(10));  // Spacer for better layout
         add(BackButton);
     }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -48,35 +53,26 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
             // Debugging output to verify state
             System.out.println("PastResultView: Property change detected for 'disease'.");
             System.out.println("PastResultView: Protein name: " + state.getProtein());
-            System.out.println("PastResultView: Diseases: " + state.getDisease());
+            System.out.println("PastResultView: Diseases: " + state.getDescription());
+            System.out.println("PastResultView: ID: " + state.getId());
             this.removeAll();
 
             // Add the "Results for" label
-            JLabel headerLabel = new JLabel("Results for: " + state.getProtein());
+            JLabel headerLabel = new JLabel("Protein 1: " + state.getProtein() + "(" + state.getId() + ")");
+            JLabel descriptionLabel = new JLabel(state.getDescription());
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            BackButton.setText("Back");
+            BackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            BackButton.addActionListener(backEvt -> {
+                CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
+                cardLayout.show(this.getParent(), "logged in");
+            });
+
             add(headerLabel);
-
-            if (state.getDisease() == null || state.getDisease().isEmpty()) {
-                // Handle case where no diseases are found
-                JLabel noDiseaseLabel = new JLabel("No diseases found for the given protein.");
-                noDiseaseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                add(noDiseaseLabel);
-            } else {
-                // Create and populate the JList with diseases
-
-
-                // Add a scrollable pane for the disease list
-
-                // Add the scrollable list to the panel
-                add(Box.createVerticalStrut(10)); // Add some vertical spacing
-            }
-
-            // Revalidate and repaint to refresh the panel
-            System.out.println("PastResultView: UI updated. Calling revalidate and repaint.");
-            revalidate();
-            repaint();
+            add(BackButton);
         }
 
     }
+
 }
 
