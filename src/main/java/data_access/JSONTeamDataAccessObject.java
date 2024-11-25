@@ -69,7 +69,6 @@ public class JSONTeamDataAccessObject implements TeamDataAccessInterface {
         for (Team team : teams.values()) {
             JSONObject teamObject = new JSONObject();
             teamObject.put("teamName", team.getTeamName());
-            saveTeams();
             JSONArray membersArray = new JSONArray(team.getMemberUsernames());
             teamObject.put("memberUsernames", membersArray);
             teamsArray.put(teamObject);
