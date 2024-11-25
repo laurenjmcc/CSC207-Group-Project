@@ -17,7 +17,8 @@ class PastResultTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        pastResult = new PastResult();
+
+        pastResult = new PastResult("p53");
         Field field = pastResult.getClass().getDeclaredField("result");
         field.setAccessible(true);
         field.set(pastResult, null);

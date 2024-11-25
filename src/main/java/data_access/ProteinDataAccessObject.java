@@ -12,14 +12,21 @@ public class ProteinDataAccessObject implements AnalyzeProteinDataAccessInterfac
 
     private final Protein_API protein_api;
     private final String description;
+    public String getProtein_id;
     private ArrayList<String> acronym;
     private ArrayList<String> disease;
     private String proteinname;
     private Map<String, Set<String>> location;
+    private final String accession;
 
+    public static void main(String[] args) throws Exception {
+        ProteinDataAccessObject protein = new ProteinDataAccessObject("p53");
+        System.out.println(protein.description);
+    }
     public ProteinDataAccessObject(String proteinID) throws Exception {
         this.protein_api = new Protein_API(proteinID);
-        this.proteinname = protein_api.protein_name;
+        this.proteinname = protein_api.getProtein_name();
+        this.accession = protein_api.getProtein_id();
         this.disease = protein_api.extractDisease();
         this.acronym = protein_api.acronyms();
         this.location = protein_api.location();

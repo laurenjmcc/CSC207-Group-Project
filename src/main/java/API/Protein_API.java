@@ -17,20 +17,17 @@ import java.net.http.HttpResponse;
 
 
 public class Protein_API {
-    public String protein_name;
+    private String protein_name;
     final private String protein_id;
 
     public Protein_API(String protein_name) {
-        this.protein_name = protein_name;
+        this.setProtein_name(protein_name);
         this.protein_id = getUniProtAccession(protein_name);
 
     }
 
     public static void main(String[] args) throws Exception {
         Protein_API protein_api = new Protein_API("p53");
-        System.out.println(protein_api.acronyms());
-        System.out.println(protein_api.extractDisease());
-        System.out.println(protein_api.location());
         System.out.println(protein_api.get_description());
 
     }
@@ -82,7 +79,7 @@ public class Protein_API {
     }
 
     public JSONArray PI_API() throws Exception {
-        String requestURL = String.format("https://www.ebi.ac.uk/proteins/api/proteins/interaction/%s", this.protein_id);
+        String requestURL = String.format("https://www.ebi.ac.uk/proteins/api/proteins/interaction/%s", this.getProtein_id());
         URL url = new URL(requestURL);
         URLConnection connection = url.openConnection();
         HttpURLConnection httpConnection = (HttpURLConnection) connection;
@@ -211,7 +208,7 @@ public class Protein_API {
     }
 
     public String get_description() throws Exception {
-        String requestURL = "https://rest.uniprot.org/uniprotkb/" + this.protein_id + ".json";
+        String requestURL = "https://rest.uniprot.org/uniprotkb/" + this.getProtein_id() + ".json";
         HttpClient client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
@@ -251,6 +248,18 @@ public class Protein_API {
         String regex = "\\([^\\)]*\\)";
         String cleanedText = text.replaceAll(regex, "").replaceAll("\\s+", " ");
         return cleanedText.trim();
+    }
+
+    public String getProtein_name() {
+        return protein_name;
+    }
+
+    public void setProtein_name(String protein_name) {
+        this.protein_name = protein_name;
+    }
+
+    public String getProtein_id() {
+        return protein_id;
     }
 }
 

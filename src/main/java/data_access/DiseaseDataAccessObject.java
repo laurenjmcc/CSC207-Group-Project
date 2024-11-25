@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class DiseaseDataAccessObject implements ResultUserDataAccessInterface {
+public class DiseaseDataAccessObject{
 
     private final Protein_API protein_api;
     private ArrayList<String> acronym;

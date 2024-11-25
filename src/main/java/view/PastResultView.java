@@ -63,17 +63,12 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
                 add(noDiseaseLabel);
             } else {
                 // Create and populate the JList with diseases
-                JList<String> diseaseList = new JList<>(state.getDisease().toArray(new String[0]));
-                diseaseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                diseaseList.setVisibleRowCount(5);
+
 
                 // Add a scrollable pane for the disease list
-                JScrollPane scrollPane = new JScrollPane(diseaseList);
-                scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 // Add the scrollable list to the panel
                 add(Box.createVerticalStrut(10)); // Add some vertical spacing
-                add(scrollPane);
             }
 
             // Revalidate and repaint to refresh the panel

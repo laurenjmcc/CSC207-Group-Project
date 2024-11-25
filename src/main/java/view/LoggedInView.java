@@ -51,7 +51,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
     private PastResultController pastResultController;
-    private boolean hasAnalyzed = false; // Track if analysis has occurred
+    private int hasAnalyzed = 0; // Track if analysis has occurred
     private String analyzedProtein = ""; // Store the analyzed protein
 
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
@@ -194,7 +194,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         } else {
                             try {
                                 analyzeController.execute(proteinName);
-                                hasAnalyzed = true; // Mark as analyzed
+                                hasAnalyzed += 1; // Mark as analyzed
                                 analyzedProtein = proteinName; // Store the analyzed protein
                             } catch (Exception e) {
                                 JOptionPane.showMessageDialog(
@@ -269,7 +269,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private void handlePastResultAction() {
         CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
 
-        if (!hasAnalyzed) {
+        if (hasAnalyzed <= 0) {
             // Show "No Past Result" view
             JPanel noResultPanel = createNoResultPanel();
             this.getParent().add(noResultPanel, "NoResultView");

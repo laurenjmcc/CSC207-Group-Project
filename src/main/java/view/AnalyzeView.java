@@ -44,7 +44,7 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
 
         String protein_description_string = analyzeViewModel.getState().getProteinDescription();
-        JLabel protein_description_label = new JLabel("Description from the API goes in place of this text");
+        JLabel protein_description_label = new JLabel(protein_description_string);
         JPanel description_panel = new JPanel();
         description_panel.setLayout(new BoxLayout(description_panel, BoxLayout.X_AXIS));
         description_panel.add(description);
