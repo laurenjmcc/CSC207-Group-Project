@@ -60,36 +60,69 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Logged In Screen");
+        title.setFont(new Font("Arial", Font.BOLD, 20));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Password"), passwordInputField);
-
-        final LabelTextPanel proteinInfo = new LabelTextPanel(
-                new JLabel("Protein"), proteinInputField
-        );
-
+        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         final JLabel usernameInfo = new JLabel("Currently logged in: ");
+        usernameInfo.setFont(new Font("Arial", Font.BOLD, 20));
         username = new JLabel();
+        username.setFont(new Font("Arial", Font.PLAIN, 15));
+        usernamePanel.add(usernameInfo);
+        usernamePanel.add(username);
+
+        JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        final JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordInputField);
+
+        JPanel proteinPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        final JLabel proteinLabel = new JLabel("Protein:");
+        proteinLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        proteinInputField.setFont(new Font("Arial", Font.PLAIN, 15));
+        proteinPanel.add(proteinLabel);
+        proteinPanel.add(proteinInputField);
+
 
         final JPanel buttons = new JPanel();
+
         logOut = new JButton("Log Out");
+        logOut.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(logOut);
 
         JButton pastResultButton = new JButton("Past Result");
+        pastResultButton.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(pastResultButton);
 
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         analyze = new JButton("Analyze");
+        analyze.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(analyze);
 
-
         changePassword = new JButton("Change Password");
+        changePassword.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(changePassword);
+
+        final JButton createTeamButton = new JButton("Create Team");
+        createTeamButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttons.add(createTeamButton);
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalStrut(30));
+        this.add(title);
+        this.add(Box.createVerticalStrut(20));
+        this.add(usernamePanel);
+        this.add(passwordPanel);
+        this.add(proteinPanel);
+        this.add(Box.createVerticalStrut(10));
+        this.add(buttons);
+        this.add(Box.createVerticalStrut(10));
 
         pastResultButton.addActionListener(evt -> handlePastResultAction());
 
-        final JButton createTeamButton = new JButton("Create Team");
-        buttons.add(createTeamButton);
+
 
         createTeamButton.addActionListener(evt -> {
             if (evt.getSource().equals(createTeamButton)) {
@@ -148,10 +181,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     if (evt.getSource().equals(logOut)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
                         logoutController.execute(currentState.getUsername());
-
-                        // TODO: execute the logout use case through the Controller
-                        // 1. get the state out of the loggedInViewModel. It contains the username.
-                        // 2. Execute the logout Controller.
                     }
                 }
         );
@@ -209,17 +238,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
-
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(username);
-
-        this.add(passwordInfo);
-        this.add(passwordErrorField);
-
-        this.add(proteinInfo);
-
-        this.add(buttons);
 
 
     }

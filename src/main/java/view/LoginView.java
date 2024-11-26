@@ -25,28 +25,40 @@ public class LoginView extends JPanel implements ActionListener {
 
     public LoginView(LoginViewModel loginViewModel) {
         this.loginViewModel = loginViewModel;
+        this.setOpaque(false);
         this.loginViewModel.addPropertyChangeListener(evt -> {
             // You can add handling here if needed for property changes
         });
-
         JLabel title = new JLabel("Login Screen");
+        title.setFont(new Font("Arial", Font.BOLD, 20));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Username and password input panels
         JPanel usernamePanel = new JPanel();
-        usernamePanel.setLayout(new FlowLayout());
-        usernamePanel.add(new JLabel("Username:"));
+        usernamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        usernameInputField.setFont(new Font("Arial", Font.PLAIN, 15));
+        usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameInputField);
 
         JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new FlowLayout());
-        passwordPanel.add(new JLabel("Password:"));
+        passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
+        passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordInputField);
+
 
         // Buttons
         logIn = new JButton("Log In");
+        logIn.setFont(new Font("Arial", Font.PLAIN, 18));
         createAccount = new JButton("Create Account");
+        createAccount.setFont(new Font("Arial", Font.PLAIN, 18));
         cancel = new JButton("Cancel");
+        cancel.setFont(new Font("Arial", Font.PLAIN, 18));
 
         JPanel buttons = new JPanel();
         buttons.add(logIn);
@@ -55,11 +67,16 @@ public class LoginView extends JPanel implements ActionListener {
 
         // Set Layout
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalStrut(30)); // Add some space at the top
         this.add(title);
+        this.add(Box.createVerticalStrut(90)); // Reduce space between title and input fields
         this.add(usernamePanel);
+        passwordPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        this.add(Box.createVerticalStrut(1));
         this.add(passwordPanel);
         this.add(usernameErrorField);
         this.add(passwordErrorField);
+        this.add(Box.createVerticalStrut(-1)); // Space between input fields and buttons
         this.add(buttons);
 
         // Action Listeners for Buttons
