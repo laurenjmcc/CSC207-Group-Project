@@ -1,10 +1,13 @@
 package view;
 
+import API.ProteinStructureFetcher;
+import API.ProteinStructureViewer;
 import interface_adapter.analyze.AnalyzeController;
 import interface_adapter.analyze.AnalyzePresenter;
 import interface_adapter.analyze.AnalyzeState;
 import interface_adapter.analyze.AnalyzeViewModel;
 import interface_adapter.change_password.LoggedInState;
+import org.biojava.nbio.structure.Structure;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,6 +84,7 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         buttons.add(BackButton);
         info_panel.add(buttons);
 
+        structure.addActionListener(e -> handleStructureButtonClick());
 
 
 
@@ -95,6 +99,22 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 //        disease_panel.add(protein_disease_label);
 
         this.add(info_panel);
+    }
+
+    private void handleStructureButtonClick() {
+        String proteinName = analyzeViewModel.getState().getProteinName();
+        try {
+            String pdbCode = ProteinStructureFetcher.getPdbCodeFromProteinName(proteinName);
+            Structure structure = ProteinStructureFetcher.getStructure(pdbCode);
+            ProteinStructureViewer.displayStructure(structure);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error fetching or displaying protein structure: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     /**

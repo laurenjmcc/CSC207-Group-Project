@@ -1,5 +1,8 @@
 package API;
 
+import org.biojava.nbio.structure.Structure;
+import org.biojava.nbio.structure.StructureIO;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -8,13 +11,18 @@ import java.net.URLEncoder;
 
 public class ProteinStructureFetcher {
     // Existing getStructure method...
+    public static Structure getStructure(String pdbCode) throws Exception {
+        Structure structure = StructureIO.getStructure(pdbCode);
+        return structure;
+    }
 
     public static String getPdbCodeFromProteinName(String proteinName) throws Exception {
+
         // Encode the protein name for URL
         String query = URLEncoder.encode(proteinName, "UTF-8");
 
         // Updated UniProt REST API URL
-        String urlStr = "https://rest.uniprot.org/uniprotkb/search?query=" + query + "&format=tsv&fields=accession,xref_pdb";
+        String urlStr = String.format("https://rest.uniprot.org/uniprotkb/search?query=" + query + "&format=tsv&fields=accession,xref_pdb");
 
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -55,3 +63,5 @@ public class ProteinStructureFetcher {
         throw new Exception("No PDB code found for protein name: " + proteinName);
     }
 }
+
+
