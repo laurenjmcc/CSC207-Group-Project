@@ -17,6 +17,12 @@
 5. Tim wants to learn more about the results of his inputs. He runs the program on his computer and enters the protein sequence in the “Protein Sequence” input text area. She clicks the “Analyze” button on the interface then clicks on the “Disease” button, all the disease corresponding to that protein  appear in a pop up window. She can  also views the protein structure by pressing on the “Structure” button. Bob clicks a button and he is sent to a link which provides him more information about his inputted protein.(Team Use Case)
 
 # APIs
-
-- Proteins API: [https://www.ebi.ac.uk/proteins/api/doc/](https://www.ebi.ac.uk/proteins/api/doc/)
+- Proteins API: [https://www.ebi.ac.uk/proteins/api/doc/](https://www.ebi.ac.uk/proteins/api/doc/) 
 - BioJava API: [https://biojava.org/docs/api/](https://biojava.org/docs/api/)
+
+# Installation Instructions
+- Click "Code" at the top of the respository, copy the provided link, and open it in your provided Java Software.
+- Create a Maven project by right clicking the pom.xml file and clicking "Add as Maven Project"
+- To confirm this was done correctly, open the external libraries, and make sure you see libraries for all dependencies in pom.xml, specifically "json", "okhttp", "junit", and "biojava"
+- Navigate to src -> main -> java -> app -> Main
+- Now, to run the program, all you have to do is run the Main.java file!
