@@ -1,40 +1,27 @@
 package use_case.past_result;
 
-/**
- * Output Data for the Change Password Use Case.
- */
+import entity.AnalysisResult;
+
+import java.util.List;
+
 public class ResultOutputData {
-    private String description;
-    private String id;
-    private String name;
+    private List<AnalysisResult> analysisResults;
     private final boolean useCaseFailed;
 
-    public ResultOutputData(String description, String id, String name, boolean useCaseFailed) {
-        this.setDescription(description);
-        this.setId(id);
-        this.setName(name);
+    public ResultOutputData(List<AnalysisResult> analysisResults, boolean useCaseFailed) {
+        this.analysisResults = analysisResults;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getDescription() {
-        return description;
+    public List<AnalysisResult> getAnalysisResults() {
+        return analysisResults;
     }
-    public String getId() {return this.id;}
-    public String getName() {return this.name;}
 
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setAnalysisResults(List<AnalysisResult> analysisResults) {
+        this.analysisResults = analysisResults;
     }
 }

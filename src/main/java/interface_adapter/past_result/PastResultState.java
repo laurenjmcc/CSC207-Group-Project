@@ -1,73 +1,23 @@
 package interface_adapter.past_result;
 
+import entity.AnalysisResult;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PastResultState {
 
-    private String description;
-    private String id;
-    private String protein;
+    private List<AnalysisResult> analysisResults;
 
-    // Default constructor
     public PastResultState() {
-        this.description = "";
-        this.id = "";
-        this.protein = "";
+        this.analysisResults = new ArrayList<>();
     }
 
-    // Copy constructor
-    public PastResultState(PastResultState copy) {
-        if (copy == null) {
-            this.description = "";
-            this.id = "";
-            this.protein = "";
-        } else {
-            this.description = copy.description != null ? copy.description : "";
-            this.protein = copy.protein != null ? copy.protein : "";
-            this.id = copy.id != null ? copy.id : "";
-        }
+    public List<AnalysisResult> getAnalysisResults() {
+        return analysisResults;
     }
 
-    // Getters and setters
-    public String getDescription() {
-        return this.description;
+    public void setAnalysisResults(List<AnalysisResult> analysisResults) {
+        this.analysisResults = analysisResults;
     }
-
-    public void setDescription(String description) {
-        if (description == null) {
-            this.description = "";
-        } else {
-            this.description = description; // Defensive copy
-        }
-    }
-
-    public String getProtein() {
-        return this.protein;
-    }
-
-    public void setProtein(String protein) {
-        if (protein == null) {
-            this.protein = "";
-        } else {
-            this.protein = protein;
-        }
-    }
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        if (id == null) {
-            this.id = "";
-        }else {
-            this.id = id;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "PastResultState{" +
-                "disease=" + description +
-                ", protein='" + protein + '\'' +
-                '}';
-    }
-
 }

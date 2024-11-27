@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class AnalysisResult {
     private String username;
-    private String teamName;
+    private List<String> teamNames;
     private String proteinName;
     private LocalDateTime analysisDate;
     private Map<String, Object> analysisData;
@@ -14,9 +14,10 @@ public class AnalysisResult {
     public AnalysisResult() {
     }
 
-    public AnalysisResult(String username, String teamName, String proteinName, LocalDateTime analysisDate, Map<String, Object> analysisData) {
+    public AnalysisResult(String username, List<String> teamNames, String proteinName,
+                          LocalDateTime analysisDate, Map<String, Object> analysisData) {
         this.username = username;
-        this.teamName = teamName;
+        this.teamNames = teamNames;
         this.proteinName = proteinName;
         this.analysisDate = analysisDate;
         this.analysisData = analysisData;
@@ -29,12 +30,13 @@ public class AnalysisResult {
     public void setUsername(String username) {
         this.username = username;
     }
-    public String getTeamName() {
-        return teamName;
+
+    public List<String> getTeamNames() {
+        return teamNames;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setTeamNames(List<String> teamNames) {
+        this.teamNames = teamNames;
     }
 
     public String getProteinName() {

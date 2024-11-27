@@ -4,6 +4,7 @@ import entity.AnalysisResult;
 import use_case.past_result.AnalysisResultDataAccessInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class JSONAnalysisResultDataAccess implements AnalysisResultDataAccessInt
 
         JSONObject resultJson = new JSONObject();
         resultJson.put("username", result.getUsername());
-        resultJson.put("teamName", result.getTeamName());
+        resultJson.put("teamNames", new JSONArray(result.getTeamNames()));
         resultJson.put("proteinName", result.getProteinName());
         resultJson.put("analysisDate", result.getAnalysisDate().toString());
         resultJson.put("analysisData", new JSONObject(result.getAnalysisData()));
@@ -32,24 +33,39 @@ public class JSONAnalysisResultDataAccess implements AnalysisResultDataAccessInt
     }
 
     @Override
-    public synchronized List<AnalysisResult> getResultsForTeam(String teamName) throws IOException {
+    public synchronized List<AnalysisResult> getResultsForUsers(Set<String> usernames) throws IOException {
         JSONArray data = readJsonFile();
         List<AnalysisResult> results = new ArrayList<>();
 
         for (int i = 0; i < data.length(); i++) {
             JSONObject obj = data.getJSONObject(i);
-            if (obj.getString("teamName").equals(teamName)) {
-                AnalysisResult result = new AnalysisResult();
-                result.setUsername(obj.getString("username"));
-                result.setTeamName(obj.getString("teamName"));
-                result.setProteinName(obj.getString("proteinName"));
-                result.setAnalysisDate(LocalDateTime.parse(obj.getString("analysisDate")));
-                result.setAnalysisData(obj.getJSONObject("analysisData").toMap());
+            String resultUsername = obj.getString("username");
+            if (usernames.contains(resultUsername)) {
+                AnalysisResult result = jsonObjectToAnalysisResult(obj);
                 results.add(result);
             }
         }
 
         return results;
+    }
+
+    private AnalysisResult jsonObjectToAnalysisResult(JSONObject obj) {
+        AnalysisResult result = new AnalysisResult();
+        result.setUsername(obj.getString("username"));
+
+        JSONArray teamNamesArray = obj.optJSONArray("teamNames");
+        List<String> teamNames = new ArrayList<>();
+        if (teamNamesArray != null) {
+            for (int i = 0; i < teamNamesArray.length(); i++) {
+                teamNames.add(teamNamesArray.getString(i));
+            }
+        }
+        result.setTeamNames(teamNames);
+
+        result.setProteinName(obj.getString("proteinName"));
+        result.setAnalysisDate(LocalDateTime.parse(obj.getString("analysisDate")));
+        result.setAnalysisData(obj.getJSONObject("analysisData").toMap());
+        return result;
     }
 
     private JSONArray readJsonFile() throws IOException {
