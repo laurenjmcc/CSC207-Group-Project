@@ -73,14 +73,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         final JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordInputField);
 
         JPanel proteinPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         final JLabel proteinLabel = new JLabel("Protein:");
-        proteinLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        proteinLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         proteinInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         proteinPanel.add(proteinLabel);
         proteinPanel.add(proteinInputField);

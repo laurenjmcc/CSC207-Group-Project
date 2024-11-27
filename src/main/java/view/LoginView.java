@@ -38,7 +38,7 @@ public class LoginView extends JPanel implements ActionListener {
         usernamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         usernameInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameInputField);
@@ -46,7 +46,7 @@ public class LoginView extends JPanel implements ActionListener {
         JPanel passwordPanel = new JPanel();
         passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordInputField);
