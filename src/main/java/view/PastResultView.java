@@ -1,5 +1,6 @@
 package view;
 
+import entity.AnalysisResult;
 import interface_adapter.past_result.PastResultController;
 import interface_adapter.past_result.PastResultState;
 import interface_adapter.past_result.PastResultViewModel;
@@ -8,90 +9,146 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * View for displaying past analysis results.
+ */
 public class PastResultView extends JPanel implements PropertyChangeListener {
-    private final JLabel NoPastResultLabel = new JLabel();
-    private final JButton BackButton = new JButton();
-    private final PastResultViewModel pastResultViewModel;
-    private PastResultController pastresultController;
-    private JLabel protein_name;
-    private JLabel accession_number;
-    private JLabel description;
 
-    public void setPastResultController(PastResultController pastResultController) {
-        this.pastresultController = pastResultController;
-    }
+    public static final String VIEW_NAME = "PastResultView";
+    private final PastResultViewModel pastResultViewModel;
+    private PastResultController pastResultController;
 
     public PastResultView(PastResultViewModel pastResultViewModel) {
         this.pastResultViewModel = pastResultViewModel;
-
         this.pastResultViewModel.addPropertyChangeListener(this);
-
-        // Set up layout and components
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        NoPastResultLabel.setText("No Past Result");
-        NoPastResultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Initial UI setup
+        initializeComponents();
+    }
 
+    /**
+     * Method to set the PastResultController.
+     * @param pastResultController the controller to be set.
+     */
+    public void setPastResultController(PastResultController pastResultController) {
+        this.pastResultController = pastResultController;
+    }
 
-        BackButton.setText("Back");
-        BackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    private void initializeComponents() {
+        // Clear existing components
+        this.removeAll();
 
+        // Header label
+        JLabel headerLabel = new JLabel("Past Results");
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(headerLabel);
 
-        // Add components to the panel
-        add(NoPastResultLabel);
-        add(Box.createVerticalStrut(10));  // Spacer for better layout
-        add(BackButton);
+        // Add a scroll pane to hold the results
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(scrollPane);
+
+        // Back button
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(backEvt -> {
+            if (pastResultController != null) {
+                // Notify the controller or switch views as needed
+                CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
+                cardLayout.show(this.getParent(), "logged in");
+            }
+        });
+        this.add(Box.createVerticalStrut(10));
+        this.add(backButton);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("disease")) {
+        if ("state".equals(evt.getPropertyName())) {
             final PastResultState state = (PastResultState) evt.getNewValue();
 
-            // Debugging output to verify state
-            System.out.println("PastResultView: Property change detected for 'disease'.");
-            System.out.println("PastResultView: Protein name: " + state.getProtein());
-            System.out.println("PastResultView: Description: " + state.getDescription());
-            System.out.println("PastResultView: ID: " + state.getId());
+            // Clear existing components
+            this.removeAll();
+            initializeComponents();
 
-            this.removeAll(); // Clear existing components
+            // Get the scroll pane to add results
+            JScrollPane scrollPane = (JScrollPane) this.getComponent(1);
+            JPanel resultsPanel = new JPanel();
+            resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+            scrollPane.setViewportView(resultsPanel);
 
-            // Header label
-            JLabel headerLabel = new JLabel("Protein: " + state.getProtein() + " (" + state.getId() + ")");
-            headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            List<AnalysisResult> analysisResults = state.getAnalysisResults();
 
-            // Format description
-            String formattedDescription = state.getDescription().replaceAll("\\.", ".\n");
-
-            // Use a JTextArea for displaying the description
-            JTextArea descriptionArea = new JTextArea(formattedDescription);
-            descriptionArea.setLineWrap(true); // Enable line wrapping
-            descriptionArea.setWrapStyleWord(true); // Wrap at word boundaries
-            descriptionArea.setEditable(false); // Make it non-editable
-            descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            // Optional: Wrap in a JScrollPane in case the description is long
-            JScrollPane scrollPane = new JScrollPane(descriptionArea);
-            scrollPane.setPreferredSize(new Dimension(400, 200)); // Adjust size as needed
-
-            // Back button
-            BackButton.setText("Back");
-            BackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            BackButton.addActionListener(backEvt -> {
-                CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
-                cardLayout.show(this.getParent(), "logged in");
-            });
-
-            // Add components to the panel
-            add(headerLabel);
-            add(scrollPane); // Add scrollable description
-            add(Box.createVerticalStrut(10)); // Add spacing
-            add(BackButton);
+            if (analysisResults.isEmpty()) {
+                JLabel noResultsLabel = new JLabel("No Past Results Available.");
+                noResultsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                resultsPanel.add(noResultsLabel);
+            } else {
+                // Display each analysis result
+                for (AnalysisResult result : analysisResults) {
+                    JPanel resultPanel = createResultPanel(result);
+                    resultsPanel.add(resultPanel);
+                    resultsPanel.add(Box.createVerticalStrut(10));
+                }
+            }
 
             revalidate();
-            repaint(); // Refresh the panel to display updated components
+            repaint();
         }
     }
-}
 
+    private JPanel createResultPanel(AnalysisResult result) {
+        JPanel resultPanel = new JPanel();
+        resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+        resultPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        resultPanel.setBackground(Color.WHITE);
+        resultPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Username and date
+        String username = result.getUsername();
+        String date = result.getAnalysisDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        JLabel userLabel = new JLabel("User: " + username + "   Date: " + date);
+        userLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        userLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Protein name
+        String proteinName = result.getProteinName();
+        JLabel proteinLabel = new JLabel("Protein: " + proteinName);
+        proteinLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        proteinLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Analysis data
+        Map<String, Object> analysisData = result.getAnalysisData();
+        String description = (String) analysisData.get("proteinDescription");
+        String formattedDescription = description.replaceAll("\\.", ".\n");
+
+        JTextArea descriptionArea = new JTextArea();
+        descriptionArea.setText("Description:\n" + formattedDescription);
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
+        descriptionArea.setEditable(false);
+        descriptionArea.setBackground(Color.WHITE);
+        descriptionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Add components to result panel
+        resultPanel.add(userLabel);
+        resultPanel.add(proteinLabel);
+        resultPanel.add(descriptionArea);
+
+        return resultPanel;
+    }
+
+    /**
+     * Returns the name of the view.
+     * @return the view name
+     */
+    public String getViewName() {
+        return pastResultViewModel.getViewName();
+    }
+}

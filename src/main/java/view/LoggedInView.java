@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.JOptionPane;
 
 import entity.PastResult;
 import interface_adapter.analyze.AnalyzeController;
@@ -286,19 +287,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.pastResultController = pastResultController;
     }
     private void handlePastResultAction() {
-        CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
-
-        if (PastResult.getResults().isEmpty()) {
-            // Show "No Past Result" view
-            JPanel noResultPanel = createNoResultPanel();
-            this.getParent().add(noResultPanel, "NoResultView");
-            cardLayout.show(this.getParent(), "NoResultView");
-        } else {
-            // Create and show the Past Results view
-            JPanel pastResultsPanel = createPastResultsPanel();
-            this.getParent().add(pastResultsPanel, "PastResultView");
-            cardLayout.show(this.getParent(), "PastResultView");
+        try {
+            pastResultController.execute();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "An error occurred while fetching past results: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
+        viewManagerModel.setState(PastResultView.VIEW_NAME);
+        viewManagerModel.firePropertyChanged();
     }
 
     private JPanel createNoResultPanel() {
