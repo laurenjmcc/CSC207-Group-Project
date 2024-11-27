@@ -43,7 +43,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         usernamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         usernamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         usernameInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameInputField);
@@ -52,14 +52,14 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JLabel passwordLabel = new JLabel("Password:");
         passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordInputField);
 
         JPanel repeat_passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         JLabel repeat_passwordLabel = new JLabel("Repeat Password:");
-        repeat_passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        repeat_passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         repeatPasswordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         repeat_passwordPanel.add(repeat_passwordLabel);
         repeat_passwordPanel.add(repeatPasswordInputField);

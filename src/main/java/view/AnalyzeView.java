@@ -61,10 +61,15 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
         final JPanel buttons = new JPanel();
         structure = new JButton("Structure");
+        structure.setFont(new Font("Arial", Font.PLAIN, 18));
         more_info = new JButton("More Information");
+        more_info.setFont(new Font("Arial", Font.PLAIN, 18));
         disease = new JButton("Disease");
+        disease.setFont(new Font("Arial", Font.PLAIN, 18));
         BackButton = new JButton("Back");
+        BackButton.setFont(new Font("Arial", Font.PLAIN, 18));
         JButton descriptionButton = new JButton("Description");
+        descriptionButton.setFont(new Font("Arial", Font.PLAIN, 18));
 
         descriptionButton.addActionListener(e -> {
 
@@ -81,15 +86,15 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
                 disease_string.setText("No disease information available. Run analyze first.");
             }
         });
+
         BackButton.addActionListener(e -> analyzePresenter.handleBackButton());
+
         buttons.add(structure);
         buttons.add(more_info);
         buttons.add(disease);
-        buttons.add(BackButton);
         buttons.add(descriptionButton);
+        buttons.add(BackButton);
         info_panel.add(buttons);
-
-
 
 
 //        JPanel description_panel = new JPanel();
