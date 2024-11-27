@@ -59,6 +59,10 @@ import view.*;
 import data_access.JSONUserDataAccessObject;
 import data_access.JSONTeamDataAccessObject;
 import data_access.ProteinDataAccessObject;
+import use_case.past_result.AnalysisResultDataAccessInterface;
+import data_access.JSONAnalysisResultDataAccess;
+import use_case.past_result.AnalysisResultDataAccessInterface;
+import data_access.JSONAnalysisResultDataAccess;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -83,7 +87,8 @@ public class AppBuilder {
 
     private final JSONTeamDataAccessObject teamDataAccessObject =
             new JSONTeamDataAccessObject("teams.json");
-
+    private final AnalysisResultDataAccessInterface analysisResultDataAccess =
+            new JSONAnalysisResultDataAccess("analysis_results.json");
     // thought question: is the hard dependency below a problem?
 
 
@@ -174,6 +179,7 @@ public class AppBuilder {
         cardPanel.add(analyzeView, analyzeView.getViewName());
         return this;
     }
+
     public AppBuilder addPastResultsView() {
         pastResultViewModel = new PastResultViewModel();
         pastResultsView = new PastResultView(pastResultViewModel);
@@ -235,15 +241,26 @@ public class AppBuilder {
         final AnalyzeOutputBoundary analyzeOutputBoundary = new AnalyzePresenter(viewManagerModel,
                 analyzeViewModel, loggedInViewModel);
         ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
-        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(factory, analyzeOutputBoundary);
+
+        final AnalyzeInputBoundary analyzeInteractor = new AnalyzeInteractor(
+                factory,
+                analyzeOutputBoundary,
+                analysisResultDataAccess,
+                userDataAccessObject);
+
         final AnalyzeController analyzeController = new AnalyzeController(analyzeInteractor);
         loggedInView.setAnalyzeController(analyzeController);
         return this;
     }
+
     public AppBuilder addPastResultsUseCase() {
-        ProteinDataAccessFactory factory = new ProteinDataAccessFactory();
         final ResultOutputBoundary resultOutputBoundary = new PastResultPresenter(pastResultViewModel);
-        final ResultInputBoundary resultInteractor = new ResultInteractor(factory, resultOutputBoundary);
+        final ResultInputBoundary resultInteractor = new ResultInteractor(
+                resultOutputBoundary,
+                analysisResultDataAccess,
+                userDataAccessObject,
+                teamDataAccessObject);
+
         final PastResultController pastResultController = new PastResultController(resultInteractor);
         loggedInView.setPastResultController(pastResultController);
         pastResultsView.setPastResultController(pastResultController);
