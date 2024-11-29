@@ -43,7 +43,7 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         disease_string = new JLabel("Click the Disease button to fetch disease information.");
 
         System.out.println("Hello");
-        JLabel protein_description_label = new JLabel("protein_description_string");
+        JLabel protein_description_label = new JLabel("Click Description Button to get the Description of the Protein");
         JPanel description_panel = new JPanel();
         description_panel.setLayout(new BoxLayout(description_panel, BoxLayout.X_AXIS));
         description_panel.add(description);
