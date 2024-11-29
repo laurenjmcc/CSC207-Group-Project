@@ -38,16 +38,12 @@ public class CreateTeamInteractor implements CreateTeamInputBoundary {
                 return;
             }
             memberUsernames.add(username);
-
             User user = userDataAccess.get(username);
             user.addTeamName(teamName);
             userDataAccess.save(user);
         }
-
         Team team = new Team(teamName, memberUsernames);
-
         teamDataAccess.saveTeam(team);
-
         CreateTeamOutputData outputData = new CreateTeamOutputData(teamName);
         presenter.prepareSuccessView(outputData);
     }
