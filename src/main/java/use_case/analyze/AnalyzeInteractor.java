@@ -10,7 +10,7 @@ import use_case.past_result.AnalysisResultDataAccessInterface;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class AnalyzeInteractor implements AnalyzeInputBoundary {
+public class AnalyzeInteractor extends ProteinDataAccessFactory implements AnalyzeInputBoundary, AnalyzeProteinDataAccessInterface {
 
     private final ProteinDataAccessFactory factory;
     private final AnalyzeOutputBoundary analyzePresenter;
@@ -28,19 +28,48 @@ public class AnalyzeInteractor implements AnalyzeInputBoundary {
     }
 
     @Override
+    public String getProteinname() {
+        return "";
+    }
+
+    @Override
+    public ArrayList<String> getDisease() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAcronym() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Set<String>> getlocation() {
+        return Map.of();
+    }
+
+    @Override
+    public String getProteinDescription() {
+        return "";
+    }
+
+    @Override
+    public boolean successCall(String proteinname) {
+        return false;
+    }
+
+    @Override
     public void execute(AnalyzeInputData analyzeInputData) throws Exception {
-
         final String proteinName = analyzeInputData.getProteinname();
-        ProteinDataAccessObject proteinObject = factory.create(proteinName);
+        AnalyzeProteinDataAccessInterface object = factory.create(proteinName);
 
-        if (!proteinObject.successCall(proteinName)) {
+        if (!object.successCall(proteinName)) {
             analyzePresenter.prepareFailView("Sorry! couldn't find the protein " + proteinName + " in the database.");
         } else {
 
-            String proteinDescription = proteinObject.getProteinDescription();
-            ArrayList<String> diseaseList = proteinObject.getDisease();
-            ArrayList<String> acronyms = proteinObject.getAcronym();
-            Map<String, Set<String>> locations = proteinObject.getlocation();
+            String proteinDescription = object.getProteinDescription();
+            ArrayList<String> diseaseList = object.getDisease();
+            ArrayList<String> acronyms = object.getAcronym();
+            Map<String, Set<String>> locations = object.getlocation();
 
             final AnalyzeOutputData analyzeOutputData = new AnalyzeOutputData(
                     proteinName,
@@ -50,7 +79,6 @@ public class AnalyzeInteractor implements AnalyzeInputBoundary {
                     proteinName,
                     false);
 
-            // Save analysis result
             String username = userDataAccess.getCurrentUsername();
             User currentUser = userDataAccess.get(username);
             Set<String> teamNamesSet = currentUser.getTeamNames();
