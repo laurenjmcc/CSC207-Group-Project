@@ -517,6 +517,16 @@
       "hello"
     ],
     "analysisData": {
+      "acronyms": [
+        "ESCR",
+        "LFS",
+        "HNSCC",
+        "LNCR",
+        "CPP",
+        "ADCC",
+        "BCC7",
+        "BMFS5"
+      ],
       "locations": {
         "Witteveen-Kolk syndrome": [
           "Nucleus",
@@ -872,16 +882,6 @@
           "Chromosome"
         ]
       },
-      "acronyms": [
-        "ESCR",
-        "LFS",
-        "HNSCC",
-        "LNCR",
-        "CPP",
-        "ADCC",
-        "BCC7",
-        "BMFS5"
-      ],
       "proteinDescription": "Multifunctional transcription factor that induces cell cycle arrest, DNA repair or apoptosis upon binding to its target DNA sequence . Acts as a tumor suppressor in many tumor types; induces growth arrest or apoptosis depending on the physiological circumstances and cell type . Negatively regulates cell division by controlling expression of a set of genes required for this process . One of the activated genes is an inhibitor of cyclin-dependent kinases. Apoptosis induction seems to be mediated either by stimulation of BAX and FAS antigen expression, or by repression of Bcl-2 expression . Its pro-apoptotic activity is activated via its interaction with PPP1R13B/ASPP1 or TP53BP2/ASPP2 . However, this activity is inhibited when the interaction with PPP1R13B/ASPP1 or TP53BP2/ASPP2 is displaced by PPP1R13L/iASPP . In cooperation with mitochondrial PPIF is involved in activating oxidative stress-induced necrosis; the function is largely independent of transcription. Induces the transcription of long intergenic non-coding RNA p21 and lincRNA-Mkln1. LincRNA-p21 participates in TP53-dependent transcriptional repression leading to apoptosis and seems to have an effect on cell-cycle regulation. Implicated in Notch signaling cross-over. Prevents CDK7 kinase activity when associated to CAK complex in response to DNA damage, thus stopping cell cycle progression. Isoform 2 enhances the transactivation activity of isoform 1 from some but not all TP53-inducible promoters. Isoform 4 suppresses transactivation activity and impairs growth suppression mediated by isoform 1. Isoform 7 inhibits isoform 1-mediated apoptosis. Regulates the circadian clock by repressing CLOCK-BMAL1-mediated transcriptional activation of PER2",
       "diseaseList": [
         "Esophageal cancer",
@@ -895,6 +895,835 @@
       ]
     },
     "analysisDate": "2024-11-28T22:57:30.739054",
+    "username": "a"
+  },
+  {
+    "proteinName": "KRAS",
+    "teamNames": [
+      "hi",
+      "hello"
+    ],
+    "analysisData": {
+      "acronyms": [
+        "AML",
+        "JMML",
+        "NS3",
+        "GASC",
+        "CFC2",
+        "OES",
+        "SFM"
+      ],
+      "locations": {
+        "Cardiomyopathy, dilated, 1NN": [
+          "Mitochondrion",
+          "Nucleus",
+          "Cell membrane",
+          "Cytoplasm"
+        ],
+        "Noonan syndrome 5": [
+          "Mitochondrion",
+          "Nucleus",
+          "Cell membrane",
+          "Cytoplasm"
+        ],
+        "Noonan syndrome 3": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Leukemia, juvenile myelomonocytic": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Schimmelpenning-Feuerstein-Mims syndrome": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "LEOPARD syndrome 2": [
+          "Mitochondrion",
+          "Nucleus",
+          "Cell membrane",
+          "Cytoplasm"
+        ],
+        "Oculoectodermal syndrome": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Cardiofaciocutaneous syndrome 2": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Unknown Disease": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Alzheimer disease 1": [
+          "Nucleus",
+          "Perikaryon",
+          "Cell membrane",
+          "Early endosome",
+          "Cell surface",
+          "clathrin-coated pit",
+          "Golgi apparatus",
+          "growth cone",
+          "Secreted",
+          "Membrane",
+          "Cell projection",
+          "Endoplasmic reticulum",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Leukemia, acute myelogenous": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Gastric cancer": [
+          "Endomembrane system",
+          "Cell membrane",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Cerebral amyloid angiopathy, APP-related": [
+          "Nucleus",
+          "Perikaryon",
+          "Cell membrane",
+          "Early endosome",
+          "Cell surface",
+          "clathrin-coated pit",
+          "Golgi apparatus",
+          "growth cone",
+          "Secreted",
+          "Membrane",
+          "Cell projection",
+          "Endoplasmic reticulum",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ]
+      },
+      "proteinDescription": "Ras proteins bind GDP/GTP and possess intrinsic GTPase activity . Plays an important role in the regulation of cell proliferation . Plays a role in promoting oncogenic events by inducing transcriptional silencing of tumor suppressor genes in colorectal cancer cells in a ZNF304-dependent manner",
+      "diseaseList": [
+        "Leukemia, acute myelogenous",
+        "Leukemia, juvenile myelomonocytic",
+        "Noonan syndrome 3",
+        "Gastric cancer",
+        "Cardiofaciocutaneous syndrome 2",
+        "Oculoectodermal syndrome",
+        "Schimmelpenning-Feuerstein-Mims syndrome"
+      ]
+    },
+    "analysisDate": "2024-11-29T01:07:44.212013",
+    "username": "a"
+  },
+  {
+    "proteinName": "PINK1",
+    "teamNames": [
+      "hi",
+      "hello"
+    ],
+    "analysisData": {
+      "acronyms": ["PARK6"],
+      "locations": {
+        "Unknown Disease": [
+          "Mitochondrion",
+          "Presynapse",
+          "Nucleus",
+          "cytosol",
+          "neuron projection",
+          "Postsynaptic density",
+          "Endoplasmic reticulum",
+          "Cell projection",
+          "Cytoplasm",
+          "Mitochondrion outer membrane"
+        ],
+        "Purine nucleoside phosphorylase deficiency": ["Cytoplasm"],
+        "Alzheimer disease 1": [
+          "Nucleus",
+          "Perikaryon",
+          "Cell membrane",
+          "Early endosome",
+          "Cell surface",
+          "clathrin-coated pit",
+          "Golgi apparatus",
+          "growth cone",
+          "Secreted",
+          "Membrane",
+          "Cell projection",
+          "Endoplasmic reticulum",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Huntington disease": [
+          "Nucleus",
+          "Early endosome",
+          "autophagosome",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Parkinson disease": [
+          "Mitochondrion",
+          "Presynapse",
+          "Nucleus",
+          "cytosol",
+          "neuron projection",
+          "Postsynaptic density",
+          "Endoplasmic reticulum",
+          "Cell projection",
+          "Cytoplasm",
+          "Mitochondrion outer membrane"
+        ],
+        "Parkinson disease 6": [
+          "cytosol",
+          "Mitochondrion inner membrane",
+          "Mitochondrion outer membrane",
+          "Cytoplasm"
+        ],
+        "Parkinson disease 2": [
+          "Mitochondrion",
+          "Presynapse",
+          "Nucleus",
+          "cytosol",
+          "neuron projection",
+          "Postsynaptic density",
+          "Endoplasmic reticulum",
+          "Cell projection",
+          "Cytoplasm",
+          "Mitochondrion outer membrane"
+        ],
+        "Lopes-Maciel-Rodan syndrome": [
+          "Nucleus",
+          "Early endosome",
+          "autophagosome",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Parkinson disease 15": [
+          "Mitochondrion",
+          "Nucleus",
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Cerebral amyloid angiopathy, APP-related": [
+          "Nucleus",
+          "Perikaryon",
+          "Cell membrane",
+          "Early endosome",
+          "Cell surface",
+          "clathrin-coated pit",
+          "Golgi apparatus",
+          "growth cone",
+          "Secreted",
+          "Membrane",
+          "Cell projection",
+          "Endoplasmic reticulum",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ]
+      },
+      "proteinDescription": "Serine/threonine-protein kinase which acts as a sensor of mitochondrial damage and protects against mitochondrial dysfunction during cellular stress. It phosphorylates mitochondrial proteins to coordinate mitochondrial quality control mechanisms that remove and replace dysfunctional mitochondrial components . Depending on the severity of mitochondrial damage, activity ranges from preventing apoptosis and stimulating mitochondrial biogenesis to eliminating severely damaged mitochondria via PINK1-PRKN-dependent mitophagy . When cellular stress results in irreversible mitochondrial damage, PINK1 accumulates at the outer mitochondrial membrane where it phosphorylates pre-existing polyubiquitin chains at 'Ser-65', recruits PRKN from the cytosol to the OMM and activates PRKN by phosphorylation at 'Ser-65'; activated PRKN then ubiquinates VDAC1 and other OMM proteins to initiate mitophagy . The PINK1-PRKN pathway also promotes fission of damaged mitochondria through phosphorylation and PRKN-dependent degradation of mitochondrial proteins involved in fission such as MFN2 . This prevents the refusion of unhealthy mitochondria with the mitochondrial network or initiates mitochondrial fragmentation facilitating their later engulfment by autophagosomes . Also promotes mitochondrial fission independently of PRKN and ATG7-mediated mitophagy, via the phosphorylation and activation of DNM1L . Regulates motility of damaged mitochondria by promoting the ubiquitination and subsequent degradation of MIRO1 and MIRO2; in motor neurons, this likely inhibits mitochondrial intracellular anterograde transport along the axons which probably increases the chance of the mitochondria undergoing mitophagy in the soma . Required for ubiquinone reduction by mitochondrial complex I by mediating phosphorylation of complex I subunit NDUFA10 . Phosphorylates LETM1, positively regulating its mitochondrial calcium transport activity",
+      "diseaseList": ["Parkinson disease 6"]
+    },
+    "analysisDate": "2024-11-29T01:08:12.508386",
+    "username": "a"
+  },
+  {
+    "proteinName": "Myc",
+    "teamNames": [
+      "hi",
+      "hello"
+    ],
+    "analysisData": {
+      "acronyms": ["BL"],
+      "locations": {
+        "Muenke syndrome": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Lacrimo-auriculo-dento-digital syndrome 2": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Pheochromocytoma": [
+          "Nucleus",
+          "dendrite",
+          "Cell projection"
+        ],
+        "Neurodevelopmental disorder with hypotonia, craniofacial abnormalities, and seizures": ["Nucleus"],
+        "Sifrim-Hitz-Weiss syndrome": [
+          "Nucleus",
+          "microtubule organizing center",
+          "cytoskeleton",
+          "centrosome",
+          "Cytoplasm"
+        ],
+        "Multiple myeloma": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Achondroplasia, severe, with developmental delay and acanthosis nigricans": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Keratinocytic non-epidermolytic nevus": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Hepatocellular carcinoma": [
+          "Nucleus",
+          "Cell membrane",
+          "Membrane",
+          "Cytoplasm"
+        ],
+        "Developmental delay with or without dysmorphic facies and autism": ["Nucleus"],
+        "Cleft palate, psychomotor retardation, and distinctive facial features": [
+          "Nucleus",
+          "Chromosome"
+        ],
+        "Clark-Baraitser syndrome": [
+          "Nucleus",
+          "nucleoplasm"
+        ],
+        "Caudal duplication anomaly": [
+          "Nucleus",
+          "Cell membrane",
+          "Membrane",
+          "Cytoplasm"
+        ],
+        "Polydactyly-macrocephaly syndrome": [
+          "Nucleus",
+          "dendrite",
+          "Cell projection"
+        ],
+        "Bartsocas-Papas syndrome 2": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Unknown Disease": [
+          "Nucleus",
+          "nucleoplasm",
+          "cytosol",
+          "cytoskeleton",
+          "Chromosome",
+          "centrosome",
+          "centriole",
+          "Mitochondrion matrix",
+          "microtubule organizing center",
+          "Midbody",
+          "nucleolus",
+          "cilium basal body",
+          "Cytoplasm",
+          "Mitochondrion outer membrane",
+          "perinuclear region"
+        ],
+        "Amyotrophic lateral sclerosis 10": [
+          "Mitochondrion",
+          "Nucleus",
+          "Stress granule",
+          "Cytoplasm"
+        ],
+        "Developmental delay, hypotonia, and impaired language": [
+          "Nucleus",
+          "nucleoplasm",
+          "nucleolus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Autoinflammatory disease, systemic, X-linked": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Hereditary non-polyposis colorectal cancer 6": [
+          "Secreted",
+          "Cell membrane",
+          "Membrane raft"
+        ],
+        "Camptodactyly, tall stature, and hearing loss syndrome": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Mandibulofacial dysostosis with microcephaly": ["Nucleus"],
+        "Incontinentia pigmenti": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Thanatophoric dysplasia 2": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Thanatophoric dysplasia 1": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Melanoma, cutaneous malignant 3": [
+          "Nucleus",
+          "Nucleus membrane",
+          "Cytoplasm"
+        ],
+        "Immunodeficiency 33": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Burkitt lymphoma": [
+          "Nucleus",
+          "nucleoplasm",
+          "nucleolus",
+          "Cytoplasm"
+        ],
+        "Mosaic variegated aneuploidy syndrome 2": [
+          "Nucleus",
+          "microtubule organizing center",
+          "cytoskeleton",
+          "centrosome",
+          "Cytoplasm"
+        ],
+        "Loeys-Dietz syndrome 2": [
+          "Secreted",
+          "Cell membrane",
+          "Membrane raft"
+        ],
+        "Deafness, autosomal dominant, 75": ["Nucleus"],
+        "Testicular germ cell tumor": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Diamond-Blackfan anemia 7": [
+          "Nucleus",
+          "nucleolus",
+          "Cytoplasm"
+        ],
+        "Keratosis, seborrheic": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Bladder cancer": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Cocoon syndrome": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Amyloidosis, hereditary systemic 4, Finnish type": [
+          "Secreted",
+          "cytoskeleton",
+          "Cytoplasm"
+        ],
+        "Spinocerebellar ataxia 10": [
+          "microtubule organizing center",
+          "cytoskeleton",
+          "Midbody",
+          "cilium basal body",
+          "centrosome",
+          "centriole",
+          "Cytoplasm",
+          "perinuclear region"
+        ],
+        "Hypochondroplasia": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Achondroplasia": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Neurodegeneration, childhood-onset, with brain atrophy": [
+          "Nucleus",
+          "nucleolus"
+        ],
+        "Craniometadiaphyseal osteosclerosis with hip dysplasia": [
+          "Nucleus",
+          "Cell membrane",
+          "Membrane",
+          "Cytoplasm"
+        ],
+        "Ectodermal dysplasia and immunodeficiency 1": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Cervical cancer": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ],
+        "Esophageal cancer": [
+          "Secreted",
+          "Cell membrane",
+          "Membrane raft"
+        ],
+        "Crouzon syndrome with acanthosis nigricans": [
+          "Secreted",
+          "Cell membrane",
+          "Endoplasmic reticulum",
+          "Cytoplasmic vesicle"
+        ]
+      },
+      "proteinDescription": "Transcription factor that binds DNA in a non-specific manner, yet also specifically recognizes the core sequence 5'-CAC[GA]TG-3' . Activates the transcription of growth-related genes . Binds to the VEGFA promoter, promoting VEGFA production and subsequent sprouting angiogenesis . Regulator of somatic reprogramming, controls self-renewal of embryonic stem cells . Functions with TAF6L to activate target gene expression through RNA polymerase II pause release . Positively regulates transcription of HNRNPA1, HNRNPA2 and PTBP1 which in turn regulate splicing of pyruvate kinase PKM by binding repressively to sequences flanking PKM exon 9, inhibiting exon 9 inclusion and resulting in exon 10 inclusion and production of the PKM M2 isoform",
+      "diseaseList": ["Burkitt lymphoma"]
+    },
+    "analysisDate": "2024-11-29T01:09:40.266776",
+    "username": "a"
+  },
+  {
+    "proteinName": "BRCA1",
+    "teamNames": [
+      "hi",
+      "hello"
+    ],
+    "analysisData": {
+      "acronyms": [
+        "BC",
+        "BROVCA1",
+        "OC",
+        "PNCA4",
+        "FANCS"
+      ],
+      "locations": {
+        "Noonan syndrome-like disorder with loose anagen hair 2": [
+          "Nucleus",
+          "nucleoplasm",
+          "nucleolus",
+          "Cytoplasm"
+        ],
+        "Pulmonary fibrosis, and/or bone marrow failure syndrome, telomere-related, 5": [
+          "Nucleus",
+          "nucleoplasm"
+        ],
+        "Fanconi anemia complementation group J": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Mesothelioma, malignant": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Neurodevelopmental disorder with cerebellar atrophy and with or without seizures": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Seckel syndrome 2": [
+          "Nucleus",
+          "Chromosome"
+        ],
+        "Fanconi anemia complementation group N": ["Nucleus"],
+        "Multiple myeloma": [
+          "Nucleus",
+          "Nucleus membrane",
+          "Cytoplasm"
+        ],
+        "Ovarian cancer": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Acetyl-CoA carboxylase-alpha deficiency": [
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Fanconi anemia, complementation group S": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Unknown Disease": [
+          "Nucleus",
+          "centromere",
+          "kinetochore",
+          "Chromosome",
+          "Nucleus membrane",
+          "Cytoplasm"
+        ],
+        "Leukodystrophy, hypomyelinating, 4": ["Mitochondrion matrix"],
+        "Melanoma, uveal, 2": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Estrogen resistance": [
+          "Nucleus",
+          "Cell membrane",
+          "Cytoplasm",
+          "Golgi apparatus"
+        ],
+        "Breast-ovarian cancer, familial, 1": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Pancreatic cancer 3": ["Nucleus"],
+        "Breast-ovarian cancer, familial, 5": ["Nucleus"],
+        "Pancreatic cancer 4": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Kury-Isidor syndrome": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Non-syndromic orofacial cleft 10": [
+          "Nucleus speckle",
+          "Nucleus",
+          "Cell membrane",
+          "Nucleus membrane",
+          "PML body",
+          "Cytoplasm"
+        ],
+        "Rigidity and multifocal seizure syndrome, lethal neonatal": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Oocyte/zygote/embryo maturation arrest 21": [
+          "Nucleus",
+          "microtubule organizing center",
+          "cytoskeleton",
+          "Chromosome",
+          "centrosome",
+          "Cytoplasm"
+        ],
+        "Huntington disease": [
+          "Nucleus",
+          "Early endosome",
+          "autophagosome",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Tumor predisposition syndrome 1": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Breast cancer": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Jawad syndrome": [
+          "Nucleus",
+          "Chromosome"
+        ],
+        "Ovarian dysgenesis 8": ["Nucleus"],
+        "Lopes-Maciel-Rodan syndrome": [
+          "Nucleus",
+          "Early endosome",
+          "autophagosome",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Spastic paraplegia 13, autosomal dominant": ["Mitochondrion matrix"]
+      },
+      "proteinDescription": "E3 ubiquitin-protein ligase that specifically mediates the formation of 'Lys-6'-linked polyubiquitin chains and plays a central role in DNA repair by facilitating cellular responses to DNA damage . It is unclear whether it also mediates the formation of other types of polyubiquitin chains . The BRCA1-BARD1 heterodimer coordinates a diverse range of cellular pathways such as DNA damage repair, ubiquitination and transcriptional regulation to maintain genomic stability . Regulates centrosomal microtubule nucleation . Required for appropriate cell cycle arrests after ionizing irradiation in both the S-phase and the G2 phase of the cell cycle . Required for FANCD2 targeting to sites of DNA damage . Inhibits lipid synthesis by binding to inactive phosphorylated ACACA and preventing its dephosphorylation . Contributes to homologous recombination repair via its direct interaction with PALB2, fine-tunes recombinational repair partly through its modulatory role in the PALB2-dependent loading of BRCA2-RAD51 repair machinery at DNA breaks . Component of the BRCA1-RBBP8 complex which regulates CHEK1 activation and controls cell cycle G2/M checkpoints on DNA damage via BRCA1-mediated ubiquitination of RBBP8 . Acts as a transcriptional activator",
+      "diseaseList": [
+        "Breast cancer",
+        "Breast-ovarian cancer, familial, 1",
+        "Ovarian cancer",
+        "Pancreatic cancer 4",
+        "Fanconi anemia, complementation group S"
+      ]
+    },
+    "analysisDate": "2024-11-29T01:11:13.128135",
+    "username": "a"
+  },
+  {
+    "proteinName": "BRCA1",
+    "teamNames": [
+      "hi",
+      "hello"
+    ],
+    "analysisData": {
+      "locations": {
+        "Noonan syndrome-like disorder with loose anagen hair 2": [
+          "Nucleus",
+          "nucleoplasm",
+          "nucleolus",
+          "Cytoplasm"
+        ],
+        "Pulmonary fibrosis, and/or bone marrow failure syndrome, telomere-related, 5": [
+          "Nucleus",
+          "nucleoplasm"
+        ],
+        "Fanconi anemia complementation group J": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Mesothelioma, malignant": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Neurodevelopmental disorder with cerebellar atrophy and with or without seizures": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Seckel syndrome 2": [
+          "Nucleus",
+          "Chromosome"
+        ],
+        "Fanconi anemia complementation group N": ["Nucleus"],
+        "Multiple myeloma": [
+          "Nucleus",
+          "Nucleus membrane",
+          "Cytoplasm"
+        ],
+        "Ovarian cancer": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Acetyl-CoA carboxylase-alpha deficiency": [
+          "cytosol",
+          "Cytoplasm"
+        ],
+        "Fanconi anemia, complementation group S": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Unknown Disease": [
+          "Nucleus",
+          "centromere",
+          "kinetochore",
+          "Chromosome",
+          "Nucleus membrane",
+          "Cytoplasm"
+        ],
+        "Leukodystrophy, hypomyelinating, 4": ["Mitochondrion matrix"],
+        "Melanoma, uveal, 2": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Estrogen resistance": [
+          "Nucleus",
+          "Cell membrane",
+          "Cytoplasm",
+          "Golgi apparatus"
+        ],
+        "Breast-ovarian cancer, familial, 1": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Pancreatic cancer 3": ["Nucleus"],
+        "Breast-ovarian cancer, familial, 5": ["Nucleus"],
+        "Pancreatic cancer 4": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Kury-Isidor syndrome": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Non-syndromic orofacial cleft 10": [
+          "Nucleus speckle",
+          "Nucleus",
+          "Cell membrane",
+          "Nucleus membrane",
+          "PML body",
+          "Cytoplasm"
+        ],
+        "Rigidity and multifocal seizure syndrome, lethal neonatal": [
+          "Nucleus",
+          "Cytoplasm"
+        ],
+        "Oocyte/zygote/embryo maturation arrest 21": [
+          "Nucleus",
+          "microtubule organizing center",
+          "cytoskeleton",
+          "Chromosome",
+          "centrosome",
+          "Cytoplasm"
+        ],
+        "Huntington disease": [
+          "Nucleus",
+          "Early endosome",
+          "autophagosome",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Tumor predisposition syndrome 1": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Breast cancer": [
+          "Nucleus",
+          "Chromosome",
+          "Cytoplasm"
+        ],
+        "Jawad syndrome": [
+          "Nucleus",
+          "Chromosome"
+        ],
+        "Ovarian dysgenesis 8": ["Nucleus"],
+        "Lopes-Maciel-Rodan syndrome": [
+          "Nucleus",
+          "Early endosome",
+          "autophagosome",
+          "Cytoplasm",
+          "Cytoplasmic vesicle"
+        ],
+        "Spastic paraplegia 13, autosomal dominant": ["Mitochondrion matrix"]
+      },
+      "acronyms": [
+        "BC",
+        "BROVCA1",
+        "OC",
+        "PNCA4",
+        "FANCS"
+      ],
+      "proteinDescription": "E3 ubiquitin-protein ligase that specifically mediates the formation of 'Lys-6'-linked polyubiquitin chains and plays a central role in DNA repair by facilitating cellular responses to DNA damage . It is unclear whether it also mediates the formation of other types of polyubiquitin chains . The BRCA1-BARD1 heterodimer coordinates a diverse range of cellular pathways such as DNA damage repair, ubiquitination and transcriptional regulation to maintain genomic stability . Regulates centrosomal microtubule nucleation . Required for appropriate cell cycle arrests after ionizing irradiation in both the S-phase and the G2 phase of the cell cycle . Required for FANCD2 targeting to sites of DNA damage . Inhibits lipid synthesis by binding to inactive phosphorylated ACACA and preventing its dephosphorylation . Contributes to homologous recombination repair via its direct interaction with PALB2, fine-tunes recombinational repair partly through its modulatory role in the PALB2-dependent loading of BRCA2-RAD51 repair machinery at DNA breaks . Component of the BRCA1-RBBP8 complex which regulates CHEK1 activation and controls cell cycle G2/M checkpoints on DNA damage via BRCA1-mediated ubiquitination of RBBP8 . Acts as a transcriptional activator",
+      "diseaseList": [
+        "Breast cancer",
+        "Breast-ovarian cancer, familial, 1",
+        "Ovarian cancer",
+        "Pancreatic cancer 4",
+        "Fanconi anemia, complementation group S"
+      ]
+    },
+    "analysisDate": "2024-11-29T01:13:41.467774",
     "username": "a"
   }
 ]
