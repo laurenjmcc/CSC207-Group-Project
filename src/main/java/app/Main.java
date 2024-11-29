@@ -20,6 +20,7 @@ public class Main {
                                             .addAnalyzeView()
                                             .addPastResultsView()
                                             .addCreateTeamView()
+                                            .addStructureView()
                                             .addLoginUseCase()
                                             .addLogoutUseCase()
                                             .addChangePasswordUseCase()

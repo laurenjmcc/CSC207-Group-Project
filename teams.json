@@ -1,0 +1,13 @@
+[
+  {
+    "teamName": "hi",
+    "memberUsernames": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "teamName": "hello",
+    "memberUsernames": ["a"]
+  }
+]
