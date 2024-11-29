@@ -209,6 +209,16 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        final JButton structureButton = new JButton("Structure");
+        buttons.add(structureButton);
+
+        structureButton.addActionListener(evt -> {
+            if (evt.getSource().equals(structureButton)) {
+                analyzeController.setViewManagerModel(viewManagerModel);
+                analyzeController.switchToStructureView();
+            }
+        });
+
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
@@ -219,6 +229,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(proteinInfo);
 
         this.add(buttons);
+
+
 
 
     }

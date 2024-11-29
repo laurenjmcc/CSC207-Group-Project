@@ -28,6 +28,7 @@ import interface_adapter.past_result.PastResultViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.structure.StructureViewModel;
 import interface_adapter.team.CreateTeamController;
 import interface_adapter.team.CreateTeamPresenter;
 import use_case.analyze.AnalyzeInputBoundary;
@@ -98,8 +99,12 @@ public class AppBuilder {
     private PastResultViewModel pastResultViewModel;
     private PastResultView pastResultsView;
 
+
     private AnalyzeView analyzeView;
     private AnalyzeViewModel analyzeViewModel;
+
+    private StructureView structureView;
+    private StructureViewModel structureViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -174,6 +179,18 @@ public class AppBuilder {
         cardPanel.add(analyzeView, analyzeView.getViewName());
         return this;
     }
+
+    // CODE SMELLS BEGIN - WARNING!! This is incomplete
+    public AppBuilder addStructureView() {
+        structureViewModel = new StructureViewModel();
+
+        structureView = new StructureView(structureViewModel);
+
+        cardPanel.add(structureView, structureView.getViewName());
+        return this;
+    }
+
+    // CODE SMELLS END
     public AppBuilder addPastResultsView() {
         pastResultViewModel = new PastResultViewModel();
         pastResultsView = new PastResultView(pastResultViewModel);
