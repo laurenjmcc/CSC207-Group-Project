@@ -80,8 +80,17 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         disease.addActionListener(e -> {
             ArrayList<String> protein_disease = analyzeViewModel.getState().getDisease();
             if (protein_disease != null && !protein_disease.isEmpty()) {
+                // Display the current disease
                 disease_string.setText(protein_disease.get(currentIndex[0]));
-                currentIndex[0] = (currentIndex[0] + 1) % protein_disease.size();
+                currentIndex[0]++;
+                if (currentIndex[0] >= protein_disease.size()) {
+                    currentIndex[0] = 0; // Reset the index
+                    StringBuilder diseasesList = new StringBuilder("Diseases associated with this protein:\n");
+                    for (String disease : protein_disease) {
+                        diseasesList.append("- ").append(disease).append("\n");
+                    }
+                    JOptionPane.showMessageDialog(this, diseasesList.toString(), "Disease List", JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 disease_string.setText("No disease information available. Run analyze first.");
             }
