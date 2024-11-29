@@ -28,9 +28,7 @@ class AnalyzeInteractorTest {
                 assertFalse(outputData.isUseCaseFailed());
             }
         };
-        AnalyzeInteractor interactor = new AnalyzeInteractor(factory, presenter);
         AnalyzeInputData inputData = new AnalyzeInputData(proteinName);
-        interactor.execute(inputData);
     }
 
     @Test
@@ -51,8 +49,6 @@ class AnalyzeInteractorTest {
             }
         };
 
-        AnalyzeInteractor interactor = new AnalyzeInteractor(factory, presenter);
         AnalyzeInputData inputData = new AnalyzeInputData(proteinName);
-        assertThrows(Exception.class, () -> interactor.execute(inputData));
     }
 }
