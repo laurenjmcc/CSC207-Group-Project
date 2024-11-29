@@ -33,30 +33,46 @@ public class CreateTeamView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Create New Team");
+        titleLabel.setFont(new Font("Arial",Font.BOLD, 20));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(Box.createVerticalStrut(30));
         this.add(titleLabel);
 
-        teamNameField = new JTextField(20);
-        membersField = new JTextField(20);
 
-        this.add(new JLabel("Team Name:"));
-        this.add(teamNameField);
+        JPanel teamNamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        teamNamePanel.add(new JLabel("Team Name:"));
+        teamNamePanel.setFont(new Font("Arial", Font.PLAIN, 20));
+        teamNameField = new JTextField(30);
+        teamNameField.setPreferredSize(new Dimension(300, 50));
+        teamNamePanel.add(teamNameField);
+        this.add(Box.createVerticalStrut(80));
+        this.add(teamNamePanel);
 
-        this.add(new JLabel("Team Members (comma-separated usernames):"));
-        this.add(membersField);
+
+        JPanel membersPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        membersPanel.add(new JLabel("Team Members:"));
+        membersPanel.setFont(new Font("Arial", Font.PLAIN, 20));
+        membersField = new JTextField(30);
+        membersField.setPreferredSize(new Dimension(300, 50));
+        membersPanel.add(membersField);
+        this.add(Box.createVerticalStrut(10));
+        this.add(membersPanel);
 
         messageLabel = new JLabel();
         messageLabel.setForeground(Color.RED);
         this.add(messageLabel);
 
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         createButton = new JButton("Create Team");
+        createButton.setFont(new Font("Arial", Font.PLAIN, 18));
         cancelButton = new JButton("Back");
-
+        cancelButton.setFont(new Font("Arial", Font.PLAIN, 18));
         buttonPanel.add(createButton);
         buttonPanel.add(cancelButton);
-
+        this.add(Box.createVerticalStrut(10));
         this.add(buttonPanel);
+
+
 
         createButton.addActionListener(e -> {
             String teamName = teamNameField.getText().trim();
