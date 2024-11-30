@@ -17,7 +17,4 @@ public class LogoutOutputData {
         return this.username;
     }
 
-    public boolean isUseCaseFailed() {
-        return this.useCaseFailed;
-    }
 }

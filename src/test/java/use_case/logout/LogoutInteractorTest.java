@@ -40,5 +40,15 @@ class LogoutInteractorTest {
         // check that the user was logged out
         assertNull(userRepository.getCurrentUsername());
     }
+    @Test
+    void getUsernameTest() {
+        LogoutInputData inputData = new LogoutInputData("Paul");
+        InMemoryUserDataAccessObject userRepository = new InMemoryUserDataAccessObject();
+        UserFactory factory = new CommonUserFactory();
+        User user = factory.create("Paul", "password");
+        userRepository.save(user);
+        userRepository.setCurrentUsername("Paul");
+        assertEquals("Paul", inputData.getUsername());
 
-}
+        }
+    }
