@@ -192,7 +192,6 @@ public class AppBuilder {
     }
 
 
-    // CODE SMELLS BEGIN - WARNING!! This is incomplete
     public AppBuilder addStructureView() {
         structureViewModel = new StructureViewModel();
         structureView = new StructureView(structureViewModel);
@@ -206,7 +205,7 @@ public class AppBuilder {
         return this;
     }
 
-    // CODE SMELLS END
+
 
   
     public AppBuilder addPastResultsView() {
