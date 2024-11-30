@@ -21,7 +21,4 @@ public class CreateTeamInputData {
         return memberUsernames;
     }
 
-    public String getCreatorUsername() {
-        return creatorUsername;
-    }
 }

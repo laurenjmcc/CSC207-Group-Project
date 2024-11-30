@@ -21,7 +21,4 @@ public class ResultOutputData {
         return useCaseFailed;
     }
 
-    public void setAnalysisResults(List<AnalysisResult> analysisResults) {
-        this.analysisResults = analysisResults;
-    }
 }
