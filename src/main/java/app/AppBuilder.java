@@ -28,6 +28,8 @@ import interface_adapter.past_result.PastResultViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.structure.StructureController;
+import interface_adapter.structure.StructurePresenter;
 import interface_adapter.structure.StructureViewModel;
 import interface_adapter.team.CreateTeamController;
 import interface_adapter.team.CreateTeamPresenter;
@@ -53,6 +55,9 @@ import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.structure.StructureInputBoundary;
+import use_case.structure.StructureOutputBoundary;
+import use_case.structure.StructureUseCaseInteractor;
 import use_case.team.CreateTeamInputBoundary;
 import use_case.team.CreateTeamInteractor;
 import use_case.team.CreateTeamOutputBoundary;
@@ -306,6 +311,18 @@ public class AppBuilder {
         createTeamView.setController(createTeamController);
         return this;
     }
+
+    public AppBuilder addStructureUseCase() {
+        final StructureOutputBoundary structureOutputBoundary = new StructurePresenter();
+
+        final StructureInputBoundary structureInteractor = new StructureUseCaseInteractor(structureOutputBoundary);
+
+        final StructureController structureController = new StructureController(structureInteractor);
+        structureView.setController(structureController);
+
+        return this;
+    }
+
 
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.

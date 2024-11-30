@@ -27,6 +27,7 @@ public class Main {
                                             .addAnalyzeUseCase()
                                             .addPastResultsUseCase()
                                             .addCreateTeamUseCase()
+                                            .addStructureUseCase()
                                             .build();
         application.setSize(1440,600);
         application.setVisible(true);
