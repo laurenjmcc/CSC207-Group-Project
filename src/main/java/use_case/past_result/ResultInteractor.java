@@ -40,7 +40,12 @@ public class ResultInteractor implements ResultInputBoundary {
 
         List<AnalysisResult> results = analysisResultDataAccess.getResultsForUsers(allUsernames);
 
-        ResultOutputData resultOutputData = new ResultOutputData(results, false);
-        userPresenter.prepareSuccessView(resultOutputData);
+        if (results.isEmpty()) {
+            ResultOutputData resultOutputData = new ResultOutputData(Collections.emptyList(), true);
+            userPresenter.prepareFailView("No results found for user: " + currentUsername);
+        } else {
+            ResultOutputData resultOutputData = new ResultOutputData(results, false);
+            userPresenter.prepareSuccessView(resultOutputData);
+        }
     }
 }
