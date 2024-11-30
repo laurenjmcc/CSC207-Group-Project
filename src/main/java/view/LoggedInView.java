@@ -92,7 +92,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
 
         JPanel proteinPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        final JLabel proteinLabel = new JLabel("Protein Sequence:");
+        final JLabel proteinLabel = new JLabel("Protein Name:");
         proteinLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         proteinInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         proteinPanel.add(proteinLabel);
@@ -107,6 +107,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         logOut = new JButton("Log Out");
         logOut.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(logOut);
+
+        JButton changePassword = new JButton("Change Password");
+        changePassword.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttons.add(changePassword);
 
         JButton pastResultButton = new JButton("Past Result");
         pastResultButton.setFont(new Font("Arial", Font.PLAIN, 18));
