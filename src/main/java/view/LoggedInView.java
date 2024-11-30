@@ -23,6 +23,7 @@ import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.past_result.PastResultController;
+import interface_adapter.signup.SignupViewModel;
 
 
 /**
@@ -51,7 +52,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final JButton analyze;
 
     private final JTextField passwordInputField = new JTextField(15);
-    private final JButton changePassword;
     private PastResultController pastResultController;
     private boolean hasAnalyzed = false; // Track if analysis has occurred
     private String analyzedProtein = ""; // Store the analyzed protein
@@ -60,34 +60,49 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("Logged In Screen");
+
+        this.setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+
+        final JLabel title = new JLabel("Logged-In Screen");
         title.setFont(new Font("Arial", Font.BOLD, 20));
+        title.setOpaque(true);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(Box.createVerticalStrut(30));
+        this.add(title);
+
 
         JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         final JLabel usernameInfo = new JLabel("Currently logged in: ");
         usernameInfo.setFont(new Font("Arial", Font.BOLD, 20));
+        usernameInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         username = new JLabel();
         username.setFont(new Font("Arial", Font.PLAIN, 15));
         usernamePanel.add(usernameInfo);
         usernamePanel.add(username);
+        this.add( usernameInfo.add(Box.createVerticalStrut(20)));
+        this.add(usernameInfo);
+        this.add(usernamePanel);
 
-        JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        final JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordInputField);
+
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
 
         JPanel proteinPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        final JLabel proteinLabel = new JLabel("Protein:");
+        final JLabel proteinLabel = new JLabel("Protein Sequence:");
         proteinLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         proteinInputField.setFont(new Font("Arial", Font.PLAIN, 15));
         proteinPanel.add(proteinLabel);
         proteinPanel.add(proteinInputField);
+        inputPanel.add(proteinPanel);
+
+        this.add(inputPanel, BorderLayout.CENTER);
 
 
-        final JPanel buttons = new JPanel();
+        final JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         logOut = new JButton("Log Out");
         logOut.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -97,32 +112,22 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         pastResultButton.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(pastResultButton);
 
-        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         analyze = new JButton("Analyze");
         analyze.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(analyze);
 
-        changePassword = new JButton("Change Password");
-        changePassword.setFont(new Font("Arial", Font.PLAIN, 18));
-        buttons.add(changePassword);
+
 
         final JButton createTeamButton = new JButton("Create Team");
         createTeamButton.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(createTeamButton);
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(Box.createVerticalStrut(30));
-        this.add(title);
-        this.add(Box.createVerticalStrut(20));
-        this.add(usernamePanel);
-        this.add(passwordPanel);
-        this.add(proteinPanel);
-        this.add(Box.createVerticalStrut(10));
-        this.add(buttons);
-        this.add(Box.createVerticalStrut(10));
+        final JButton structureButton = new JButton("Structure");
+        structureButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttons.add(structureButton);
 
+        this.add(buttons, BorderLayout.SOUTH);
         pastResultButton.addActionListener(evt -> handlePastResultAction());
-
 
 
         createTeamButton.addActionListener(evt -> {
@@ -162,19 +167,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             }
         });
 
-        changePassword.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                evt -> {
-                    if (evt.getSource().equals(changePassword)) {
-                        final LoggedInState currentState = loggedInViewModel.getState();
 
-                        this.changePasswordController.execute(
-                                currentState.getUsername(),
-                                currentState.getPassword()
-                        );
-                    }
-                }
-        );
 
         logOut.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -241,8 +234,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         );
 
 
-        final JButton structureButton = new JButton("Structure");
-        buttons.add(structureButton);
+
+
 
         structureButton.addActionListener(evt -> {
             if (evt.getSource().equals(structureButton)) {
@@ -251,15 +244,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             }
         });
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(username);
 
 //        this.add(passwordInfo);
         this.add(passwordErrorField);
-
 //        this.add(proteinInfo);
-
         this.add(buttons);
 
 

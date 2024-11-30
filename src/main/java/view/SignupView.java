@@ -36,7 +36,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setOpaque(true); // Set background color to off-white beige
+        title.setOpaque(true);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel usernamePanel = new JPanel();

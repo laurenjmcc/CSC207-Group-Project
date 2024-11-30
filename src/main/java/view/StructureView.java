@@ -1,13 +1,12 @@
 package view;
 
-import interface_adapter.change_password.LoggedInState;
 import interface_adapter.structure.StructureController;
-import interface_adapter.structure.StructurePresenter;
 import interface_adapter.structure.StructureState;
 import interface_adapter.structure.StructureViewModel;
+import interface_adapter.ViewManagerModel;
 
 import javax.swing.*;
-import javax.swing.text.View;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -17,39 +16,53 @@ public class StructureView extends JPanel implements PropertyChangeListener, Act
 
     private final String viewName = "structure";
     private final StructureViewModel structureViewModel;
+    private ViewManagerModel viewManagerModel; // Add reference to ViewManagerModel
 
     private JLabel structureLabel;
 
     private StructureController structureController;
-    private StructurePresenter structurePresenter;
 
     public StructureView(StructureViewModel structureViewModel) {
-
         this.structureViewModel = structureViewModel;
         this.structureViewModel.addPropertyChangeListener(this);
 
-        JPanel innerContentPanel = new JPanel();
-        innerContentPanel.setLayout(new BoxLayout(innerContentPanel, BoxLayout.X_AXIS));
+        final JLabel title = new JLabel("Structure Screen");
+        title.setFont(new Font("Arial", Font.BOLD, 20));
+        title.setOpaque(true);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(Box.createVerticalStrut(30));
+        this.add(title);
 
-        JLabel label1 = new JLabel("PDB ID: ");
-        JTextArea  pdbIdText= new JTextArea();
-        innerContentPanel.add(label1);
-        innerContentPanel.add(pdbIdText);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel label1= new JPanel(new FlowLayout(FlowLayout.CENTER));
+        label1.add(new JLabel("PDB ID: "));
+        label1.setFont(new Font("Arial", Font.BOLD, 24));
+        JTextField pdbIdText = new JTextField(15);
+        pdbIdText.setPreferredSize(new Dimension(75, 25));
+        label1.add(pdbIdText);
+        this.add(Box.createVerticalStrut(80));
+        this.add(label1);
 
-        JPanel outerContentPanel = new JPanel();
-        outerContentPanel.setLayout(new BoxLayout(outerContentPanel, BoxLayout.Y_AXIS));
-        outerContentPanel.add(innerContentPanel);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         JButton buttonToViewStructure = new JButton("View Structure");
-        outerContentPanel.add(buttonToViewStructure);
+        buttonToViewStructure.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttonPanel.add(buttonToViewStructure);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttonPanel.add(backButton);
+
+        this.add(buttonPanel);
 
 
-        this.add(outerContentPanel);
+
+        backButton.addActionListener(e -> handleBackButton());
 
         buttonToViewStructure.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(buttonToViewStructure)) {
-
                         StructureState structureState = structureViewModel.getState();
                         structureState.setPdbID(pdbIdText.getText());
                         String rawDataPdbID = structureState.getPdbID();
@@ -58,11 +71,19 @@ public class StructureView extends JPanel implements PropertyChangeListener, Act
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-
                     }
                 }
         );
     }
+
+    /**
+     * Handles the back button click event to navigate back to the Logged In View.
+     */
+    private void handleBackButton() {
+            viewManagerModel.setState("logged in");
+            viewManagerModel.firePropertyChanged();
+    }
+
     /**
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
@@ -71,22 +92,31 @@ public class StructureView extends JPanel implements PropertyChangeListener, Act
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final StructureState state = (StructureState) evt.getNewValue();
-            structureLabel.setText(state.toString());
-
+            if (structureLabel != null) {
+                structureLabel.setText(state.toString());
+            }
         }
-
     }
-    public String getViewName() {return viewName;}
+
+    public String getViewName() {
+        return viewName;
+    }
 
     /**
      * @param evt the event to be processed
      */
     @Override
-    public void actionPerformed(ActionEvent evt) {System.out.println("Click " + evt.getActionCommand());
-
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
     }
 
     public void setController(StructureController structureController) {
         this.structureController = structureController;
     }
+
+    // Setter for ViewManagerModel to allow navigation control
+    public void setViewManagerModel(ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
+    }
 }
+

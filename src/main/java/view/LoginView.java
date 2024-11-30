@@ -22,6 +22,7 @@ public class LoginView extends JPanel implements ActionListener {
     private final JButton cancel;
     private LoginController loginController;
     private final LoginViewModel loginViewModel;
+    private final JButton changePassword;
 
     public LoginView(LoginViewModel loginViewModel) {
         this.loginViewModel = loginViewModel;
@@ -59,11 +60,16 @@ public class LoginView extends JPanel implements ActionListener {
         createAccount.setFont(new Font("Arial", Font.PLAIN, 18));
         cancel = new JButton("Cancel");
         cancel.setFont(new Font("Arial", Font.PLAIN, 18));
+        changePassword = new JButton("Change Password");
+        changePassword.setFont(new Font("Arial", Font.PLAIN, 18));
+
 
         JPanel buttons = new JPanel();
         buttons.add(logIn);
         buttons.add(createAccount);
+        buttons.add(changePassword);
         buttons.add(cancel);
+
 
         // Set Layout
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

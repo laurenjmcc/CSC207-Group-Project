@@ -33,7 +33,7 @@ public class LoginController {
         if (!userDataAccess.existsByName(username)) {
             // Show an error message if the user does not exist
             JOptionPane.showMessageDialog(null,
-                    "No account found for the username '" + username + "'. Please create an account first.",
+                    "No account found for the username '" + (username) + "'. Please create an account first.",
                     "Login Error",
                     JOptionPane.ERROR_MESSAGE);
             return; // Exit the method to prevent further execution
