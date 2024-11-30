@@ -48,7 +48,18 @@ public class StructureView extends JPanel implements PropertyChangeListener, Act
 
         buttonToViewStructure.addActionListener(
                 evt -> {
-                    structureController.execute();
+                    if (evt.getSource().equals(buttonToViewStructure)) {
+
+                        StructureState structureState = structureViewModel.getState();
+                        structureState.setPdbID(pdbIdText.getText());
+                        String rawDataPdbID = structureState.getPdbID();
+                        try {
+                            structureController.execute(rawDataPdbID);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
                 }
         );
     }
@@ -73,5 +84,9 @@ public class StructureView extends JPanel implements PropertyChangeListener, Act
     @Override
     public void actionPerformed(ActionEvent evt) {System.out.println("Click " + evt.getActionCommand());
 
+    }
+
+    public void setController(StructureController structureController) {
+        this.structureController = structureController;
     }
 }

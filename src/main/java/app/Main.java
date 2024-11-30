@@ -26,6 +26,7 @@ public class Main {
                                             .addAnalyzeUseCase()
                                             .addPastResultsUseCase()
                                             .addCreateTeamUseCase()
+                                            .addStructureUseCase()
                                             .build();
         application.pack();
         application.setVisible(true);

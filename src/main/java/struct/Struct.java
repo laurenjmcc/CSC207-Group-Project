@@ -12,6 +12,7 @@ public class Struct {
 //        System.out.println(StructureTools.getNrAtoms(structure));
 //    }
 
+
     public static void main(String[] args) throws Exception {
         Structure struc = StructureIO.getStructure("2MW4");
 
