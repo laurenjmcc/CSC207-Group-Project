@@ -12,4 +12,6 @@ class LabelTextPanel extends JPanel {
         this.add(label);
         this.add(textField);
     }
+
+
 }

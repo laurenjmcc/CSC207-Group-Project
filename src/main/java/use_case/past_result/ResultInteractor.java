@@ -1,30 +1,48 @@
 package use_case.past_result;
 
-import data_access.DiseaseDataAccessFactory;
-import data_access.DiseaseDataAccessObject;
+import entity.AnalysisResult;
+import entity.Team;
+import entity.User;
+import use_case.login.LoginUserDataAccessInterface;
+import use_case.team.TeamDataAccessInterface;
 
-import java.util.ArrayList;
+import java.util.*;
 
-/**
- * The Change Password Interactor.
- */
 public class ResultInteractor implements ResultInputBoundary {
-    private final DiseaseDataAccessFactory factory;
     private final ResultOutputBoundary userPresenter;
+    private final AnalysisResultDataAccessInterface analysisResultDataAccess;
+    private final LoginUserDataAccessInterface userDataAccess;
+    private final TeamDataAccessInterface teamDataAccess;
 
-    public ResultInteractor(DiseaseDataAccessFactory factory, ResultOutputBoundary resultOutputBoundary) {
-        this.factory = factory;
+    public ResultInteractor(ResultOutputBoundary resultOutputBoundary,
+                            AnalysisResultDataAccessInterface analysisResultDataAccess,
+                            LoginUserDataAccessInterface userDataAccess,
+                            TeamDataAccessInterface teamDataAccess) {
         this.userPresenter = resultOutputBoundary;
+        this.analysisResultDataAccess = analysisResultDataAccess;
+        this.userDataAccess = userDataAccess;
+        this.teamDataAccess = teamDataAccess;
     }
 
     @Override
-    public void execute(ResultInputData resultInputData) throws Exception {
-        DiseaseDataAccessObject diseaseDataAccessObject = factory.create(resultInputData.getProtein_name());
-        String proteinName = resultInputData.getProtein_name();
-        System.out.println("Interactor: Fetching diseases for protein: " + resultInputData.getProtein_name());
-        ArrayList<String> disease = diseaseDataAccessObject.DiseaseInfo();
-        System.out.println("Interactor: Diseases fetched: " + disease);
-        final ResultOutputData resultOutputData = new ResultOutputData(disease, proteinName, false);
+    public void execute() throws Exception {
+        String currentUsername = userDataAccess.getCurrentUsername();
+        User currentUser = userDataAccess.get(currentUsername);
+
+        Set<String> teamNames = currentUser.getTeamNames();
+        Set<String> allUsernames = new HashSet<>();
+        allUsernames.add(currentUsername);
+
+        // Get all team members
+        for (String teamName : teamNames) {
+            Team team = teamDataAccess.getTeam(teamName);
+            allUsernames.addAll(team.getMemberUsernames());
+        }
+
+        List<AnalysisResult> results = analysisResultDataAccess.getResultsForUsers(allUsernames);
+
+        // Prepare output data
+        ResultOutputData resultOutputData = new ResultOutputData(results, false);
         userPresenter.prepareSuccessView(resultOutputData);
     }
 }

@@ -61,10 +61,15 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
         final JPanel buttons = new JPanel();
         structure = new JButton("Structure");
+        structure.setFont(new Font("Arial", Font.PLAIN, 18));
         more_info = new JButton("More Information");
+        more_info.setFont(new Font("Arial", Font.PLAIN, 18));
         disease = new JButton("Disease");
+        disease.setFont(new Font("Arial", Font.PLAIN, 18));
         BackButton = new JButton("Back");
+        BackButton.setFont(new Font("Arial", Font.PLAIN, 18));
         JButton descriptionButton = new JButton("Description");
+        descriptionButton.setFont(new Font("Arial", Font.PLAIN, 18));
 
         descriptionButton.addActionListener(e -> {
 
@@ -75,21 +80,30 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         disease.addActionListener(e -> {
             ArrayList<String> protein_disease = analyzeViewModel.getState().getDisease();
             if (protein_disease != null && !protein_disease.isEmpty()) {
+                // Display the current disease
                 disease_string.setText(protein_disease.get(currentIndex[0]));
-                currentIndex[0] = (currentIndex[0] + 1) % protein_disease.size();
+                currentIndex[0]++;
+                if (currentIndex[0] >= protein_disease.size()) {
+                    currentIndex[0] = 0; // Reset the index
+                    StringBuilder diseasesList = new StringBuilder("Diseases associated with this protein:\n");
+                    for (String disease : protein_disease) {
+                        diseasesList.append("- ").append(disease).append("\n");
+                    }
+                    JOptionPane.showMessageDialog(this, diseasesList.toString(), "Disease List", JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 disease_string.setText("No disease information available. Run analyze first.");
             }
         });
+
         BackButton.addActionListener(e -> analyzePresenter.handleBackButton());
+
         buttons.add(structure);
         buttons.add(more_info);
         buttons.add(disease);
-        buttons.add(BackButton);
         buttons.add(descriptionButton);
+        buttons.add(BackButton);
         info_panel.add(buttons);
-
-
 
 
 //        JPanel description_panel = new JPanel();

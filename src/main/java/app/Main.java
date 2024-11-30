@@ -1,6 +1,7 @@
 package app;
 
 import javax.swing.JFrame;
+import java.awt.*;
 
 /**
  * The Main class of our application.
@@ -28,7 +29,7 @@ public class Main {
                                             .addCreateTeamUseCase()
                                             .addStructureUseCase()
                                             .build();
-        application.pack();
+        application.setSize(1440,600);
         application.setVisible(true);
     }
 }

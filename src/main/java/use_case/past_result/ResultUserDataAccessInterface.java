@@ -10,7 +10,7 @@ public interface ResultUserDataAccessInterface {
     /**
      * Updates the system to record this user's password.
      *
-     * @param protein the user whose password is to be updated
+     * the user whose password is to be updated
      * @return
      */
     ArrayList<String> DiseaseInfo() throws Exception;

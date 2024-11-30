@@ -9,7 +9,9 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.JOptionPane;
 
+import entity.PastResult;
 import interface_adapter.analyze.AnalyzeController;
 
 import interface_adapter.ViewManagerModel;
@@ -59,36 +61,69 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Logged In Screen");
+        title.setFont(new Font("Arial", Font.BOLD, 20));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Password"), passwordInputField);
-
-        final LabelTextPanel proteinInfo = new LabelTextPanel(
-                new JLabel("Protein"), proteinInputField
-        );
-
+        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         final JLabel usernameInfo = new JLabel("Currently logged in: ");
+        usernameInfo.setFont(new Font("Arial", Font.BOLD, 20));
         username = new JLabel();
+        username.setFont(new Font("Arial", Font.PLAIN, 15));
+        usernamePanel.add(usernameInfo);
+        usernamePanel.add(username);
+
+        JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        final JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        passwordInputField.setFont(new Font("Arial", Font.PLAIN, 15));
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordInputField);
+
+        JPanel proteinPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        final JLabel proteinLabel = new JLabel("Protein:");
+        proteinLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        proteinInputField.setFont(new Font("Arial", Font.PLAIN, 15));
+        proteinPanel.add(proteinLabel);
+        proteinPanel.add(proteinInputField);
+
 
         final JPanel buttons = new JPanel();
+
         logOut = new JButton("Log Out");
+        logOut.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(logOut);
 
         JButton pastResultButton = new JButton("Past Result");
+        pastResultButton.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(pastResultButton);
 
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         analyze = new JButton("Analyze");
+        analyze.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(analyze);
 
-
         changePassword = new JButton("Change Password");
+        changePassword.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(changePassword);
+
+        final JButton createTeamButton = new JButton("Create Team");
+        createTeamButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttons.add(createTeamButton);
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalStrut(30));
+        this.add(title);
+        this.add(Box.createVerticalStrut(20));
+        this.add(usernamePanel);
+        this.add(passwordPanel);
+        this.add(proteinPanel);
+        this.add(Box.createVerticalStrut(10));
+        this.add(buttons);
+        this.add(Box.createVerticalStrut(10));
 
         pastResultButton.addActionListener(evt -> handlePastResultAction());
 
-        final JButton createTeamButton = new JButton("Create Team");
-        buttons.add(createTeamButton);
+
 
         createTeamButton.addActionListener(evt -> {
             if (evt.getSource().equals(createTeamButton)) {
@@ -147,10 +182,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     if (evt.getSource().equals(logOut)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
                         logoutController.execute(currentState.getUsername());
-
-                        // TODO: execute the logout use case through the Controller
-                        // 1. get the state out of the loggedInViewModel. It contains the username.
-                        // 2. Execute the logout Controller.
                     }
                 }
         );
@@ -208,6 +239,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
+
 
         final JButton structureButton = new JButton("Structure");
         buttons.add(structureButton);
@@ -279,29 +311,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.pastResultController = pastResultController;
     }
     private void handlePastResultAction() {
-        CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
-
-        if (!hasAnalyzed) {
-            // Show "No Past Result" view
-            JPanel noResultPanel = createNoResultPanel();
-            this.getParent().add(noResultPanel, "NoResultView");
-            cardLayout.show(this.getParent(), "NoResultView");
-        } else {
-            try {
-                // Execute the Past Result use case via the controller
-                if (pastResultController != null) {
-                    pastResultController.execute(analyzedProtein);
-                    cardLayout.show(this.getParent(), "PastResultView");
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "An error occurred while fetching past results: " + ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
+        try {
+            pastResultController.execute();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "An error occurred while fetching past results: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
+        viewManagerModel.setState(PastResultView.VIEW_NAME);
+        viewManagerModel.firePropertyChanged();
     }
 
     private JPanel createNoResultPanel() {
@@ -323,5 +344,47 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         noResultPanel.add(backButton);
 
         return noResultPanel;
+    }
+    private JPanel createPastResultsPanel() {
+        JPanel pastResultsPanel = new JPanel();
+        pastResultsPanel.setLayout(new BoxLayout(pastResultsPanel, BoxLayout.Y_AXIS));
+
+        JLabel title = new JLabel("Past Results");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pastResultsPanel.add(title);
+
+        // Retrieve and display results
+        // Retrieve and display results
+        for (PastResult.PastResultEntry result : PastResult.getResults()) {
+            // Create a JTextArea for each result
+            JTextArea resultArea = new JTextArea();
+
+            // Set the content with proper formatting
+            String formattedDescription = "Protein: " + result.getProteinName() + " (" + result.getId() + ")\n" + result.getDescription();
+            resultArea.setText(formattedDescription);
+            resultArea.setLineWrap(true); // Enable word wrapping
+            resultArea.setWrapStyleWord(true); // Wrap at word boundaries
+            resultArea.setEditable(false); // Make it read-only
+            resultArea.setBackground(pastResultsPanel.getBackground()); // Match the background color of the panel
+            resultArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // Set a fixed preferred size for better alignment if needed
+            resultArea.setPreferredSize(new Dimension(400, 100)); // Adjust as necessary
+
+            // Add JTextArea directly to the panel
+            pastResultsPanel.add(resultArea);
+        }
+
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> {
+            CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
+            cardLayout.show(this.getParent(), "logged in");
+        });
+
+        pastResultsPanel.add(Box.createVerticalStrut(10)); // Add spacing
+        pastResultsPanel.add(backButton);
+
+        return pastResultsPanel;
     }
 }
