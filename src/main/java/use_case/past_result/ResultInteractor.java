@@ -33,7 +33,6 @@ public class ResultInteractor implements ResultInputBoundary {
         Set<String> allUsernames = new HashSet<>();
         allUsernames.add(currentUsername);
 
-        // Get all team members
         for (String teamName : teamNames) {
             Team team = teamDataAccess.getTeam(teamName);
             allUsernames.addAll(team.getMemberUsernames());
@@ -41,7 +40,6 @@ public class ResultInteractor implements ResultInputBoundary {
 
         List<AnalysisResult> results = analysisResultDataAccess.getResultsForUsers(allUsernames);
 
-        // Prepare output data
         ResultOutputData resultOutputData = new ResultOutputData(results, false);
         userPresenter.prepareSuccessView(resultOutputData);
     }

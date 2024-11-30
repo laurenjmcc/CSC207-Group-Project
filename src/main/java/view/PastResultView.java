@@ -26,8 +26,6 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
         this.pastResultViewModel = pastResultViewModel;
         this.pastResultViewModel.addPropertyChangeListener(this);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        // Initial UI setup
         initializeComponents();
     }
 
@@ -40,26 +38,21 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
     }
 
     private void initializeComponents() {
-        // Clear existing components
         this.removeAll();
 
-        // Header label
         JLabel headerLabel = new JLabel("Past Results");
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(headerLabel);
 
-        // Add a scroll pane to hold the results
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(scrollPane);
 
-        // Back button
         JButton backButton = new JButton("Back");
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.addActionListener(backEvt -> {
             if (pastResultController != null) {
-                // Notify the controller or switch views as needed
                 CardLayout cardLayout = (CardLayout) this.getParent().getLayout();
                 cardLayout.show(this.getParent(), "logged in");
             }
@@ -73,11 +66,9 @@ public class PastResultView extends JPanel implements PropertyChangeListener {
         if ("state".equals(evt.getPropertyName())) {
             final PastResultState state = (PastResultState) evt.getNewValue();
 
-            // Clear existing components
             this.removeAll();
             initializeComponents();
 
-            // Get the scroll pane to add results
             JScrollPane scrollPane = (JScrollPane) this.getComponent(1);
             JPanel resultsPanel = new JPanel();
             resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));

@@ -8,161 +8,98 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 test cases for the AnalysisResult class.
- */
 class AnalysisResultTest {
+
     private AnalysisResult analysisResult;
-    private String username;
-    private List<String> teamNames;
-    private String proteinName;
-    private LocalDateTime analysisDate;
-    private Map<String, Object> analysisData;
 
     @BeforeEach
     void setUp() {
-        username = "user";
-        teamNames = new ArrayList<>(Arrays.asList("Team1", "2"));
-        proteinName = "Hemoglobin";
-        analysisDate = LocalDateTime.of(2023, 10, 15, 10, 30);
-        analysisData = new HashMap<>();
-        analysisData.put("score", 95);
-        analysisData.put("details", "analysis");
-
+        // Initialize with default constructor before each test
         analysisResult = new AnalysisResult();
+    }
+
+    @Test
+    void testDefaultConstructor() {
+        assertNull(analysisResult.getUsername(), "Username should be null by default");
+        assertNull(analysisResult.getTeamNames(), "TeamNames should be null by default");
+        assertNull(analysisResult.getProteinName(), "ProteinName should be null by default");
+        assertNull(analysisResult.getAnalysisDate(), "AnalysisDate should be null by default");
+        assertNull(analysisResult.getAnalysisData(), "AnalysisData should be null by default");
+    }
+
+    @Test
+    void testParameterizedConstructor() {
+        String username = "john_doe";
+        List<String> teamNames = Arrays.asList("TeamA", "TeamB");
+        String proteinName = "Hemoglobin";
+        LocalDateTime analysisDate = LocalDateTime.now();
+        Map<String, Object> analysisData = new HashMap<>();
+        analysisData.put("key1", "value1");
+        analysisData.put("key2", 123);
+
+        AnalysisResult result = new AnalysisResult(username, teamNames, proteinName, analysisDate, analysisData);
+
+        assertEquals(username, result.getUsername(), "Username should match the provided value");
+        assertEquals(teamNames, result.getTeamNames(), "TeamNames should match the provided list");
+        assertEquals(proteinName, result.getProteinName(), "ProteinName should match the provided value");
+        assertEquals(analysisDate, result.getAnalysisDate(), "AnalysisDate should match the provided value");
+        assertEquals(analysisData, result.getAnalysisData(), "AnalysisData should match the provided map");
+    }
+
+    @Test
+    void testGetAndSetUsername() {
+        String username = "alice";
         analysisResult.setUsername(username);
+        assertEquals(username, analysisResult.getUsername(), "getUsername should return the value set by setUsername");
+    }
+
+    @Test
+    void testGetAndSetTeamNames() {
+        List<String> teamNames = Arrays.asList("Alpha", "Beta", "Gamma");
         analysisResult.setTeamNames(teamNames);
-        analysisResult.setProteinName(proteinName);
-        analysisResult.setAnalysisDate(analysisDate);
-        analysisResult.setAnalysisData(analysisData);
-    }
+        assertEquals(teamNames, analysisResult.getTeamNames(), "getTeamNames should return the value set by setTeamNames");
 
+        // Test with an empty list
+        analysisResult.setTeamNames(new ArrayList<>());
+        assertTrue(analysisResult.getTeamNames().isEmpty(), "TeamNames should be empty after setting an empty list");
 
-    @Test
-    void testGetUsernameShouldReturnCorrectUsername() {
-        assertEquals(username, analysisResult.getUsername());
-    }
-
-    @Test
-    void testSetUsernameShouldUpdateUsernameCorrectly() {
-        String newUsername = "username";
-        analysisResult.setUsername(newUsername);
-        assertEquals(newUsername, analysisResult.getUsername());
-    }
-
-    @Test
-    void testSetUsernameWithNullShouldAllowNull() {
-        analysisResult.setUsername(null);
-        assertNull(analysisResult.getUsername());
-    }
-
-    @Test
-    void testSetUsername_WithEmptyString_ShouldAllowEmptyString() {
-        String emptyUsername = "   ";
-        analysisResult.setUsername(emptyUsername);
-        assertEquals(emptyUsername, analysisResult.getUsername());
-    }
-
-    @Test
-    void testSetGetTeamNames_ShouldReturnCorrectTeamNames() {
-        assertEquals(teamNames, analysisResult.getTeamNames());
-    }
-
-    @Test
-    void testSetTeamNames_ShouldUpdateTeamNamesCorrectly() {
-        List<String> newTeamNames = new ArrayList<>(Arrays.asList("Team3", "Team4"));
-        analysisResult.setTeamNames(newTeamNames);
-        assertEquals(newTeamNames, analysisResult.getTeamNames());
-    }
-
-    @Test
-    void testSetTeamNames_WithNull_ShouldAllowNull() {
+        // Test with null
         analysisResult.setTeamNames(null);
-        assertNull(analysisResult.getTeamNames());
+        assertNull(analysisResult.getTeamNames(), "TeamNames should be null after setting null");
     }
 
     @Test
-    void testSetTeamNames_WithEmptyList_ShouldAllowEmptyList() {
-        List<String> emptyTeamNames = new ArrayList<>();
-        analysisResult.setTeamNames(emptyTeamNames);
-        assertEquals(emptyTeamNames, analysisResult.getTeamNames());
+    void testGetAndSetProteinName() {
+        String proteinName = "Myoglobin";
+        analysisResult.setProteinName(proteinName);
+        assertEquals(proteinName, analysisResult.getProteinName(), "getProteinName should return the value set by setProteinName");
     }
 
     @Test
-    void getTeamNames_ShouldReturnReferenceToInternalList() {
-        List<String> retrievedTeamNames = analysisResult.getTeamNames();
-        retrievedTeamNames.add("Team5");
-        assertTrue(analysisResult.getTeamNames().contains("Team5"));
-    }
+    void testGetAndSetAnalysisDate() {
+        LocalDateTime analysisDate = LocalDateTime.of(2023, 10, 1, 12, 30);
+        analysisResult.setAnalysisDate(analysisDate);
+        assertEquals(analysisDate, analysisResult.getAnalysisDate(), "getAnalysisDate should return the value set by setAnalysisDate");
 
-    @Test
-    void testGetProteinName_ShouldReturnCorrectProteinName() {
-        assertEquals(proteinName, analysisResult.getProteinName());
-    }
-
-    @Test
-    void testSetProteinName_ShouldUpdateProteinNameCorrectly() {
-        String newProteinName = "p53";
-        analysisResult.setProteinName(newProteinName);
-        assertEquals(newProteinName, analysisResult.getProteinName());
-    }
-
-    @Test
-    void testSetProteinName_WithNull_ShouldAllowNull() {
-        analysisResult.setProteinName(null);
-        assertNull(analysisResult.getProteinName());
-    }
-
-    @Test
-    void testSetProteinName_WithEmptyString_ShouldAllowEmptyString() {
-        String emptyProteinName = "   ";
-        analysisResult.setProteinName(emptyProteinName);
-        assertEquals(emptyProteinName, analysisResult.getProteinName());
-    }
-
-    @Test
-    void testGetAnalysisDate_ShouldReturnCorrectAnalysisDate() {
-        assertEquals(analysisDate, analysisResult.getAnalysisDate());
-    }
-
-    @Test
-    void testSetAnalysisDate_ShouldUpdateAnalysisDateCorrectly() {
-        LocalDateTime newAnalysisDate = LocalDateTime.of(2024, 1, 1, 12, 0);
-        analysisResult.setAnalysisDate(newAnalysisDate);
-        assertEquals(newAnalysisDate, analysisResult.getAnalysisDate());
-    }
-
-    @Test
-    void testSetAnalysisDate_WithNull_ShouldAllowNull() {
+        // Test with null
         analysisResult.setAnalysisDate(null);
-        assertNull(analysisResult.getAnalysisDate());
-    }
-
-
-    @Test
-    void testGetAnalysisData_ShouldReturnCorrectAnalysisData() {
-        assertEquals(analysisData, analysisResult.getAnalysisData());
+        assertNull(analysisResult.getAnalysisDate(), "AnalysisDate should be null after setting null");
     }
 
     @Test
-    void testSetAnalysisData_ShouldUpdateAnalysisDataCorrectly() {
-        Map<String, Object> newAnalysisData = new HashMap<>();
-        newAnalysisData.put("score", 88);
-        newAnalysisData.put("details", "analysis");
-        analysisResult.setAnalysisData(newAnalysisData);
-        assertEquals(newAnalysisData, analysisResult.getAnalysisData());
-    }
+    void testGetAndSetAnalysisData() {
+        Map<String, Object> analysisData = new HashMap<>();
+        analysisData.put("temperature", 37.0);
+        analysisData.put("pH", 7.4);
+        analysisResult.setAnalysisData(analysisData);
+        assertEquals(analysisData, analysisResult.getAnalysisData(), "getAnalysisData should return the value set by setAnalysisData");
 
-    @Test
-    void testSetAnalysisData_WithNull_ShouldAllowNull() {
+        // Test with an empty map
+        analysisResult.setAnalysisData(new HashMap<>());
+        assertTrue(analysisResult.getAnalysisData().isEmpty(), "AnalysisData should be empty after setting an empty map");
+
+        // Test with null
         analysisResult.setAnalysisData(null);
-        assertNull(analysisResult.getAnalysisData());
-    }
-
-    @Test
-    void testGetAnalysisData_ShouldReturnReferenceToInternalMap() {
-        Map<String, Object> retrievedAnalysisData = analysisResult.getAnalysisData();
-        retrievedAnalysisData.put("newKey", "newValue");
-        assertTrue(analysisResult.getAnalysisData().containsKey("newKey"));
+        assertNull(analysisResult.getAnalysisData(), "AnalysisData should be null after setting null");
     }
 }

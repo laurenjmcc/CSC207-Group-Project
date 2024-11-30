@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PastResult {
-
-    // Store all past results
     private static final List<PastResultEntry> results = new ArrayList<>();
 
     private final ProteinDataAccessObject protein;
@@ -16,33 +14,23 @@ public class PastResult {
     private final String id;
     private final String proteinName;
 
-    public static void main(String[] args) throws Exception {
-        PastResult pastResult = new PastResult("p53");
-        System.out.println(pastResult.getDescription());
-    }
-    // Constructor
+
     public PastResult(String proteinID) throws Exception {
         this.protein = new ProteinDataAccessObject(proteinID);
         this.description = protein.getProteinDescription();
         this.id = protein.getAccession();
         this.proteinName = protein.getProteinname();
     }
-
-    // Add a single result
     public void add() {
         results.add(new PastResultEntry(proteinName, description, id));
     }
     public String getDescription() {
-        // Format the description by adding a newline after each period
         return description.replaceAll("\\.", ".\n");
     }
-
-    // Retrieve all past results
     public static List<PastResultEntry> getResults() {
         return new ArrayList<>(results); // Return a copy for safety
     }
 
-    // Inner class to represent a single result
     public static class PastResultEntry {
         private final String proteinName;
         private final String description;
