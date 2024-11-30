@@ -8,8 +8,6 @@ import interface_adapter.ViewModel;
 public class SignupViewModel extends ViewModel<SignupState> {
 
     public static final String TITLE_LABEL = "Sign Up screen";
-    public static final String USERNAME_LABEL = "Choose username";
-    public static final String PASSWORD_LABEL = "Choose password";
 
     public static final String CANCEL_BUTTON_LABEL = "Cancel";
 

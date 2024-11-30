@@ -178,7 +178,8 @@ public class AppBuilder {
     public AppBuilder addAnalyzeView() {
         analyzeViewModel = new AnalyzeViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
-        AnalyzePresenter analyzePresenter = new AnalyzePresenter(viewManagerModel, analyzeViewModel, loggedInViewModel);
+        AnalyzePresenter analyzePresenter = new AnalyzePresenter(viewManagerModel,
+                analyzeViewModel, loggedInViewModel);
 
         // Initialize View and inject Presenter
         analyzeView = new AnalyzeView(analyzeViewModel);
@@ -194,8 +195,12 @@ public class AppBuilder {
     // CODE SMELLS BEGIN - WARNING!! This is incomplete
     public AppBuilder addStructureView() {
         structureViewModel = new StructureViewModel();
-
         structureView = new StructureView(structureViewModel);
+
+        structureView.setViewManagerModel(viewManagerModel);
+
+        StructureController structureController = new StructureController(new StructureUseCaseInteractor(new StructurePresenter()));
+        structureView.setController(structureController);
 
         cardPanel.add(structureView, structureView.getViewName());
         return this;
