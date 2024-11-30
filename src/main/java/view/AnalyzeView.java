@@ -23,7 +23,6 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
     private final JLabel disease_string;
 
-    private final JButton structure; // comes from the biojava api
     private final JButton more_info;
     private JButton BackButton = new JButton();
     private AnalyzePresenter analyzePresenter;
@@ -60,8 +59,6 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
 
         final JPanel buttons = new JPanel();
-        structure = new JButton("Structure");
-        structure.setFont(new Font("Arial", Font.PLAIN, 18));
         more_info = new JButton("More Information");
         more_info.setFont(new Font("Arial", Font.PLAIN, 18));
         disease = new JButton("Disease");
@@ -98,7 +95,6 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
 
         BackButton.addActionListener(e -> analyzePresenter.handleBackButton());
 
-        buttons.add(structure);
         buttons.add(more_info);
         buttons.add(disease);
         buttons.add(descriptionButton);
@@ -106,15 +102,6 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
         info_panel.add(buttons);
 
 
-//        JPanel description_panel = new JPanel();
-//        description_panel.setLayout(new BoxLayout(description_panel, BoxLayout.X_AXIS));
-//        description_panel.add(description);
-//        description_panel.add(protein_description_label);
-//
-//        JPanel disease_panel = new JPanel();
-//        disease_panel.setLayout(new BoxLayout(disease_panel, BoxLayout.X_AXIS));
-//        disease_panel.add(disease);
-//        disease_panel.add(protein_disease_label);
 
         this.add(info_panel);
     }
@@ -142,4 +129,5 @@ public class AnalyzeView extends JPanel implements PropertyChangeListener {
     public String getViewName() {return viewName;}
 
 }
+
 
