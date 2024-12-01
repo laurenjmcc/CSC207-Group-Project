@@ -29,7 +29,7 @@
 - You may input a protein name, and click "analyze", which will give you the option to see both a description of the protein, as well as a list of diseases pertaining to the given protein.
 - You can view your past analysis results by clicking "Past Results". Past results also shows the results for anyone in the same team as you, making for easy collaboration.
 - You may click "Structure" and input a PDB ID (a unique, four-character code that identifies each entry in the Protein Data Bank (PDB)), and generate a visual model of the given biological molecule in a pop out window.
-- The structure model has customization features, like changing the style or colour of the visual model.
+- The structure model has customization features, like changing the style or colour of the model.
 - You can see a visual representation of the user database in "user.json".
 - You can see a visual representation of the team database in "teams.json".
 - You can see a visual representation of the accumulated past results database in "analysis_result.json".
