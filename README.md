@@ -48,8 +48,8 @@
 - Now, to run the program, all you have to do is run the Main.java file!
 
 # License
-  <img width="1121" alt="Screen Shot 2024-12-01 at 3 16 44 PM" src="https://github.com/user-attachments/assets/161c32a6-00ac-41bc-a009-332d44856365">
 For complete licence, refer to the "LICENSE" text file in our repository.
+![Capture](https://github.com/user-attachments/assets/1c9588bf-8429-4708-a62f-b9a3317227ed)
 
 # Feedback
 If you have any comments, questions, or concerns about our project, please fill out the following google form:
