@@ -1,32 +1,41 @@
 package use_case.change_password;
 
 import entity.User;
-import entity.UserFactory;
+import use_case.login.LoginUserDataAccessInterface;
 
-/**
- * The Change Password Interactor.
- */
 public class ChangePasswordInteractor implements ChangePasswordInputBoundary {
-    private final ChangePasswordUserDataAccessInterface userDataAccessObject;
-    private final ChangePasswordOutputBoundary userPresenter;
-    private final UserFactory userFactory;
+    private final LoginUserDataAccessInterface userRepository;
+    private final ChangePasswordOutputBoundary presenter;
 
-    public ChangePasswordInteractor(ChangePasswordUserDataAccessInterface changePasswordDataAccessInterface,
-                                    ChangePasswordOutputBoundary changePasswordOutputBoundary,
-                                    UserFactory userFactory) {
-        this.userDataAccessObject = changePasswordDataAccessInterface;
-        this.userPresenter = changePasswordOutputBoundary;
-        this.userFactory = userFactory;
+    public ChangePasswordInteractor(LoginUserDataAccessInterface userRepository,
+                                    ChangePasswordOutputBoundary presenter) {
+        this.userRepository = userRepository;
+        this.presenter = presenter;
     }
 
     @Override
-    public void execute(ChangePasswordInputData changePasswordInputData) {
-        final User user = userFactory.create(changePasswordInputData.getUsername(),
-                                             changePasswordInputData.getPassword());
-        userDataAccessObject.changePassword(user);
+    public void execute(ChangePasswordInputData inputData) {
+        String username = userRepository.getCurrentUsername();
+        if (username == null) {
+            presenter.prepareFailView("No user is currently logged in.");
+            return;
+        }
 
-        final ChangePasswordOutputData changePasswordOutputData = new ChangePasswordOutputData(user.getName(),
-                                                                                  false);
-        userPresenter.prepareSuccessView(changePasswordOutputData);
+        User user = userRepository.get(username);
+        if (!user.getPassword().equals(inputData.getOldPassword())) {
+            presenter.prepareFailView("Incorrect old password.");
+            return;
+        }
+
+        if (!inputData.getNewPassword().equals(inputData.getConfirmPassword())) {
+            presenter.prepareFailView("New passwords do not match.");
+            return;
+        }
+
+        user.setPassword(inputData.getNewPassword());
+        userRepository.save(user);
+
+        ChangePasswordOutputData outputData = new ChangePasswordOutputData(username, false);
+        presenter.prepareSuccessView(outputData);
     }
 }

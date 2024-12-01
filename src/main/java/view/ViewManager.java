@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 
 import interface_adapter.ViewManagerModel;
+import use_case.login.LoginUserDataAccessInterface;
 
 /**
  * The View Manager for the program. It listens for property change events
@@ -21,7 +22,6 @@ public class ViewManager implements PropertyChangeListener {
         this.cardPanel = cardPanel;
         this.cardLayout = cardLayout;
         this.viewManagerModel = viewManagerModel;
-
         this.viewManagerModel.addPropertyChangeListener(this);
     }
 

@@ -20,6 +20,8 @@ public interface User {
      */
     String getPassword();
 
+    String setPassword(String password);
+
     Set<String> getTeamNames();
 
     void addTeamName(String teamName);
