@@ -9,7 +9,7 @@ import java.util.Set;
 public class CommonUser implements User {
 
     private final String name;
-    private final String password;
+    private String password;
     private Set<String> teamNames;
 
     public CommonUser(String name, String password) {
@@ -26,6 +26,11 @@ public class CommonUser implements User {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String setPassword(String newPassword) {
+        return this.password = newPassword;
     }
 
     @Override

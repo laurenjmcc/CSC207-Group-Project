@@ -37,29 +37,22 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     private ChangePasswordController changePasswordController;
     private LogoutController logoutController;
-
     private AnalyzeController analyzeController;
-
-
     private ViewManagerModel viewManagerModel;
+    private PastResultController pastResultController;
 
     private final JLabel username;
-
     private final JButton logOut;
-
     private final JTextField proteinInputField = new JTextField(15);
-
     private final JButton analyze;
-
     private final JTextField passwordInputField = new JTextField(15);
-    private PastResultController pastResultController;
+
     private boolean hasAnalyzed = false; // Track if analysis has occurred
     private String analyzedProtein = ""; // Store the analyzed protein
 
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
-
 
         this.setLayout(new BorderLayout());
 
@@ -108,9 +101,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         logOut.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(logOut);
 
-        JButton changePassword = new JButton("Change Password");
-        changePassword.setFont(new Font("Arial", Font.PLAIN, 18));
-        buttons.add(changePassword);
+        JButton changePasswordButton = new JButton("Change Password");
+        changePasswordButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttons.add(changePasswordButton);
 
         JButton pastResultButton = new JButton("Past Result");
         pastResultButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -119,8 +112,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         analyze = new JButton("Analyze");
         analyze.setFont(new Font("Arial", Font.PLAIN, 18));
         buttons.add(analyze);
-
-
 
         final JButton createTeamButton = new JButton("Create Team");
         createTeamButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -131,6 +122,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(structureButton);
 
         this.add(buttons, BorderLayout.SOUTH);
+        changePasswordButton.addActionListener(evt -> handleChangePasswordAction());
         pastResultButton.addActionListener(evt -> handlePastResultAction());
 
 
@@ -237,10 +229,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
-
-
-
-
         structureButton.addActionListener(evt -> {
             if (evt.getSource().equals(structureButton)) {
                 analyzeController.setViewManagerModel(viewManagerModel);
@@ -257,6 +245,15 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
 
 
+    }
+
+    private void handleChangePasswordAction() {
+        if (viewManagerModel != null) {
+            viewManagerModel.setState("ChangePasswordView");
+            viewManagerModel.firePropertyChanged();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: ViewManagerModel not initialized.");
+        }
     }
 
     @Override

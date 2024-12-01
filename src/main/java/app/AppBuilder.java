@@ -106,6 +106,7 @@ public class AppBuilder {
     private LoginView loginView;
     private CreateTeamView createTeamView;
     private CreateTeamViewModel createTeamViewModel;
+    private ChangePasswordView changePasswordView;
     private PastResultViewModel pastResultViewModel;
     private PastResultView pastResultsView;
 
@@ -205,7 +206,12 @@ public class AppBuilder {
         return this;
     }
 
-
+    public AppBuilder addChangePasswordView() {
+        changePasswordView = new ChangePasswordView();
+        changePasswordView.setViewManagerModel(viewManagerModel);
+        cardPanel.add(changePasswordView, "ChangePasswordView");
+        return this;
+    }
 
   
     public AppBuilder addPastResultsView() {
@@ -238,14 +244,16 @@ public class AppBuilder {
      */
     public AppBuilder addChangePasswordUseCase() {
         final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-                new ChangePasswordPresenter(loggedInViewModel);
+                new ChangePasswordPresenter();
 
         final ChangePasswordInputBoundary changePasswordInteractor =
-                new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
+                new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary);
 
         final ChangePasswordController changePasswordController =
                 new ChangePasswordController(changePasswordInteractor);
+
         loggedInView.setChangePasswordController(changePasswordController);
+        changePasswordView.setChangePasswordController(changePasswordController); // Add this line
         return this;
     }
 
@@ -338,8 +346,6 @@ public class AppBuilder {
         application.setContentPane(cardPanel);
         application.pack();
         application.setLocationRelativeTo(null); // Center on screen
-
-
 
         viewManagerModel.setState("login");
         viewManagerModel.firePropertyChanged();
