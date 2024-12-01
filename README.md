@@ -1,4 +1,6 @@
+<div align="center">
 <img width="700" alt="Screenshot 2024-11-26 at 2 38 56 PM" src="https://github.com/user-attachments/assets/085bd7af-020d-424c-8fc7-560dc84b2fca">
+</div>
 
 # Team Members and Usernames
  Haroon Shah: haroonshah2003\
