@@ -26,3 +26,8 @@
 - To confirm this was done correctly, open the external libraries, and make sure you see libraries for all dependencies in pom.xml, specifically "json", "okhttp", "junit", and "biojava"
 - Navigate to src -> main -> java -> app -> Main
 - Now, to run the program, all you have to do is run the Main.java file!
+
+  # LICENSE
+  <img width="1121" alt="Screen Shot 2024-12-01 at 3 16 44 PM" src="https://github.com/user-attachments/assets/161c32a6-00ac-41bc-a009-332d44856365">
+
+  
