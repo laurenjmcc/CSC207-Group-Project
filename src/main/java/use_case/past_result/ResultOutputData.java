@@ -17,8 +17,4 @@ public class ResultOutputData {
         return analysisResults;
     }
 
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
-    }
-
 }
