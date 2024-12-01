@@ -6,15 +6,17 @@
  Sara Elashry: saraelashry\
  Lauren McCaughey: laurenjmcc
 
+# Table of Contents
+1. [Project Summary](#project-summary)
+2. [User Stories](#user-stories)
+3. [Features of Software](#features-of-software)
+4. [APIs](#apis)
+5. [Installation Instructions](#installation-instructions)
+6. [License](#license)
+7. [Feedback](#feedback)
+
 # Project Summary
   Our project is a Java Application with a graphical user interface that allows users to input protein sequences, and interact with the Proteins API (cited below) to give you a description of the protein, and predict mutations in the given sequence. Our program allows for users to sign up and log in, as well as view past results. You can also create a team with multiple users, so that when one person on your team analyzes a protein, every user in the team can see those results. 
-
-# Table of Contents
-1. [User Stories](#user-stories)
-2. [APIs](#apis)
-3. [Installation Instructions](#installation-instructions)
-4. [License](#license)
-5. [Feedback](#feedback)
 
 # User stories:
 1. Fatima wants to create an account and use our software. First, she runs the program. Next, she clicks the “Create account” button. She will input a string username and password in the corresponding text box input places. If  the username or password already exists it will raise an error then she will be prompted to input a new username and password. Otherwise, the account will be created. Now, to use our software, she has to login with the account she created and begin. (Sara's user story) 
