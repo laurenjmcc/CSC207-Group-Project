@@ -50,7 +50,40 @@
 - Now, to run the program, all you have to do is run the Main.java file!
 
 # Usage Guide
+# Step 1: Click on the "Create account" button to take you to the sign up screen:
+<img width="1434" alt="Screen Shot 2024-12-02 at 4 11 01 PM" src="https://github.com/user-attachments/assets/aaf16cd6-9e88-4381-b6b4-a729d143f35c">
 
+# Step 2: Enter your username and password in the login screen:
+(make sure to enter the correct username and password)
+<img width="1432" alt="Screen Shot 2024-12-02 at 4 12 15 PM" src="https://github.com/user-attachments/assets/1049d6be-7b7f-489f-b34a-0ce2fe6d3b36">
+
+# Step 3: Enter your desired protein name
+
+<img width="1433" alt="Screen Shot 2024-12-02 at 4 13 52 PM" src="https://github.com/user-attachments/assets/7b182f6f-5e98-4419-90d3-25efb363338e">
+
+# Step 4: Press on "Anaylze" button to see the list of diseases and description of the protein you have entered
+
+<img width="1443" alt="Screen Shot 2024-12-02 at 4 14 53 PM" src="https://github.com/user-attachments/assets/37918075-7ae6-4631-b3d7-2aad6c0a24cd">
+
+# Step 5: To view the structure of the protein go back to the logged in screen and click on the "Structure" button:
+
+<img width="1441" alt="Screen Shot 2024-12-02 at 4 15 47 PM" src="https://github.com/user-attachments/assets/39d5101d-ee5b-4551-8285-d083ab6e5659">
+<img width="1440" alt="Screen Shot 2024-12-02 at 4 15 58 PM" src="https://github.com/user-attachments/assets/1e6943b1-0e09-4c4f-9f75-154a7f16209d">
+
+# Step 6: Once you are in the structure screen,enter the PDB ID of your desired protein to view it 
+
+<img width="1429" alt="Screen Shot 2024-12-02 at 4 16 57 PM" src="https://github.com/user-attachments/assets/410dfe12-a5b6-4556-ade5-d97844ece93d">
+<img width="1431" alt="Screen Shot 2024-12-02 at 4 17 12 PM" src="https://github.com/user-attachments/assets/c43d3c51-fa21-486a-80d4-a365928e95c6">
+
+
+# Step 7: To create a step go back to the logged in screen and click on the  "Create Team" button and Create your team:
+(make sure your team members are sepearted by commas, and have created an account or else will raise an error)
+<img width="1441" alt="Screen Shot 2024-12-02 at 4 15 47 PM" src="https://github.com/user-attachments/assets/39d5101d-ee5b-4551-8285-d083ab6e5659">
+<img width="1437" alt="Screen Shot 2024-12-02 at 4 24 41 PM" src="https://github.com/user-attachments/assets/a1193fd5-8b7d-4347-b1ad-10dd91d72945">
+
+# Step 8: To look at your or your team mates past results, simply go back to the logged in screen and click on the "Past Results" button:
+<img width="1441" alt="Screen Shot 2024-12-02 at 4 15 47 PM" src="https://github.com/user-attachments/assets/39d5101d-ee5b-4551-8285-d083ab6e5659">
+<img width="1429" alt="Screen Shot 2024-12-02 at 4 26 16 PM" src="https://github.com/user-attachments/assets/ce3f392c-f79b-4057-890e-5e6ce361ef2c">
 
 # License
 ![Capture](https://github.com/user-attachments/assets/1c9588bf-8429-4708-a62f-b9a3317227ed)
