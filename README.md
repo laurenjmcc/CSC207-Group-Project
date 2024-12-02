@@ -98,7 +98,9 @@ https://forms.gle/n477QyBT83HGPx5E9
 # Contributions
 This project is currently closed for contribution.
 However, you may still fork the repository and use our program.
-To do this, first make sure you are logged into GitHub. Next, on the ProteinVerse repository page, click the "fork" button in the top right corner. This will create your own copy of the database.
-Next, make a local copy of repository. The easiest way to do this is to click the "code" button on the top right of the repository, and copy the link. Then, create a new project on whatever Java software you are using from a VCS repository. Input the link, and create the repo.
-Now, you can use or edit our code. Please note that any pushes or merges will NOT go to the main ProteinVerse repository. They are only to go to your local repository. No new contributors will be added to this project. 
-Enjoy!
+To do this:
+- First make sure you are logged into GitHub.
+- Next, on the ProteinVerse repository page, click the "fork" button in the top right corner. This will create your own copy of the repository.
+- Next, make a local copy of repository. The easiest way to do this is to click the "code" button on the top right of the repository, and copy the link.
+- Then, create a new project on whatever Java software you are using, specifically from a VCS repository. Input the link, and create the repo. Now, you can use or edit our code. (Please note that any pushes or merges will NOT go to the main ProteinVerse repository. They are only to go to your local repository. No new contributors will be added to this project.)
+- Enjoy!
