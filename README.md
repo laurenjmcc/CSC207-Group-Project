@@ -49,6 +49,9 @@
 - Navigate to src -> main -> java -> app -> Main
 - Now, to run the program, all you have to do is run the Main.java file!
 
+# Usage Guide
+
+
 # License
 ![Capture](https://github.com/user-attachments/assets/1c9588bf-8429-4708-a62f-b9a3317227ed)
 - For complete licence, refer to the "LICENSE" text file in our repository.
@@ -56,3 +59,6 @@
 # Feedback
 If you have any comments, questions, or concerns about our project, please fill out the following google form:
 https://forms.gle/n477QyBT83HGPx5E9
+
+#Contributions
+
