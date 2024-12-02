@@ -34,6 +34,12 @@ class CommonUserTest {
     }
 
     @Test
+    void testSetPassword() {
+        user.setPassword("newPassword");
+        assertEquals("newPassword", user.getPassword());
+    }
+
+    @Test
     void testGetTeamNamesEmpty() {
         Set<String> teamNames = user.getTeamNames();
         assertTrue(teamNames.isEmpty());
