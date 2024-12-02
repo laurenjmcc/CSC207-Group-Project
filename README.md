@@ -51,7 +51,7 @@
 
 # License
 ![Capture](https://github.com/user-attachments/assets/1c9588bf-8429-4708-a62f-b9a3317227ed)
-For complete licence, refer to the "LICENSE" text file in our repository.
+- For complete licence, refer to the "LICENSE" text file in our repository.
 
 # Feedback
 If you have any comments, questions, or concerns about our project, please fill out the following google form:
