@@ -17,6 +17,7 @@
 6. [Usage Guide](#usage-guide)
 7. [License](#license)
 8. [Feedback](#feedback)
+9. [Contributions](#contributions)
 
 # Project Summary
   Our project is a Java Application with a graphical user interface that allows users to input protein sequences, and interact with the Proteins API (cited below) to give you a description of the protein, and predict mutations in the given sequence. Our program allows for users to sign up and log in, as well as view past results. You can also create a team with multiple users, so that when one person on your team analyzes a protein, every user in the team can see those results. 
@@ -94,5 +95,10 @@
 If you have any comments, questions, or concerns about our project, please fill out the following google form:
 https://forms.gle/n477QyBT83HGPx5E9
 
-#Contributions
-
+# Contributions
+This project is currently closed for contribution.
+However, you may still fork the repository and use our program.
+To do this, first make sure you are logged into GitHub. Next, on the ProteinVerse repository page, click the "fork" button in the top right corner. This will create your own copy of the database.
+Next, make a local copy of repository. The easiest way to do this is to click the "code" button on the top right of the repository, and copy the link. Then, create a new project on whatever Java software you are using from a VCS repository. Input the link, and create the repo.
+Now, you can use or edit our code. Please note that any pushes or merges will NOT go to the main ProteinVerse repository. They are only to go to your local repository. No new contributors will be added to this project. 
+Enjoy!
